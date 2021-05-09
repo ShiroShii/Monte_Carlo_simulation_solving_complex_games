@@ -1,0 +1,18 @@
+package com.diplomski.common.character;
+
+public enum ConditionTypes {
+	BLINDED,
+	CHARMED,
+	DEAFENDED,
+	FRIGHTENED,
+	GRAPPLED,
+	INCAPACITATED,
+	INVISIBLE,
+	PARALYSED,
+	PETRIFIED,
+	POSIONED,
+	PRONE,
+	RESTRAINED,
+	STUNNED,
+	UNCONSCIOUS
+}
