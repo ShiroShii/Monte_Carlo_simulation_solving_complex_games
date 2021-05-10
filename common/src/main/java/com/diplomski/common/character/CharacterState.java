@@ -12,4 +12,9 @@ public class CharacterState{
 	private int currentHp;
 	private int dex;
 	private int exhaustionLevel;
+	
+	public void takeDamage(int damage) {
+		currentHp -= damage;	
+		currentHp = currentHp < 0 ? 0 : currentHp;
+	}
 }
