@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class WalkMovementActivity extends Activity{
+public class WalkMovementActivity extends Activity {
 	private int initialPositionX;
 	private int initialPositionY;
 	private int targetPositionX;

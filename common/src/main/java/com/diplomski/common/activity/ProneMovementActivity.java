@@ -10,5 +10,5 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 
-public class ProneMovementActivity extends Activity{
+public class ProneMovementActivity extends Activity {
 }

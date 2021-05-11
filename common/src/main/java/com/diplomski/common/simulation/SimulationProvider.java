@@ -11,18 +11,18 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class SimulationProvider implements ISimulationProvider {
-	
+
 	private final IBattleProvider battleProvider;
 
 	@Override
 	public Simulation getSimulation(List<CharacterState> initialCharacterState, int simulationCount) {
 		List<Battle> battles = new ArrayList<>();
-		
-		//parallelize?
-		for(int i=0; i<simulationCount; i++) {
+
+		// parallelize?
+		for (int i = 0; i < simulationCount; i++) {
 			battles.add(battleProvider.getBattle(initialCharacterState));
 		}
-		
+
 		return Simulation.builder().battles(battles).initialCharacterStates(initialCharacterState).build();
 	}
 

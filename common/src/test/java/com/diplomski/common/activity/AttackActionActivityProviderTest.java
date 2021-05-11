@@ -1,7 +1,10 @@
 package com.diplomski.common.activity;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -85,8 +88,7 @@ public class AttackActionActivityProviderTest {
 
 	@Test
 	public void testGetActivity_fumble() {
-		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
-				.thenReturn(AttackRollOutcome.FUMBLE);
+		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.FUMBLE);
 
 		Activity result = unitUnderTest.getActivity(0, initialBoardState);
 
@@ -95,8 +97,7 @@ public class AttackActionActivityProviderTest {
 
 	@Test
 	public void testGetActivity_miss() {
-		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
-				.thenReturn(AttackRollOutcome.MISS);
+		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.MISS);
 
 		Activity result = unitUnderTest.getActivity(0, initialBoardState);
 
@@ -105,8 +106,7 @@ public class AttackActionActivityProviderTest {
 
 	@Test
 	public void testGetActivity_hit() {
-		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
-				.thenReturn(AttackRollOutcome.HIT);
+		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.HIT);
 
 		Activity result = unitUnderTest.getActivity(0, initialBoardState);
 

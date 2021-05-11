@@ -9,6 +9,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class HealActionActivity extends Activity{
+public class HealActionActivity extends Activity {
 
 }

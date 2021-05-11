@@ -23,9 +23,9 @@ public class RoundProvider implements IRoundProvider {
 			if (currentBoardState.getCharacterStates().get(i).getCurrentHp() == 0) {
 				continue;
 			}
-			
+
 			Turn turn = turnProvider.getTurn(i, currentBoardState);
-			
+
 			turns.add(turn);
 			currentBoardState = turn.getFinalBoardState();
 		}

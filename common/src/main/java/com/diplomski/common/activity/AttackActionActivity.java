@@ -9,7 +9,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class AttackActionActivity extends Activity{
+public class AttackActionActivity extends Activity {
 	private int targetCharacterIndex;
 	private int damage;
 }

@@ -1,7 +1,14 @@
 package com.diplomski.common.round;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
@@ -97,10 +104,10 @@ public class RoundProviderTest {
 
 		boardState3 = BoardState.builder().characterStates(boardState3CharacterStates).build();
 
-		character1Turn = Turn.builder().initiatingCharacterIndex(0).initialBoardState(boardState1)
-				.finalBoardState(boardState2).build();
-		character3Turn = Turn.builder().initiatingCharacterIndex(2).initialBoardState(boardState2)
-				.finalBoardState(boardState3).build();
+		character1Turn = Turn.builder().initiatorIndex(0).initialBoardState(boardState1).finalBoardState(boardState2)
+				.build();
+		character3Turn = Turn.builder().initiatorIndex(2).initialBoardState(boardState2).finalBoardState(boardState3)
+				.build();
 
 		expectedTurns = Arrays.asList(character1Turn, character3Turn);
 

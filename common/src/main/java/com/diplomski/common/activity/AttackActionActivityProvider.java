@@ -19,10 +19,10 @@ public class AttackActionActivityProvider implements IActivityProvider {
 		CharacterState initiator = initialBoardState.getCharacterStates().get(initiatorIndex);
 		CharacterState target = initialBoardState.getCharacterStates().get(targetCharacterIndex);
 		Weapon weapon = weaponProvider.getWeapon(initiator);
-		
+
 		int damage;
 		BoardState finalBoardState;
-		
+
 		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome(weapon, initiator, target);
 
 		switch (attackRoleOutcome) {
@@ -32,7 +32,7 @@ public class AttackActionActivityProvider implements IActivityProvider {
 			finalBoardState.getCharacterStates().get(targetCharacterIndex).takeDamage(damage);
 			break;
 		}
-		case CRITICAL_HIT:{
+		case CRITICAL_HIT: {
 			damage = damageProvider.getDamage(weapon, initiator, target) * 2;
 			finalBoardState = initialBoardState.toBuilder().build();
 			finalBoardState.getCharacterStates().get(targetCharacterIndex).takeDamage(damage);

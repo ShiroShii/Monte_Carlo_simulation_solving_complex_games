@@ -17,21 +17,21 @@ public class BoardStateProvider implements IBoardStateProvider {
 	@Override
 	public BoardState getInitialBoardState(List<CharacterState> characters) {
 		List<Entry<CharacterState, Integer>> initiatives = new ArrayList<>();
-		
-		for(CharacterState characterState: characters) {
+
+		for (CharacterState characterState : characters) {
 			int initiative = dice.getRoll() + characterState.getDex();
-			
+
 			initiatives.add(Map.entry(characterState, initiative));
 		}
-		
+
 		initiatives.sort(Entry.<CharacterState, Integer>comparingByValue().reversed());
-		
+
 		List<CharacterState> sortedCharacterStates = new ArrayList<>();
-		
-		for(Entry<CharacterState, Integer> initiative: initiatives) {
+
+		for (Entry<CharacterState, Integer> initiative : initiatives) {
 			sortedCharacterStates.add(initiative.getKey());
 		}
-		
+
 		return BoardState.builder().characterStates(sortedCharacterStates).build();
 	}
 }

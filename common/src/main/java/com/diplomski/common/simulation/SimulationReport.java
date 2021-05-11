@@ -8,6 +8,6 @@ import lombok.Data;
 public class SimulationReport {
 	private PartySimulationReport playerReport;
 	private PartySimulationReport enemyReport;
-	
+
 	private Simulation simulation;
 }
