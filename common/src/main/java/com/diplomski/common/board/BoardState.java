@@ -8,9 +8,9 @@ import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder(toBuilder=true)
+@Builder(toBuilder = true)
 public class BoardState {
 	private List<CharacterState> characterStates;
-	// private List<TerrainModifier> terrainModifiers;
-	// Regular terrain, Difficult terrain, Impassible Terrain
+	private List<TerrainFeature> terainFeatures;
+	private List<Tile> obsticles;
 }

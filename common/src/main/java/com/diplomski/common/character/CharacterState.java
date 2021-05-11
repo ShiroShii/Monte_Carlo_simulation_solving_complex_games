@@ -12,6 +12,10 @@ public class CharacterState{
 	private int currentHp;
 	private int dex;
 	private int exhaustionLevel;
+	private int Tile;
+	
+	private int walkingSpeed;
+	private int usedSpeed;
 	
 	public void takeDamage(int damage) {
 		currentHp -= damage;	
