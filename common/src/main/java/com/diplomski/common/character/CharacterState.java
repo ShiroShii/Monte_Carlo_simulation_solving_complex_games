@@ -1,26 +1,18 @@
 package com.diplomski.common.character;
 
-import lombok.AllArgsConstructor;
+import com.diplomski.common.turn.ITurnProvider;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
 @SuperBuilder
-@AllArgsConstructor
-public class CharacterState {
-	private String id;
-	private Party party;
-	private int maxHp;
-	private int currentHp;
-	private int dex;
-	private int exhaustionLevel;
-	private int Tile;
-
-	private int walkingSpeed;
+@NoArgsConstructor
+@EqualsAndHashCode(callSuper = true)
+public class CharacterState extends InitialCharacterState {
 	private int usedWalkingSpeed;
 
-	public void takeDamage(int damage) {
-		currentHp -= damage;
-		currentHp = currentHp < 0 ? 0 : currentHp;
-	}
+	private ITurnProvider turnProvider;
 }

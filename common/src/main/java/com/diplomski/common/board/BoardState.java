@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class BoardState {
-	private List<CharacterState> characterStates;
-	private List<TerrainFeature> terainFeatures;
-	private List<Tile> obsticles;
+	private List<CharacterState> characterStates; // TODO: switch to LinkedHashMap
+	private List<TerrainFeature> terainFeatures; // TODO: switch to HashMap
+	private List<Tile> obsticles;// TODO: switch to HashMap
 }

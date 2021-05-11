@@ -25,10 +25,6 @@ public class RoundProviderTest {
 	private ITurnProvider turnProviderMock = mock(ITurnProvider.class);
 	private RoundProvider unitUnderTest;
 
-	private String character1Id = "Enemy 1";
-	private String character2Id = "Player 1";
-	private String character3Id = "Player 2";
-
 	private int boardState1character1CurrentHp = 20;
 	private int boardState2character1CurrentHp = 20;
 	private int boardState3character1CurrentHp = 10;
@@ -65,39 +61,39 @@ public class RoundProviderTest {
 
 	@Before
 	public void setup() {
-		boardState1character1 = CharacterState.builder().id(character1Id).currentHp(boardState1character1CurrentHp)
+		boardState1character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character1CurrentHp)
 				.build();
 
-		boardState1character2 = CharacterState.builder().id(character2Id).currentHp(boardState1character2CurrentHp)
+		boardState1character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character2CurrentHp)
 				.build();
 
-		boardState1character3 = CharacterState.builder().id(character3Id).currentHp(boardState1character3CurrentHp)
+		boardState1character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character3CurrentHp)
 				.build();
 
 		boardState1CharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
 
 		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
 
-		boardState2character1 = CharacterState.builder().id(character1Id).currentHp(boardState2character1CurrentHp)
+		boardState2character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character1CurrentHp)
 				.build();
 
-		boardState2character2 = CharacterState.builder().id(character2Id).currentHp(boardState2character2CurrentHp)
+		boardState2character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character2CurrentHp)
 				.build();
 
-		boardState2character3 = CharacterState.builder().id(character3Id).currentHp(boardState2character3CurrentHp)
+		boardState2character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character3CurrentHp)
 				.build();
 
 		boardState2CharacterStates = Arrays.asList(boardState2character1, boardState2character2, boardState2character3);
 
 		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
 
-		boardState3character1 = CharacterState.builder().id(character1Id).currentHp(boardState3character1CurrentHp)
+		boardState3character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character1CurrentHp)
 				.build();
 
-		boardState3character2 = CharacterState.builder().id(character2Id).currentHp(boardState3character2CurrentHp)
+		boardState3character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character2CurrentHp)
 				.build();
 
-		boardState3character3 = CharacterState.builder().id(character3Id).currentHp(boardState3character3CurrentHp)
+		boardState3character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character3CurrentHp)
 				.build();
 
 		boardState3CharacterStates = Arrays.asList(boardState3character1, boardState3character2, boardState3character3);
@@ -117,7 +113,7 @@ public class RoundProviderTest {
 		when(turnProviderMock.getTurn(0, boardState1)).thenReturn(character1Turn);
 		when(turnProviderMock.getTurn(2, boardState2)).thenReturn(character3Turn);
 
-		unitUnderTest = new RoundProvider(turnProviderMock);
+		unitUnderTest = new RoundProvider();
 	}
 
 	@Test

@@ -2,13 +2,11 @@ package com.diplomski.common.activity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -16,10 +14,8 @@ import org.junit.Test;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.Party;
-import com.diplomski.common.targeting.ITargetProvider;
 
 public class AttackActionActivityProviderTest {
-	private ITargetProvider targetProviderMock = mock(ITargetProvider.class);
 	private IAttackRollOutcomeProvider attackRollOutcomeProviderMock = mock(IAttackRollOutcomeProvider.class);
 	private IDamageProvider damageProviderMock = mock(IDamageProvider.class);
 	private IWeaponProvider weaponProviderMock = mock(IWeaponProvider.class);
@@ -55,7 +51,6 @@ public class AttackActionActivityProviderTest {
 
 	@Before
 	public void setup() {
-		when(targetProviderMock.getTargetCharacterIndex(anyInt(), any(), any())).thenReturn(Optional.of(TARGET_INDEX));
 		when(damageProviderMock.getDamage(any(), any(), any())).thenReturn(HIT_DAMAGE);
 		when(weaponProviderMock.getWeapon(any())).thenReturn(Weapon.CLUB);
 
@@ -85,15 +80,15 @@ public class AttackActionActivityProviderTest {
 				.initialBoardState(initialBoardState).finalBoardState(finalCriticalHitBoardState)
 				.initiatingCharacterIndex(INITIATOR_INDEX).targetCharacterIndex(TARGET_INDEX).build();
 
-		unitUnderTest = new AttackActionActivityProvider(targetProviderMock, attackRollOutcomeProviderMock,
-				damageProviderMock, weaponProviderMock);
+		unitUnderTest = new AttackActionActivityProvider(attackRollOutcomeProviderMock, damageProviderMock,
+				weaponProviderMock);
 	}
 
 	@Test
 	public void testGetActivity_fumble() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.FUMBLE);
 
-		Activity result = unitUnderTest.getActivity(0, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -102,7 +97,7 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_miss() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.MISS);
 
-		Activity result = unitUnderTest.getActivity(0, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -111,7 +106,7 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_hit() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.HIT);
 
-		Activity result = unitUnderTest.getActivity(0, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
 
 		assertEquals(expectedHitActivity, result);
 	}
@@ -121,7 +116,7 @@ public class AttackActionActivityProviderTest {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
 				.thenReturn(AttackRollOutcome.CRITICAL_HIT);
 
-		Activity result = unitUnderTest.getActivity(0, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
 
 		assertEquals(expectedCriticalHitActivity, result);
 	}

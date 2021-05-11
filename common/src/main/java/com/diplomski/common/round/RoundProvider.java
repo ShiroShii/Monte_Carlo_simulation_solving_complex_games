@@ -4,27 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.turn.ITurnProvider;
+import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.turn.Turn;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class RoundProvider implements IRoundProvider {
-	private final ITurnProvider turnProvider;
-
 	@Override
 	public Round getRound(BoardState initialBoardState) {
 		BoardState currentBoardState = initialBoardState; //TODO: reset remaining speed
 		List<Turn> turns = new ArrayList<>();
 
+		//TODO: get rid of int
 		for (int i = 0; i < initialBoardState.getCharacterStates().size(); i++) {
+			CharacterState characterState = currentBoardState.getCharacterStates().get(i);
 			//TODO: reset remaining speed
-			if (currentBoardState.getCharacterStates().get(i).getCurrentHp() == 0) {
+			if (characterState.getCurrentHp() == 0) {
 				continue;
 			}
 
-			Turn turn = turnProvider.getTurn(i, currentBoardState);
+			Turn turn = characterState.getTurnProvider().getTurn(i, currentBoardState);
 
 			turns.add(turn);
 			currentBoardState = turn.getFinalBoardState();

@@ -16,6 +16,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 
 	@Override
 	public BoardState getInitialBoardState(List<CharacterState> characters) {
+		// TODO: start with InitialCharacterState class as parameter
 		List<Entry<CharacterState, Integer>> initiatives = new ArrayList<>();
 
 		for (CharacterState characterState : characters) {
@@ -30,6 +31,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 
 		for (Entry<CharacterState, Integer> initiative : initiatives) {
 			sortedCharacterStates.add(initiative.getKey());
+			//TODO: add TurnProvider to each character
 		}
 
 		return BoardState.builder().characterStates(sortedCharacterStates).build();
