@@ -8,12 +8,14 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.Party;
 import com.diplomski.common.targeting.ITargetProvider;
 
 public class AttackActionActivityProviderTest {
@@ -53,14 +55,15 @@ public class AttackActionActivityProviderTest {
 
 	@Before
 	public void setup() {
-		when(targetProviderMock.getTargetCharacterIndex(anyInt(), any())).thenReturn(TARGET_INDEX);
+		when(targetProviderMock.getTargetCharacterIndex(anyInt(), any(), any())).thenReturn(Optional.of(TARGET_INDEX));
 		when(damageProviderMock.getDamage(any(), any(), any())).thenReturn(HIT_DAMAGE);
 		when(weaponProviderMock.getWeapon(any())).thenReturn(Weapon.CLUB);
 
-		initiator = CharacterState.builder().build();
-		targetInitialState = CharacterState.builder().currentHp(TARGET_INITIAL_HP).build();
-		targetFinalHitState = CharacterState.builder().currentHp(TARGET_FINAL_HIT_HP).build();
-		targetFinalCriticalHitState = CharacterState.builder().currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
+		initiator = CharacterState.builder().party(Party.PLAYER).build();
+		targetInitialState = CharacterState.builder().party(Party.ENEMY).currentHp(TARGET_INITIAL_HP).build();
+		targetFinalHitState = CharacterState.builder().party(Party.ENEMY).currentHp(TARGET_FINAL_HIT_HP).build();
+		targetFinalCriticalHitState = CharacterState.builder().party(Party.ENEMY)
+				.currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
 
 		initialCharacterStates = Arrays.asList(initiator, targetInitialState);
 		finalHitCharacterStates = Arrays.asList(initiator, targetFinalHitState);

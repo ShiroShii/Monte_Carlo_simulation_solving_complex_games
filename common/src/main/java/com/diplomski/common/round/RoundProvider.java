@@ -15,11 +15,11 @@ public class RoundProvider implements IRoundProvider {
 
 	@Override
 	public Round getRound(BoardState initialBoardState) {
-		BoardState currentBoardState = initialBoardState;
-		Round round = Round.builder().initialBoardState(initialBoardState).build();
+		BoardState currentBoardState = initialBoardState; //TODO: reset remaining speed
 		List<Turn> turns = new ArrayList<>();
 
 		for (int i = 0; i < initialBoardState.getCharacterStates().size(); i++) {
+			//TODO: reset remaining speed
 			if (currentBoardState.getCharacterStates().get(i).getCurrentHp() == 0) {
 				continue;
 			}
@@ -30,8 +30,6 @@ public class RoundProvider implements IRoundProvider {
 			currentBoardState = turn.getFinalBoardState();
 		}
 
-		round.setFinalBoardState(currentBoardState);
-		round.setTurns(turns);
-		return round;
+		return Round.builder().initialBoardState(initialBoardState).finalBoardState(currentBoardState).turns(turns).build();
 	}
 }

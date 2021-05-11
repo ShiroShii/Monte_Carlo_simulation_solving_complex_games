@@ -1,10 +1,12 @@
 package com.diplomski.common.character;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.experimental.SuperBuilder;
 
 @Data
-@Builder
+@SuperBuilder
+@AllArgsConstructor
 public class CharacterState {
 	private String id;
 	private Party party;
@@ -15,7 +17,7 @@ public class CharacterState {
 	private int Tile;
 
 	private int walkingSpeed;
-	private int usedSpeed;
+	private int usedWalkingSpeed;
 
 	public void takeDamage(int damage) {
 		currentHp -= damage;

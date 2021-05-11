@@ -15,8 +15,9 @@ public class AttackActionActivityProvider implements IActivityProvider {
 
 	@Override
 	public Activity getActivity(int initiatorIndex, BoardState initialBoardState) {
-		int targetCharacterIndex = targetProvider.getTargetCharacterIndex(initiatorIndex, initialBoardState);
 		CharacterState initiator = initialBoardState.getCharacterStates().get(initiatorIndex);
+		int targetCharacterIndex = targetProvider.getTargetCharacterIndex(initiatorIndex,
+				initiator.getParty().getOpponentParty(), initialBoardState).get(); //TODO: handle no target case
 		CharacterState target = initialBoardState.getCharacterStates().get(targetCharacterIndex);
 		Weapon weapon = weaponProvider.getWeapon(initiator);
 
