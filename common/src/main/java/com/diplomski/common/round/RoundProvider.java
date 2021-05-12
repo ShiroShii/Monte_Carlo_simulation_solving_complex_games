@@ -13,23 +13,23 @@ import lombok.AllArgsConstructor;
 public class RoundProvider implements IRoundProvider {
 	@Override
 	public Round getRound(BoardState initialBoardState) {
-		BoardState currentBoardState = initialBoardState; //TODO: reset remaining speed
+		BoardState currentBoardState = initialBoardState; // TODO: reset remaining speed
 		List<Turn> turns = new ArrayList<>();
 
-		//TODO: get rid of int
-		for (int i = 0; i < initialBoardState.getCharacterStates().size(); i++) {
-			CharacterState characterState = currentBoardState.getCharacterStates().get(i);
-			//TODO: reset remaining speed
+		for (String characterId : initialBoardState.getCharacterStates().keySet()) {
+			CharacterState characterState = currentBoardState.getCharacterStates().get(characterId);
+			// TODO: reset remaining speed
 			if (characterState.getCurrentHp() == 0) {
 				continue;
 			}
 
-			Turn turn = characterState.getTurnProvider().getTurn(i, currentBoardState);
+			Turn turn = characterState.getTurnProvider().getTurn(currentBoardState);
 
 			turns.add(turn);
 			currentBoardState = turn.getFinalBoardState();
 		}
 
-		return Round.builder().initialBoardState(initialBoardState).finalBoardState(currentBoardState).turns(turns).build();
+		return Round.builder().initialBoardState(initialBoardState).finalBoardState(currentBoardState).turns(turns)
+				.build();
 	}
 }

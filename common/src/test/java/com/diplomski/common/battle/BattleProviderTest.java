@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -53,9 +54,10 @@ public class BattleProviderTest {
 	private CharacterState boardState2character3;
 	private CharacterState boardState3character3;
 
-	private List<CharacterState> boardState1CharacterStates;
-	private List<CharacterState> boardState2CharacterStates;
-	private List<CharacterState> boardState3CharacterStates;
+	private List<CharacterState> initialCharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState1CharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState2CharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState3CharacterStates;
 
 	private BoardState boardState1;
 	private BoardState boardState2;
@@ -80,7 +82,12 @@ public class BattleProviderTest {
 		boardState1character3 = CharacterState.builder().id(character3Id).currentHp(boardState1character3CurrentHp)
 				.party(character3Party).build();
 
-		boardState1CharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
+		initialCharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
+
+		boardState1CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState1CharacterStates.put(character1Id, boardState1character1);
+		boardState1CharacterStates.put(character2Id, boardState1character2);
+		boardState1CharacterStates.put(character3Id, boardState1character3);
 
 		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
 
@@ -93,7 +100,10 @@ public class BattleProviderTest {
 		boardState2character3 = CharacterState.builder().id(character3Id).currentHp(boardState2character3CurrentHp)
 				.party(character3Party).build();
 
-		boardState2CharacterStates = Arrays.asList(boardState2character1, boardState2character2, boardState2character3);
+		boardState2CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState2CharacterStates.put(character1Id, boardState2character1);
+		boardState2CharacterStates.put(character2Id, boardState2character2);
+		boardState2CharacterStates.put(character3Id, boardState2character3);
 
 		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
 
@@ -106,7 +116,10 @@ public class BattleProviderTest {
 		boardState3character3 = CharacterState.builder().id(character3Id).currentHp(boardState3character3CurrentHp)
 				.party(character3Party).build();
 
-		boardState3CharacterStates = Arrays.asList(boardState3character1, boardState3character2, boardState3character3);
+		boardState3CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState3CharacterStates.put(character1Id, boardState3character1);
+		boardState3CharacterStates.put(character2Id, boardState3character2);
+		boardState3CharacterStates.put(character3Id, boardState3character3);
 
 		boardState3 = BoardState.builder().characterStates(boardState3CharacterStates).build();
 
@@ -126,10 +139,10 @@ public class BattleProviderTest {
 
 	@Test
 	public void testGetBattle() {
-		Battle result = unitUnderTest.getBattle(boardState1CharacterStates);
+		Battle result = unitUnderTest.getBattle(initialCharacterStates);
 
 		assertEquals(expectedBattle, result);
-		verify(boardStateProviderMock, times(1)).getInitialBoardState(eq(boardState1CharacterStates));
+		verify(boardStateProviderMock, times(1)).getInitialBoardState(eq(initialCharacterStates));
 		verify(roundProviderMock, times(2)).getRound(any());
 		verify(roundProviderMock, times(1)).getRound(eq(boardState1));
 		verify(roundProviderMock, times(1)).getRound(eq(boardState2));

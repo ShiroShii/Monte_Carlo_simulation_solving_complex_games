@@ -1,16 +1,14 @@
 package com.diplomski.common.round;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -22,8 +20,14 @@ import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.Turn;
 
 public class RoundProviderTest {
-	private ITurnProvider turnProviderMock = mock(ITurnProvider.class);
+	private ITurnProvider character1TurnProviderMock = mock(ITurnProvider.class);
+	private ITurnProvider character2TurnProviderMock = mock(ITurnProvider.class);
+	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
 	private RoundProvider unitUnderTest;
+
+	private String character1Id = "Enemy 1";
+	private String character2Id = "Player 1";
+	private String character3Id = "Player 2";
 
 	private int boardState1character1CurrentHp = 20;
 	private int boardState2character1CurrentHp = 20;
@@ -45,9 +49,9 @@ public class RoundProviderTest {
 	private CharacterState boardState2character3;
 	private CharacterState boardState3character3;
 
-	private List<CharacterState> boardState1CharacterStates;
-	private List<CharacterState> boardState2CharacterStates;
-	private List<CharacterState> boardState3CharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState1CharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState2CharacterStates;
+	private LinkedHashMap<String, CharacterState> boardState3CharacterStates;
 
 	private BoardState boardState1;
 	private BoardState boardState2;
@@ -61,57 +65,66 @@ public class RoundProviderTest {
 
 	@Before
 	public void setup() {
-		boardState1character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character1CurrentHp)
-				.build();
+		boardState1character1 = CharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
+				.currentHp(boardState1character1CurrentHp).build();
 
-		boardState1character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character2CurrentHp)
-				.build();
+		boardState1character2 = CharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
+				.currentHp(boardState1character2CurrentHp).build();
 
-		boardState1character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState1character3CurrentHp)
-				.build();
+		boardState1character3 = CharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
+				.currentHp(boardState1character3CurrentHp).build();
 
-		boardState1CharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
+		boardState1CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState1CharacterStates.put(character1Id, boardState1character1);
+		boardState1CharacterStates.put(character2Id, boardState1character2);
+		boardState1CharacterStates.put(character3Id, boardState1character3);
 
 		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
 
-		boardState2character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character1CurrentHp)
-				.build();
+		boardState2character1 = CharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
+				.currentHp(boardState2character1CurrentHp).build();
 
-		boardState2character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character2CurrentHp)
-				.build();
+		boardState2character2 = CharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
+				.currentHp(boardState2character2CurrentHp).build();
 
-		boardState2character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState2character3CurrentHp)
-				.build();
+		boardState2character3 = CharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
+				.currentHp(boardState2character3CurrentHp).build();
 
-		boardState2CharacterStates = Arrays.asList(boardState2character1, boardState2character2, boardState2character3);
+		boardState2CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState2CharacterStates.put(character1Id, boardState2character1);
+		boardState2CharacterStates.put(character2Id, boardState2character2);
+		boardState2CharacterStates.put(character3Id, boardState2character3);
 
 		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
 
-		boardState3character1 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character1CurrentHp)
-				.build();
+		boardState3character1 = CharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
+				.currentHp(boardState3character1CurrentHp).build();
 
-		boardState3character2 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character2CurrentHp)
-				.build();
+		boardState3character2 = CharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
+				.currentHp(boardState3character2CurrentHp).build();
 
-		boardState3character3 = CharacterState.builder().turnProvider(turnProviderMock).currentHp(boardState3character3CurrentHp)
-				.build();
+		boardState3character3 = CharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
+				.currentHp(boardState3character3CurrentHp).build();
 
-		boardState3CharacterStates = Arrays.asList(boardState3character1, boardState3character2, boardState3character3);
+		boardState3CharacterStates = new LinkedHashMap<String, CharacterState>();
+		boardState3CharacterStates.put(character1Id, boardState3character1);
+		boardState3CharacterStates.put(character2Id, boardState3character2);
+		boardState3CharacterStates.put(character3Id, boardState3character3);
 
 		boardState3 = BoardState.builder().characterStates(boardState3CharacterStates).build();
 
-		character1Turn = Turn.builder().initiatorIndex(0).initialBoardState(boardState1).finalBoardState(boardState2)
-				.build();
-		character3Turn = Turn.builder().initiatorIndex(2).initialBoardState(boardState2).finalBoardState(boardState3)
-				.build();
+		character1Turn = Turn.builder().initiatorId(character1Id).initialBoardState(boardState1)
+				.finalBoardState(boardState2).build();
+		character3Turn = Turn.builder().initiatorId(character3Id).initialBoardState(boardState2)
+				.finalBoardState(boardState3).build();
 
 		expectedTurns = Arrays.asList(character1Turn, character3Turn);
 
 		expectedRound = Round.builder().turns(expectedTurns).initialBoardState(boardState1).finalBoardState(boardState3)
 				.build();
 
-		when(turnProviderMock.getTurn(0, boardState1)).thenReturn(character1Turn);
-		when(turnProviderMock.getTurn(2, boardState2)).thenReturn(character3Turn);
+		when(character1TurnProviderMock.getTurn(boardState1)).thenReturn(character1Turn);
+		when(character3TurnProviderMock.getTurn(boardState2)).thenReturn(character3Turn);
 
 		unitUnderTest = new RoundProvider();
 	}
@@ -121,9 +134,7 @@ public class RoundProviderTest {
 		Round result = unitUnderTest.getRound(boardState1);
 
 		assertEquals(expectedRound, result);
-		verify(turnProviderMock, times(2)).getTurn(anyInt(), any());
-		verify(turnProviderMock, times(1)).getTurn(eq(0), eq(boardState1));
-		verify(turnProviderMock, times(1)).getTurn(eq(2), eq(boardState2));
-		verify(turnProviderMock, never()).getTurn(eq(1), any());
+		verify(character1TurnProviderMock, times(1)).getTurn(eq(boardState1));
+		verify(character3TurnProviderMock, times(1)).getTurn(eq(boardState2));
 	}
 }

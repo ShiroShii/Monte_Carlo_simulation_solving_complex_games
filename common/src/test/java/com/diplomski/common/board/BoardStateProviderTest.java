@@ -7,6 +7,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class BoardStateProviderTest {
 	private CharacterState character2;
 	private CharacterState character3;
 	private List<CharacterState> fakeCharacterStateList;
-	private List<CharacterState> expectedCharacterStateList;
+	private LinkedHashMap<String, CharacterState> expectedCharacterStateList;
 	private BoardState expectedBoardState;
 
 	private BoardStateProvider unitUnderTest;
@@ -61,7 +62,11 @@ public class BoardStateProviderTest {
 				.dex(character3Dex).exhaustionLevel(character3ExhaustionLevel).party(character3Party).build();
 
 		fakeCharacterStateList = Arrays.asList(character1, character2, character3);
-		expectedCharacterStateList = Arrays.asList(character3, character1, character2);
+		expectedCharacterStateList = new LinkedHashMap<>();
+		expectedCharacterStateList.put(character1Id, character1);
+		expectedCharacterStateList.put(character2Id, character2);
+		expectedCharacterStateList.put(character3Id, character3);
+
 		expectedBoardState = BoardState.builder().characterStates(expectedCharacterStateList).build();
 
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)

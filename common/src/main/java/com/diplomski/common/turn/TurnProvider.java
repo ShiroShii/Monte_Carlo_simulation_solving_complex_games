@@ -17,33 +17,34 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class TurnProvider implements ITurnProvider {
+	private final String initiatorId;
 	private final Party targetParty;
 	private final ITargetProvider targetProvider;
 	private final IActivityProvider movementProvider;
 	private final IActivityProvider actionProvider;
 
 	@Override
-	public Turn getTurn(int initiatorIndex, BoardState initialBoardState) {
+	public Turn getTurn(BoardState initialBoardState) {
 		BoardState currentBoardState = initialBoardState;
 		List<Activity> activities = new ArrayList<>();
 		
-		Optional<Integer> targetIndexOptional = targetProvider.getTargetCharacterIndex(initiatorIndex, targetParty,
+		Optional<String> targetIdOptional = targetProvider.getTargetId(initiatorId, targetParty,
 				currentBoardState);
 
-		if (targetIndexOptional.isPresent()) {
+		if (targetIdOptional.isPresent()) {
 
-			Activity movementActivity = movementProvider.getActivity(initiatorIndex, targetIndexOptional.get(),
+			Activity movementActivity = movementProvider.getActivity(initiatorId, targetIdOptional.get(),
 					currentBoardState);
 			currentBoardState = movementActivity.getFinalBoardState();
 			activities.add(movementActivity);
 
-			Activity actionActivity = actionProvider.getActivity(initiatorIndex, targetIndexOptional.get(),
+			Activity actionActivity = actionProvider.getActivity(initiatorId, targetIdOptional.get(),
 					currentBoardState);
 			currentBoardState = actionActivity.getFinalBoardState();
 			activities.add(actionActivity);
 		}
 
-		return Turn.builder().initiatorIndex(initiatorIndex).initialBoardState(initialBoardState)
+		return Turn.builder().initiatorId(initiatorId).initialBoardState(initialBoardState)
 				.finalBoardState(currentBoardState).activities(activities).build();
 	}
 }

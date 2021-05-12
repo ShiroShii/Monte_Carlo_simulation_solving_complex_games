@@ -12,7 +12,7 @@ import lombok.Data;
 @Builder
 public class Turn {
 	private List<Activity> activities;
-	private int initiatorIndex;
+	private String initiatorId;
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
 }

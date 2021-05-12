@@ -1,6 +1,7 @@
 package com.diplomski.common.board;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -27,11 +28,12 @@ public class BoardStateProvider implements IBoardStateProvider {
 
 		initiatives.sort(Entry.<CharacterState, Integer>comparingByValue().reversed());
 
-		List<CharacterState> sortedCharacterStates = new ArrayList<>();
+		LinkedHashMap<String, CharacterState> sortedCharacterStates = new LinkedHashMap<>();
 
 		for (Entry<CharacterState, Integer> initiative : initiatives) {
-			sortedCharacterStates.add(initiative.getKey());
-			//TODO: add TurnProvider to each character
+			CharacterState characterState = initiative.getKey();
+			sortedCharacterStates.put(characterState.getId(), characterState);
+			// TODO: add TurnProvider to each character
 		}
 
 		return BoardState.builder().characterStates(sortedCharacterStates).build();

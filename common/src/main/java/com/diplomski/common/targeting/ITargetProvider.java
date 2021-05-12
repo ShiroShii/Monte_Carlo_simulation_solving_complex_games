@@ -6,5 +6,5 @@ import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.Party;
 
 public interface ITargetProvider {
-	public Optional<Integer> getTargetCharacterIndex(int initiatorIndex, Party targetParty, BoardState boardState);
+	public Optional<String> getTargetId(String initiatorId, Party targetParty, BoardState boardState);
 }

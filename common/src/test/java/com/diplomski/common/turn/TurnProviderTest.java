@@ -2,7 +2,6 @@ package com.diplomski.common.turn;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -32,8 +31,8 @@ public class TurnProviderTest {
 	private BoardState battleState2;
 	private BoardState battleState3;
 
-	private final int INITIATOR_INDEX = 0;
-	private final int TARGET_INDEX = 1;
+	private final String INITIATOR_ID = "Initiator Id";
+	private final String TARGET_ID = "Target Id";
 
 	private final Party TARGET_PARTY = Party.ENEMY;
 
@@ -52,35 +51,35 @@ public class TurnProviderTest {
 		when(movementActivity.getFinalBoardState()).thenReturn(battleState2);
 		when(actionActivity.getFinalBoardState()).thenReturn(battleState3);
 
-		when(movementActivityProviderMock.getActivity(anyInt(), anyInt(), any())).thenReturn(movementActivity);
-		when(actionActivityProviderMock.getActivity(anyInt(), anyInt(), any())).thenReturn(actionActivity);
+		when(movementActivityProviderMock.getActivity(any(), any(), any())).thenReturn(movementActivity);
+		when(actionActivityProviderMock.getActivity(any(), any(), any())).thenReturn(actionActivity);
 
 		expectedActivities = Arrays.asList(movementActivity, actionActivity);
 
-		expectedTurn = Turn.builder().initiatorIndex(INITIATOR_INDEX).initialBoardState(battleState1)
+		expectedTurn = Turn.builder().initiatorId(INITIATOR_ID).initialBoardState(battleState1)
 				.finalBoardState(battleState3).activities(expectedActivities).build();
 
-		emptyTurn = Turn.builder().initiatorIndex(INITIATOR_INDEX).initialBoardState(battleState1)
+		emptyTurn = Turn.builder().initiatorId(INITIATOR_ID).initialBoardState(battleState1)
 				.finalBoardState(battleState1).activities(new ArrayList<>()).build();
 
-		unitUnderTest = new TurnProvider(TARGET_PARTY, targetProviderMock, movementActivityProviderMock,
+		unitUnderTest = new TurnProvider(INITIATOR_ID, TARGET_PARTY, targetProviderMock, movementActivityProviderMock,
 				actionActivityProviderMock);
 	}
 
 	@Test
 	public void getTurn_withTarget() {
-		when(targetProviderMock.getTargetCharacterIndex(anyInt(), any(), any())).thenReturn(Optional.of(TARGET_INDEX));
+		when(targetProviderMock.getTargetId(any(), any(), any())).thenReturn(Optional.of(TARGET_ID));
 
-		Turn result = unitUnderTest.getTurn(INITIATOR_INDEX, battleState1);
+		Turn result = unitUnderTest.getTurn(battleState1);
 
 		assertEquals(expectedTurn, result);
 	}
 
 	@Test
 	public void getTurn_withoutTarget() {
-		when(targetProviderMock.getTargetCharacterIndex(anyInt(), any(), any())).thenReturn(Optional.empty());
+		when(targetProviderMock.getTargetId(any(), any(), any())).thenReturn(Optional.empty());
 		
-		Turn result = unitUnderTest.getTurn(INITIATOR_INDEX, battleState1);
+		Turn result = unitUnderTest.getTurn(battleState1);
 
 		assertEquals(emptyTurn, result);
 	}

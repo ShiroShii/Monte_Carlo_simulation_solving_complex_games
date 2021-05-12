@@ -5,8 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.LinkedHashMap;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -20,8 +19,8 @@ public class AttackActionActivityProviderTest {
 	private IDamageProvider damageProviderMock = mock(IDamageProvider.class);
 	private IWeaponProvider weaponProviderMock = mock(IWeaponProvider.class);
 
-	private final int INITIATOR_INDEX = 0;
-	private final int TARGET_INDEX = 1;
+	private final String INITIATOR_ID = "Initiator Id";
+	private final String TARGET_ID = "Target Id";
 	private final int MISS_DAMAGE = 0;
 	private final int HIT_DAMAGE = 10;
 	private final int CRITICAL_HIT_DAMAGE = 20;
@@ -35,9 +34,9 @@ public class AttackActionActivityProviderTest {
 	private CharacterState targetFinalHitState;
 	private CharacterState targetFinalCriticalHitState;
 
-	private List<CharacterState> initialCharacterStates;
-	private List<CharacterState> finalHitCharacterStates;
-	private List<CharacterState> finalCriticalHitCharacterStates;
+	private LinkedHashMap<String, CharacterState> initialCharacterStates;
+	private LinkedHashMap<String, CharacterState> finalHitCharacterStates;
+	private LinkedHashMap<String, CharacterState> finalCriticalHitCharacterStates;
 
 	private BoardState initialBoardState;
 	private BoardState finalHitBoardState;
@@ -60,25 +59,33 @@ public class AttackActionActivityProviderTest {
 		targetFinalCriticalHitState = CharacterState.builder().party(Party.ENEMY)
 				.currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
 
-		initialCharacterStates = Arrays.asList(initiator, targetInitialState);
-		finalHitCharacterStates = Arrays.asList(initiator, targetFinalHitState);
-		finalCriticalHitCharacterStates = Arrays.asList(initiator, targetFinalCriticalHitState);
+		initialCharacterStates = new LinkedHashMap<>();
+		initialCharacterStates.put(INITIATOR_ID, initiator); 
+		initialCharacterStates.put(TARGET_ID, targetInitialState);
+
+		finalHitCharacterStates = new LinkedHashMap<>();
+		finalHitCharacterStates.put(INITIATOR_ID, initiator); 
+		finalHitCharacterStates.put(TARGET_ID, targetFinalHitState);
+		
+		finalCriticalHitCharacterStates = new LinkedHashMap<>();
+		finalCriticalHitCharacterStates.put(INITIATOR_ID, initiator); 
+		finalCriticalHitCharacterStates.put(TARGET_ID, targetFinalCriticalHitState);
 
 		initialBoardState = BoardState.builder().characterStates(initialCharacterStates).build();
 		finalHitBoardState = BoardState.builder().characterStates(finalHitCharacterStates).build();
 		finalCriticalHitBoardState = BoardState.builder().characterStates(finalCriticalHitCharacterStates).build();
 
 		expectedMissActivity = AttackActionActivity.builder().damage(MISS_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(initialBoardState).initiatingCharacterIndex(INITIATOR_INDEX)
-				.targetCharacterIndex(TARGET_INDEX).build();
+				.finalBoardState(initialBoardState).initiatorId(INITIATOR_ID)
+				.targetId(TARGET_ID).build();
 
 		expectedHitActivity = AttackActionActivity.builder().damage(HIT_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(finalHitBoardState).initiatingCharacterIndex(INITIATOR_INDEX)
-				.targetCharacterIndex(TARGET_INDEX).build();
+				.finalBoardState(finalHitBoardState).initiatorId(INITIATOR_ID)
+				.targetId(TARGET_ID).build();
 
 		expectedCriticalHitActivity = AttackActionActivity.builder().damage(CRITICAL_HIT_DAMAGE)
 				.initialBoardState(initialBoardState).finalBoardState(finalCriticalHitBoardState)
-				.initiatingCharacterIndex(INITIATOR_INDEX).targetCharacterIndex(TARGET_INDEX).build();
+				.initiatorId(INITIATOR_ID).targetId(TARGET_ID).build();
 
 		unitUnderTest = new AttackActionActivityProvider(attackRollOutcomeProviderMock, damageProviderMock,
 				weaponProviderMock);
@@ -88,7 +95,7 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_fumble() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.FUMBLE);
 
-		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -97,7 +104,7 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_miss() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.MISS);
 
-		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -106,7 +113,7 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_hit() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.HIT);
 
-		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
 
 		assertEquals(expectedHitActivity, result);
 	}
@@ -116,7 +123,7 @@ public class AttackActionActivityProviderTest {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
 				.thenReturn(AttackRollOutcome.CRITICAL_HIT);
 
-		Activity result = unitUnderTest.getActivity(INITIATOR_INDEX, TARGET_INDEX, initialBoardState);
+		Activity result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
 
 		assertEquals(expectedCriticalHitActivity, result);
 	}

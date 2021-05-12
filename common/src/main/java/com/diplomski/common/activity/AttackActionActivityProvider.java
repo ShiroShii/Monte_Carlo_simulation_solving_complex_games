@@ -12,9 +12,9 @@ public class AttackActionActivityProvider implements IActivityProvider {
 	private final IWeaponProvider weaponProvider;
 
 	@Override
-	public Activity getActivity(int initiatorIndex, int targetIndex, BoardState initialBoardState) {
-		CharacterState initiator = initialBoardState.getCharacterStates().get(initiatorIndex);
-		CharacterState target = initialBoardState.getCharacterStates().get(targetIndex);
+	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState) {
+		CharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
+		CharacterState target = initialBoardState.getCharacterStates().get(targetId);
 		Weapon weapon = weaponProvider.getWeapon(initiator);
 
 		int damage;
@@ -26,13 +26,13 @@ public class AttackActionActivityProvider implements IActivityProvider {
 		case HIT: {
 			damage = damageProvider.getDamage(weapon, initiator, target);
 			finalBoardState = initialBoardState.toBuilder().build();
-			finalBoardState.getCharacterStates().get(targetIndex).takeDamage(damage);
+			finalBoardState.getCharacterStates().get(targetId).takeDamage(damage);
 			break;
 		}
 		case CRITICAL_HIT: {
 			damage = damageProvider.getDamage(weapon, initiator, target) * 2;
 			finalBoardState = initialBoardState.toBuilder().build();
-			finalBoardState.getCharacterStates().get(targetIndex).takeDamage(damage);
+			finalBoardState.getCharacterStates().get(targetId).takeDamage(damage);
 			break;
 		}
 		default: {
@@ -42,8 +42,8 @@ public class AttackActionActivityProvider implements IActivityProvider {
 		}
 		}
 
-		return AttackActionActivity.builder().initiatingCharacterIndex(initiatorIndex)
-				.targetCharacterIndex(targetIndex).initialBoardState(initialBoardState)
+		return AttackActionActivity.builder().initiatorId(initiatorId)
+				.targetId(targetId).initialBoardState(initialBoardState)
 				.finalBoardState(finalBoardState).damage(damage).build();
 	}
 

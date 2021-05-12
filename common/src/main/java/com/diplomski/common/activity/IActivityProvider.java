@@ -4,5 +4,5 @@ import com.diplomski.common.board.BoardState;
 
 //TODO: implement SavingThrowActivityProvider, ActionActivityProvider, MovementActivityProvider, PassiveEffectActivityProvider
 public interface IActivityProvider {
-	public Activity getActivity(int initiatorIndex, int targetIndex, BoardState initialBoardState);
+	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState);
 }

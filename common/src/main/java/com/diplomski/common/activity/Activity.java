@@ -12,5 +12,5 @@ import lombok.experimental.SuperBuilder;
 public abstract class Activity {
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
-	private int initiatingCharacterIndex;
+	private String initiatorId;
 }

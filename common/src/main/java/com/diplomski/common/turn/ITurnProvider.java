@@ -3,5 +3,5 @@ package com.diplomski.common.turn;
 import com.diplomski.common.board.BoardState;
 
 public interface ITurnProvider {
-	public Turn getTurn(int initiatorIndex, BoardState initialBoardState);
+	public Turn getTurn(BoardState initialBoardState);
 }
