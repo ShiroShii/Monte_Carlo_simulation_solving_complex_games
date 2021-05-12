@@ -1,6 +1,8 @@
 package com.diplomski.common.board;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -18,9 +20,12 @@ import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.dice.IDice;
+import com.diplomski.common.turn.ITurnProvider;
+import com.diplomski.common.turn.ITurnProviderFactory;
 
 public class BoardStateProviderTest {
 	private IDice diceMock = mock(IDice.class);
+	private ITurnProviderFactory turnProviderFactoryMock = mock(ITurnProviderFactory.class);
 
 	private String character1Id = "Player 1";
 	private String character2Id = "Player 2";
@@ -43,12 +48,19 @@ public class BoardStateProviderTest {
 	private int character1MaxHp = 10;
 	private int character2MaxHp = 11;
 	private int character3MaxHp = 12;
+
 	private BattleCharacterState character1;
 	private BattleCharacterState character2;
 	private BattleCharacterState character3;
+
 	private CharacterState character1InitialState;
 	private CharacterState character2InitialState;
 	private CharacterState character3InitialState;
+
+	private ITurnProvider character1TurnProviderMock = mock(ITurnProvider.class);
+	private ITurnProvider character2TurnProviderMock = mock(ITurnProvider.class);
+	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
+
 	private List<CharacterState> initialCharacterStateList;
 	private LinkedHashMap<String, BattleCharacterState> expectedCharacterStateList;
 	private BoardState expectedBoardState;
@@ -69,14 +81,17 @@ public class BoardStateProviderTest {
 				.maxHp(character3MaxHp).dex(character3Dex).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).build();
 
-		character1 = BattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp).maxHp(character1MaxHp)
-				.dex(character1Dex).exhaustionLevel(character1ExhaustionLevel).party(character1Party).build();
+		character1 = BattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
+				.maxHp(character1MaxHp).dex(character1Dex).exhaustionLevel(character1ExhaustionLevel)
+				.party(character1Party).turnProvider(character1TurnProviderMock).build();
 
-		character2 = BattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp).maxHp(character2MaxHp)
-				.dex(character2Dex).exhaustionLevel(character2ExhaustionLevel).party(character2Party).build();
+		character2 = BattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
+				.maxHp(character2MaxHp).dex(character2Dex).exhaustionLevel(character2ExhaustionLevel)
+				.party(character2Party).turnProvider(character2TurnProviderMock).build();
 
-		character3 = BattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp).maxHp(character3MaxHp)
-				.dex(character3Dex).exhaustionLevel(character3ExhaustionLevel).party(character3Party).build();
+		character3 = BattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
+				.maxHp(character3MaxHp).dex(character3Dex).exhaustionLevel(character3ExhaustionLevel)
+				.party(character3Party).turnProvider(character3TurnProviderMock).build();
 
 		initialCharacterStateList = Arrays.asList(character1InitialState, character2InitialState,
 				character3InitialState);
@@ -91,17 +106,21 @@ public class BoardStateProviderTest {
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
 
-		unitUnderTest = new BoardStateProvider(diceMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character1Id), any())).thenReturn(character1TurnProviderMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character2Id), any())).thenReturn(character2TurnProviderMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character3Id), any())).thenReturn(character3TurnProviderMock);
+
+		unitUnderTest = new BoardStateProvider(turnProviderFactoryMock, diceMock);
 	}
 
 	@Test
 	public void getInitialBoardState() {
 		BoardState result = unitUnderTest.getInitialBoardState(initialCharacterStateList);
-		
+
 		verify(diceMock, times(3)).getRoll();
 		assertEquals(expectedBoardState, result);
 
-		//Verify order
+		// Verify order
 		Iterator<String> expectedIterator = expectedBoardState.getCharacterStates().keySet().iterator();
 		Iterator<String> resultIterator = result.getCharacterStates().keySet().iterator();
 

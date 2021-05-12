@@ -9,11 +9,14 @@ import java.util.Map.Entry;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.dice.IDice;
+import com.diplomski.common.turn.ITurnProvider;
+import com.diplomski.common.turn.ITurnProviderFactory;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 public class BoardStateProvider implements IBoardStateProvider {
+	private final ITurnProviderFactory turnProviderFactory;
 	private final IDice dice;
 
 	@Override
@@ -23,13 +26,11 @@ public class BoardStateProvider implements IBoardStateProvider {
 		for (CharacterState initialCharacterState : characters) {
 			int initiative = dice.getRoll() + initialCharacterState.getDex();
 
-			// TODO: add TurnProvider to each character
 			BattleCharacterState characterState = BattleCharacterState.builder().id(initialCharacterState.getId())
 					.currentHp(initialCharacterState.getCurrentHp()).dex(initialCharacterState.getDex())
 					.exhaustionLevel(initialCharacterState.getExhaustionLevel()).maxHp(initialCharacterState.getMaxHp())
 					.party(initialCharacterState.getParty()).tile(initialCharacterState.getTile())
-					.walkingSpeed(initialCharacterState.getWalkingSpeed()).usedWalkingSpeed(0).turnProvider(null)
-					.build();
+					.walkingSpeed(initialCharacterState.getWalkingSpeed()).usedWalkingSpeed(0).build();
 
 			initiatives.add(Map.entry(characterState, initiative));
 		}
@@ -43,6 +44,14 @@ public class BoardStateProvider implements IBoardStateProvider {
 			sortedCharacterStates.put(characterState.getId(), characterState);
 		}
 
-		return BoardState.builder().characterStates(sortedCharacterStates).build();
+		BoardState boardState = BoardState.builder().characterStates(sortedCharacterStates).build();
+
+		// Add turn providers
+		for (BattleCharacterState battleCharacterState : boardState.getCharacterStates().values()) {
+			ITurnProvider turnProvider = turnProviderFactory.getTurnProvider(battleCharacterState.getId(), boardState);
+			battleCharacterState.setTurnProvider(turnProvider);
+		}
+
+		return boardState;
 	}
 }
