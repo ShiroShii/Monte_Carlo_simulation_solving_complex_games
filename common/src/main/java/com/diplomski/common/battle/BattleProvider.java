@@ -28,6 +28,7 @@ public class BattleProvider implements IBattleProvider {
 
 		boolean battleComplete = false;
 		do {
+			// TODO: reset remaining speed
 			Round round = roundProvider.getRound(currentBoardState);
 			rounds.add(round);
 

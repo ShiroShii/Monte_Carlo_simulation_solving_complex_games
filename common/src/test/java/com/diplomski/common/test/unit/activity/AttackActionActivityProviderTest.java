@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.test.unit.activity;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -10,6 +10,14 @@ import java.util.LinkedHashMap;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.diplomski.common.activity.Activity;
+import com.diplomski.common.activity.AttackActionActivity;
+import com.diplomski.common.activity.AttackActionActivityProvider;
+import com.diplomski.common.activity.AttackRollOutcome;
+import com.diplomski.common.activity.IAttackRollOutcomeProvider;
+import com.diplomski.common.activity.IDamageProvider;
+import com.diplomski.common.activity.IWeaponProvider;
+import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;

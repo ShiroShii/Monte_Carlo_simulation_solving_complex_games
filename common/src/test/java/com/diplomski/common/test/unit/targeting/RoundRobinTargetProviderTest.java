@@ -1,4 +1,4 @@
-package com.diplomski.common.targeting;
+package com.diplomski.common.test.unit.targeting;
 
 import static org.junit.Assert.assertEquals;
 
@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.targeting.RoundRobinTargetProvider;
 
 public class RoundRobinTargetProviderTest {
 	private final String INITIATOR_ID = "Initiator Id";

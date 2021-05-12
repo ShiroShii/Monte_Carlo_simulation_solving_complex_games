@@ -1,4 +1,4 @@
-package com.diplomski.common.turn;
+package com.diplomski.common.test.unit.turn;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -18,6 +18,8 @@ import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.targeting.ITargetProvider;
+import com.diplomski.common.turn.Turn;
+import com.diplomski.common.turn.TurnProvider;
 
 public class TurnProviderTest {
 	private ITargetProvider targetProviderMock = mock(ITargetProvider.class);

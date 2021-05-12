@@ -1,4 +1,4 @@
-package com.diplomski.common.round;
+package com.diplomski.common.test.unit.round;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
@@ -16,10 +16,14 @@ import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.Party;
+import com.diplomski.common.round.Round;
+import com.diplomski.common.round.RoundProvider;
 import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.Turn;
 
 public class RoundProviderTest {
+	// TODO: Test ending round if all members of a party have HP = 0
 	private ITurnProvider character1TurnProviderMock = mock(ITurnProvider.class);
 	private ITurnProvider character2TurnProviderMock = mock(ITurnProvider.class);
 	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
@@ -65,14 +69,14 @@ public class RoundProviderTest {
 
 	@Before
 	public void setup() {
-		boardState1character1 = BattleCharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
-				.currentHp(boardState1character1CurrentHp).build();
+		boardState1character1 = BattleCharacterState.builder().party(Party.ENEMY).id(character1Id)
+				.turnProvider(character1TurnProviderMock).currentHp(boardState1character1CurrentHp).build();
 
-		boardState1character2 = BattleCharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
-				.currentHp(boardState1character2CurrentHp).build();
+		boardState1character2 = BattleCharacterState.builder().party(Party.PLAYER).id(character2Id)
+				.turnProvider(character2TurnProviderMock).currentHp(boardState1character2CurrentHp).build();
 
-		boardState1character3 = BattleCharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
-				.currentHp(boardState1character3CurrentHp).build();
+		boardState1character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
+				.turnProvider(character3TurnProviderMock).currentHp(boardState1character3CurrentHp).build();
 
 		boardState1CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
 		boardState1CharacterStates.put(character1Id, boardState1character1);
@@ -81,14 +85,14 @@ public class RoundProviderTest {
 
 		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
 
-		boardState2character1 = BattleCharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
-				.currentHp(boardState2character1CurrentHp).build();
+		boardState2character1 = BattleCharacterState.builder().party(Party.ENEMY).id(character1Id)
+				.turnProvider(character1TurnProviderMock).currentHp(boardState2character1CurrentHp).build();
 
-		boardState2character2 = BattleCharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
-				.currentHp(boardState2character2CurrentHp).build();
+		boardState2character2 = BattleCharacterState.builder().party(Party.PLAYER).id(character2Id)
+				.turnProvider(character2TurnProviderMock).currentHp(boardState2character2CurrentHp).build();
 
-		boardState2character3 = BattleCharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
-				.currentHp(boardState2character3CurrentHp).build();
+		boardState2character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
+				.turnProvider(character3TurnProviderMock).currentHp(boardState2character3CurrentHp).build();
 
 		boardState2CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
 		boardState2CharacterStates.put(character1Id, boardState2character1);
@@ -97,14 +101,14 @@ public class RoundProviderTest {
 
 		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
 
-		boardState3character1 = BattleCharacterState.builder().id(character1Id).turnProvider(character1TurnProviderMock)
-				.currentHp(boardState3character1CurrentHp).build();
+		boardState3character1 = BattleCharacterState.builder().party(Party.ENEMY).id(character1Id)
+				.turnProvider(character1TurnProviderMock).currentHp(boardState3character1CurrentHp).build();
 
-		boardState3character2 = BattleCharacterState.builder().id(character2Id).turnProvider(character2TurnProviderMock)
-				.currentHp(boardState3character2CurrentHp).build();
+		boardState3character2 = BattleCharacterState.builder().party(Party.PLAYER).id(character2Id)
+				.turnProvider(character2TurnProviderMock).currentHp(boardState3character2CurrentHp).build();
 
-		boardState3character3 = BattleCharacterState.builder().id(character3Id).turnProvider(character3TurnProviderMock)
-				.currentHp(boardState3character3CurrentHp).build();
+		boardState3character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
+				.turnProvider(character3TurnProviderMock).currentHp(boardState3character3CurrentHp).build();
 
 		boardState3CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
 		boardState3CharacterStates.put(character1Id, boardState3character1);

@@ -1,4 +1,4 @@
-package com.diplomski.common.battle;
+package com.diplomski.common.test.unit.battle;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
@@ -16,6 +16,8 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.diplomski.common.battle.Battle;
+import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
 import com.diplomski.common.character.BattleCharacterState;
