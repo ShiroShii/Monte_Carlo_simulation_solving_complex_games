@@ -7,12 +7,14 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.dice.IDice;
@@ -41,31 +43,48 @@ public class BoardStateProviderTest {
 	private int character1MaxHp = 10;
 	private int character2MaxHp = 11;
 	private int character3MaxHp = 12;
-	private CharacterState character1;
-	private CharacterState character2;
-	private CharacterState character3;
-	private List<CharacterState> fakeCharacterStateList;
-	private LinkedHashMap<String, CharacterState> expectedCharacterStateList;
+	private BattleCharacterState character1;
+	private BattleCharacterState character2;
+	private BattleCharacterState character3;
+	private CharacterState character1InitialState;
+	private CharacterState character2InitialState;
+	private CharacterState character3InitialState;
+	private List<CharacterState> initialCharacterStateList;
+	private LinkedHashMap<String, BattleCharacterState> expectedCharacterStateList;
 	private BoardState expectedBoardState;
 
 	private BoardStateProvider unitUnderTest;
 
 	@Before
 	public void setup() {
-		character1 = CharacterState.builder().id(character1Id).currentHp(character1CurrentHp).maxHp(character1MaxHp)
+		character1InitialState = CharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
+				.maxHp(character1MaxHp).dex(character1Dex).exhaustionLevel(character1ExhaustionLevel)
+				.party(character1Party).build();
+
+		character2InitialState = CharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
+				.maxHp(character2MaxHp).dex(character2Dex).exhaustionLevel(character2ExhaustionLevel)
+				.party(character2Party).build();
+
+		character3InitialState = CharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
+				.maxHp(character3MaxHp).dex(character3Dex).exhaustionLevel(character3ExhaustionLevel)
+				.party(character3Party).build();
+
+		character1 = BattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp).maxHp(character1MaxHp)
 				.dex(character1Dex).exhaustionLevel(character1ExhaustionLevel).party(character1Party).build();
 
-		character2 = CharacterState.builder().id(character2Id).currentHp(character2CurrentHp).maxHp(character2MaxHp)
+		character2 = BattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp).maxHp(character2MaxHp)
 				.dex(character2Dex).exhaustionLevel(character2ExhaustionLevel).party(character2Party).build();
 
-		character3 = CharacterState.builder().id(character3Id).currentHp(character3CurrentHp).maxHp(character3MaxHp)
+		character3 = BattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp).maxHp(character3MaxHp)
 				.dex(character3Dex).exhaustionLevel(character3ExhaustionLevel).party(character3Party).build();
 
-		fakeCharacterStateList = Arrays.asList(character1, character2, character3);
+		initialCharacterStateList = Arrays.asList(character1InitialState, character2InitialState,
+				character3InitialState);
+
 		expectedCharacterStateList = new LinkedHashMap<>();
+		expectedCharacterStateList.put(character3Id, character3);
 		expectedCharacterStateList.put(character1Id, character1);
 		expectedCharacterStateList.put(character2Id, character2);
-		expectedCharacterStateList.put(character3Id, character3);
 
 		expectedBoardState = BoardState.builder().characterStates(expectedCharacterStateList).build();
 
@@ -77,10 +96,18 @@ public class BoardStateProviderTest {
 
 	@Test
 	public void getInitialBoardState() {
-		BoardState result = unitUnderTest.getInitialBoardState(fakeCharacterStateList);
-
-		assertEquals(expectedBoardState, result);
+		BoardState result = unitUnderTest.getInitialBoardState(initialCharacterStateList);
+		
 		verify(diceMock, times(3)).getRoll();
+		assertEquals(expectedBoardState, result);
+
+		//Verify order
+		Iterator<String> expectedIterator = expectedBoardState.getCharacterStates().keySet().iterator();
+		Iterator<String> resultIterator = result.getCharacterStates().keySet().iterator();
+
+		while (expectedIterator.hasNext() && resultIterator.hasNext()) {
+			assertEquals(expectedIterator.next(), resultIterator.next());
+		}
 	}
 
 }

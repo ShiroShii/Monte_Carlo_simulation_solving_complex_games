@@ -11,7 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
 
 public class AttackActionActivityProviderTest {
@@ -29,14 +29,14 @@ public class AttackActionActivityProviderTest {
 	private final int TARGET_FINAL_HIT_HP = 5;
 	private final int TARGET_FINAL_CRITICAL_HIT_HP = 0;
 
-	private CharacterState initiator;
-	private CharacterState targetInitialState;
-	private CharacterState targetFinalHitState;
-	private CharacterState targetFinalCriticalHitState;
+	private BattleCharacterState initiator;
+	private BattleCharacterState targetInitialState;
+	private BattleCharacterState targetFinalHitState;
+	private BattleCharacterState targetFinalCriticalHitState;
 
-	private LinkedHashMap<String, CharacterState> initialCharacterStates;
-	private LinkedHashMap<String, CharacterState> finalHitCharacterStates;
-	private LinkedHashMap<String, CharacterState> finalCriticalHitCharacterStates;
+	private LinkedHashMap<String, BattleCharacterState> initialCharacterStates;
+	private LinkedHashMap<String, BattleCharacterState> finalHitCharacterStates;
+	private LinkedHashMap<String, BattleCharacterState> finalCriticalHitCharacterStates;
 
 	private BoardState initialBoardState;
 	private BoardState finalHitBoardState;
@@ -53,10 +53,10 @@ public class AttackActionActivityProviderTest {
 		when(damageProviderMock.getDamage(any(), any(), any())).thenReturn(HIT_DAMAGE);
 		when(weaponProviderMock.getWeapon(any())).thenReturn(Weapon.CLUB);
 
-		initiator = CharacterState.builder().party(Party.PLAYER).build();
-		targetInitialState = CharacterState.builder().party(Party.ENEMY).currentHp(TARGET_INITIAL_HP).build();
-		targetFinalHitState = CharacterState.builder().party(Party.ENEMY).currentHp(TARGET_FINAL_HIT_HP).build();
-		targetFinalCriticalHitState = CharacterState.builder().party(Party.ENEMY)
+		initiator = BattleCharacterState.builder().party(Party.PLAYER).build();
+		targetInitialState = BattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_INITIAL_HP).build();
+		targetFinalHitState = BattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_FINAL_HIT_HP).build();
+		targetFinalCriticalHitState = BattleCharacterState.builder().party(Party.ENEMY)
 				.currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
 
 		initialCharacterStates = new LinkedHashMap<>();

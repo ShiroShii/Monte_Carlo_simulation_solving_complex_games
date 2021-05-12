@@ -1,7 +1,7 @@
 package com.diplomski.common.activity;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.BattleCharacterState;
 
 import lombok.AllArgsConstructor;
 
@@ -13,8 +13,8 @@ public class AttackActionActivityProvider implements IActivityProvider {
 
 	@Override
 	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState) {
-		CharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
-		CharacterState target = initialBoardState.getCharacterStates().get(targetId);
+		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
+		BattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
 		Weapon weapon = weaponProvider.getWeapon(initiator);
 
 		int damage;

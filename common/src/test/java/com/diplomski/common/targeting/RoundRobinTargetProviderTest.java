@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
 
 public class RoundRobinTargetProviderTest {
@@ -21,20 +21,20 @@ public class RoundRobinTargetProviderTest {
 	private BoardState boardStateWithTarget;
 	private BoardState boardStateWithoutTarget;
 
-	private CharacterState initiatorCharacterState;
-	private CharacterState enemyTargetCharacterState;
-	private CharacterState enemyIncapacitatedCharacterState;
+	private BattleCharacterState initiatorCharacterState;
+	private BattleCharacterState enemyTargetCharacterState;
+	private BattleCharacterState enemyIncapacitatedCharacterState;
 
-	private LinkedHashMap<String, CharacterState> characterStatesWithTarget;
-	private LinkedHashMap<String, CharacterState> characterStatesWithoutTarget;
+	private LinkedHashMap<String, BattleCharacterState> characterStatesWithTarget;
+	private LinkedHashMap<String, BattleCharacterState> characterStatesWithoutTarget;
 
 	RoundRobinTargetProvider unitUnderTest;
 
 	@Before
 	public void setup() {
-		initiatorCharacterState = CharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY).build();
-		enemyTargetCharacterState = CharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY).build();
-		enemyIncapacitatedCharacterState = CharacterState.builder().id(ENEMY_2_ID).currentHp(0).party(TARGET_PARTY).build();
+		initiatorCharacterState = BattleCharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY).build();
+		enemyTargetCharacterState = BattleCharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY).build();
+		enemyIncapacitatedCharacterState = BattleCharacterState.builder().id(ENEMY_2_ID).currentHp(0).party(TARGET_PARTY).build();
 
 		characterStatesWithTarget = new LinkedHashMap<>();
 		characterStatesWithTarget.put(INITIATOR_ID, initiatorCharacterState);

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
+import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.round.IRoundProvider;
@@ -41,7 +42,7 @@ public class BattleProvider implements IBattleProvider {
 		return battle;
 	}
 
-	private int getPartyHp(LinkedHashMap<String, CharacterState> characterStates, Party party) {
+	private int getPartyHp(LinkedHashMap<String, BattleCharacterState> characterStates, Party party) {
 		return characterStates.values().stream().filter(x -> x.getParty().equals(party)).mapToInt(x -> x.getCurrentHp()).sum();
 	}
 }
