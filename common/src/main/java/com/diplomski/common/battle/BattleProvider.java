@@ -1,14 +1,11 @@
 package com.diplomski.common.battle;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
-import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
-import com.diplomski.common.character.Party;
 import com.diplomski.common.round.IRoundProvider;
 import com.diplomski.common.round.Round;
 
@@ -22,28 +19,21 @@ public class BattleProvider implements IBattleProvider {
 
 	@Override
 	public Battle getBattle(List<CharacterState> initialCharacterStates) {
-		BoardState currentBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates);
-		Battle battle = Battle.builder().initialBoardState(currentBoardState).build();
+		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates);
+		BoardState roundInitialBoardState = initialBoardState.toBuilder().build();
 		List<Round> rounds = new ArrayList<>();
-
-		boolean battleComplete = false;
 		do {
-			// TODO: reset remaining speed
-			Round round = roundProvider.getRound(currentBoardState);
+			Round round = roundProvider.getRound(roundInitialBoardState);
 			rounds.add(round);
 
-			currentBoardState = round.getFinalBoardState();
+			roundInitialBoardState = round.getFinalBoardState().toBuilder().build();
 
-			battleComplete = getPartyHp(currentBoardState.getCharacterStates(), Party.PLAYER) == 0
-					|| getPartyHp(currentBoardState.getCharacterStates(), Party.ENEMY) == 0;
-		} while (!battleComplete);
+			roundInitialBoardState.resetSpeed();
+		} while (!roundInitialBoardState.isBattleComplete());
 
-		battle.setRounds(rounds);
-		battle.setFinalBoardState(currentBoardState);
-		return battle;
-	}
-
-	private int getPartyHp(LinkedHashMap<String, BattleCharacterState> characterStates, Party party) {
-		return characterStates.values().stream().filter(x -> x.getParty().equals(party)).mapToInt(x -> x.getCurrentHp()).sum();
+		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds)
+				.finalBoardState(
+						rounds.isEmpty() ? initialBoardState : rounds.get(rounds.size() - 1).getFinalBoardState())
+				.build();
 	}
 }

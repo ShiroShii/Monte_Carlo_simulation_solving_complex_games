@@ -23,25 +23,24 @@ import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.Turn;
 
 public class RoundProviderTest {
-	// TODO: Test ending round if all members of a party have HP = 0
 	private ITurnProvider character1TurnProviderMock = mock(ITurnProvider.class);
 	private ITurnProvider character2TurnProviderMock = mock(ITurnProvider.class);
 	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
 	private RoundProvider unitUnderTest;
 
-	private String character1Id = "Enemy 1";
-	private String character2Id = "Player 1";
-	private String character3Id = "Player 2";
+	private final String character1Id = "Enemy 1";
+	private final String character2Id = "Player 1";
+	private final String character3Id = "Player 2";
 
-	private int boardState1character1CurrentHp = 20;
-	private int boardState2character1CurrentHp = 20;
-	private int boardState3character1CurrentHp = 10;
-	private int boardState1character2CurrentHp = 10;
-	private int boardState2character2CurrentHp = 0;
-	private int boardState3character2CurrentHp = 0;
-	private int boardState1character3CurrentHp = 7;
-	private int boardState2character3CurrentHp = 7;
-	private int boardState3character3CurrentHp = 7;
+	private final int boardState1character1CurrentHp = 20;
+	private final int boardState2character1CurrentHp = 20;
+	private final int boardState3character1CurrentHp = 10;
+	private final int boardState1character2CurrentHp = 10;
+	private final int boardState2character2CurrentHp = 0;
+	private final int boardState3character2CurrentHp = 0;
+	private final int boardState1character3CurrentHp = 7;
+	private final int boardState2character3CurrentHp = 7;
+	private final int boardState3character3CurrentHp = 7;
 
 	private BattleCharacterState boardState1character1;
 	private BattleCharacterState boardState2character1;
@@ -140,5 +139,25 @@ public class RoundProviderTest {
 		assertEquals(expectedRound, result);
 		verify(character1TurnProviderMock, times(1)).getTurn(eq(boardState1));
 		verify(character3TurnProviderMock, times(1)).getTurn(eq(boardState2));
+	}
+
+	@Test
+	public void getRound_endAfterFirstTurn() {
+		boardState1character1.setParty(Party.PLAYER);
+		boardState2character1.setParty(Party.PLAYER);
+		boardState3character1.setParty(Party.PLAYER);
+
+		boardState1character2.setParty(Party.ENEMY);
+		boardState2character2.setParty(Party.ENEMY);
+		boardState3character2.setParty(Party.ENEMY);
+
+		expectedRound.setTurns(Arrays.asList(character1Turn));
+
+		expectedRound.setFinalBoardState(boardState2);
+
+		Round result = unitUnderTest.getRound(boardState1);
+
+		assertEquals(expectedRound, result);
+		verify(character1TurnProviderMock, times(1)).getTurn(eq(boardState1));
 	}
 }
