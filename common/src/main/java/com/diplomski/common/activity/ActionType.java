@@ -1,7 +1,13 @@
 package com.diplomski.common.activity;
 
 public enum ActionType {
-	ATTACK, HEAL, DASH, DODGE, DISENGAGE, SHOVE, GRAPPLE,
+	ATTACK,
+	HEAL,
+	DASH,
+	DODGE,
+	DISENGAGE,
+	SHOVE,
+	GRAPPLE,
 	// StandUp, //Movement
 	// Prone, //Movement
 	// TerrainAction, //Effect

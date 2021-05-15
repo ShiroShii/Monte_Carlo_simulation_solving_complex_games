@@ -97,8 +97,8 @@ public class BoardStateProviderTest {
 				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).turnProvider(character3TurnProviderMock).build();
 
-		initialCharacterStateList = Arrays.asList(character1InitialState, character2InitialState,
-				character3InitialState);
+		initialCharacterStateList = Arrays
+				.asList(character1InitialState, character2InitialState, character3InitialState);
 
 		expectedCharacterStateList = new LinkedHashMap<>();
 		expectedCharacterStateList.put(character3Id, character3);

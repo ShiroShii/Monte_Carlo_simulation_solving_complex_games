@@ -35,8 +35,8 @@ public class TurnProvider implements ITurnProvider {
 		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
 		IResource resource = switch (playStyle) {
-		default -> initiator.getWeapons().stream().filter(x -> x.getWeaponStyle().equals(WeaponStyle.MELEE)).findFirst()
-				.get();
+			default -> initiator.getWeapons().stream().filter(x -> x.getWeaponStyle().equals(WeaponStyle.MELEE))
+					.findFirst().get();
 
 		};
 
@@ -44,13 +44,13 @@ public class TurnProvider implements ITurnProvider {
 
 		if (targetIdOptional.isPresent()) {
 
-			Activity movementActivity = movementProvider.getActivity(initiatorId, targetIdOptional.get(),
-					currentBoardState);
+			Activity movementActivity = movementProvider
+					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState);
 			currentBoardState = movementActivity.getFinalBoardState();
 			activities.add(movementActivity);
 
-			Activity actionActivity = actionProvider.getActivity(initiatorId, targetIdOptional.get(), currentBoardState,
-					resource);
+			Activity actionActivity = actionProvider
+					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, resource);
 			currentBoardState = actionActivity.getFinalBoardState();
 			activities.add(actionActivity);
 		}

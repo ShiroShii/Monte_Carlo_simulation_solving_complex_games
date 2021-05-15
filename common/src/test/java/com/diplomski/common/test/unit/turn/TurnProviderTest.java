@@ -76,8 +76,7 @@ public class TurnProviderTest {
 		emptyTurn = Turn.builder().initiatorId(INITIATOR_ID).initialBoardState(battleState1)
 				.finalBoardState(battleState1).activities(new ArrayList<>()).build();
 
-		unitUnderTest = new TurnProvider(INITIATOR_ID, TARGET_PARTY, targetProviderMock, movementActivityProviderMock,
-				actionActivityProviderMock, PLAY_STYLE);
+		unitUnderTest = new TurnProvider(INITIATOR_ID, TARGET_PARTY, targetProviderMock, movementActivityProviderMock, actionActivityProviderMock, PLAY_STYLE);
 	}
 
 	@Test

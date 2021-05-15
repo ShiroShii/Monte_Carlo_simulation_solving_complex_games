@@ -23,20 +23,20 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 		BattleCharacterState character = boardState.getCharacterStates().get(initiatorId);
 		PlayStyle playStyle = character.getPlayStyle();
 		ITargetProvider targetProvider = switch (character.getTargetingStyle()) {
-		default -> new RoundRobinTargetProvider();
+			default -> new RoundRobinTargetProvider();
 		};
 
 		IActivityProvider movementProvider = switch (playStyle) {
-		default -> null;
+			default -> null;
 		};
 
 		IActivityProvider actionProvider = switch (playStyle) {
-		default -> new AttackActionActivityProvider(attackRollOutcomeProvider, damageProvider);
+			default -> new AttackActionActivityProvider(attackRollOutcomeProvider, damageProvider);
 		};
 
 		Party targetParty = switch (playStyle) {
-		case SUPPORT -> Party.PLAYER;
-		default -> Party.ENEMY;
+			case SUPPORT -> Party.PLAYER;
+			default -> Party.ENEMY;
 		};
 
 		return new TurnProvider(initiatorId, targetParty, targetProvider, movementProvider, actionProvider, playStyle);

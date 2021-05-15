@@ -15,31 +15,23 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 		BattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
 
-		int damage;
-		BoardState finalBoardState;
+		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider
+				.getAttackOutcome((Weapon) weapon, initiator, target);
 
-		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome((Weapon) weapon, initiator,
-				target);
+		int damage = switch (attackRoleOutcome) {
+			case HIT -> damageProvider.getDamage((Weapon) weapon, initiator, target);
+			case CRITICAL_HIT -> damageProvider.getDamage((Weapon) weapon, initiator, target) * 2;
+			default -> 0;
+		};
 
-		switch (attackRoleOutcome) {
-		case HIT: {
-			damage = damageProvider.getDamage((Weapon) weapon, initiator, target);
-			finalBoardState = initialBoardState.toBuilder().build();
-			finalBoardState.getCharacterStates().get(targetId).takeDamage(damage);
-			break;
-		}
-		case CRITICAL_HIT: {
-			damage = damageProvider.getDamage((Weapon) weapon, initiator, target) * 2;
-			finalBoardState = initialBoardState.toBuilder().build();
-			finalBoardState.getCharacterStates().get(targetId).takeDamage(damage);
-			break;
-		}
-		default: {
-			damage = 0;
-			finalBoardState = initialBoardState;
-			break;
-		}
-		}
+		BoardState finalBoardState = switch (attackRoleOutcome) {
+			case HIT, CRITICAL_HIT -> {
+				BoardState temporaryBoardState = initialBoardState.toBuilder().build();
+				temporaryBoardState.getCharacterStates().get(targetId).takeDamage(damage);
+				yield temporaryBoardState;
+			}
+			default -> initialBoardState;
+		};
 
 		return AttackActionActivity.builder().initiatorId(initiatorId).targetId(targetId)
 				.initialBoardState(initialBoardState).finalBoardState(finalBoardState).damage(damage).build();

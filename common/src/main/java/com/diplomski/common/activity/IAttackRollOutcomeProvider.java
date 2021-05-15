@@ -2,7 +2,11 @@ package com.diplomski.common.activity;
 
 import com.diplomski.common.character.BattleCharacterState;
 
+import lombok.NonNull;
+
 public interface IAttackRollOutcomeProvider {
-	public AttackRollOutcome getAttackOutcome(Weapon weapon, BattleCharacterState initiator,
-			BattleCharacterState target);
+	public AttackRollOutcome getAttackOutcome(
+			@NonNull IResource resource,
+			@NonNull BattleCharacterState initiator,
+			@NonNull BattleCharacterState target);
 }

@@ -15,7 +15,9 @@ public class SimulationProvider implements ISimulationProvider {
 	private final IBattleProvider battleProvider;
 
 	@Override
-	public Simulation getSimulation(List<CharacterState> initialCharacterState, int simulationCount,
+	public Simulation getSimulation(
+			List<CharacterState> initialCharacterState,
+			int simulationCount,
 			int roundCountLimit) {
 		List<Battle> battles = new ArrayList<>();
 

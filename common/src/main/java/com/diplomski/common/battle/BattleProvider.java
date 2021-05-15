@@ -32,8 +32,8 @@ public class BattleProvider implements IBattleProvider {
 		} while (!roundInitialBoardState.isBattleComplete() || roundCountLimit == rounds.size());
 
 		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds)
-				.finalBoardState(
-						rounds.isEmpty() ? initialBoardState : rounds.get(rounds.size() - 1).getFinalBoardState())
+				.finalBoardState(rounds.isEmpty() ? initialBoardState
+						: rounds.get(rounds.size() - 1).getFinalBoardState())
 				.build();
 	}
 }
