@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,8 +16,11 @@ import org.junit.Test;
 
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
+import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.BoardState;
+import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.ITargetProvider;
 import com.diplomski.common.turn.Turn;
 import com.diplomski.common.turn.TurnProvider;
@@ -35,9 +39,12 @@ public class TurnProviderTest {
 
 	private final String INITIATOR_ID = "Initiator Id";
 	private final String TARGET_ID = "Target Id";
-
+	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_DAMAGE;
 	private final Party TARGET_PARTY = Party.ENEMY;
+	private BattleCharacterState initiator;
+	LinkedHashMap<String, BattleCharacterState> characters;
 
+	private List<Weapon> weapons;
 	private List<Activity> expectedActivities;
 	private Turn expectedTurn;
 	private Turn emptyTurn;
@@ -46,15 +53,20 @@ public class TurnProviderTest {
 
 	@Before
 	public void setup() {
-		battleState1 = BoardState.builder().build();
-		battleState2 = BoardState.builder().build();
-		battleState3 = BoardState.builder().build();
+		weapons = Arrays.asList(Weapon.CLUB);
+		initiator = BattleCharacterState.builder().id(INITIATOR_ID).weapons(weapons).build();
+		characters = new LinkedHashMap<>();
+		characters.put(INITIATOR_ID, initiator);
+
+		battleState1 = BoardState.builder().characterStates(characters).build();
+		battleState2 = BoardState.builder().characterStates(characters).build();
+		battleState3 = BoardState.builder().characterStates(characters).build();
 
 		when(movementActivity.getFinalBoardState()).thenReturn(battleState2);
 		when(actionActivity.getFinalBoardState()).thenReturn(battleState3);
 
 		when(movementActivityProviderMock.getActivity(any(), any(), any())).thenReturn(movementActivity);
-		when(actionActivityProviderMock.getActivity(any(), any(), any())).thenReturn(actionActivity);
+		when(actionActivityProviderMock.getActivity(any(), any(), any(), any())).thenReturn(actionActivity);
 
 		expectedActivities = Arrays.asList(movementActivity, actionActivity);
 
@@ -65,7 +77,7 @@ public class TurnProviderTest {
 				.finalBoardState(battleState1).activities(new ArrayList<>()).build();
 
 		unitUnderTest = new TurnProvider(INITIATOR_ID, TARGET_PARTY, targetProviderMock, movementActivityProviderMock,
-				actionActivityProviderMock);
+				actionActivityProviderMock, PLAY_STYLE);
 	}
 
 	@Test
@@ -80,7 +92,7 @@ public class TurnProviderTest {
 	@Test
 	public void getTurn_withoutTarget() {
 		when(targetProviderMock.getTargetId(any(), any(), any())).thenReturn(Optional.empty());
-		
+
 		Turn result = unitUnderTest.getTurn(battleState1);
 
 		assertEquals(emptyTurn, result);

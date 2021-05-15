@@ -1,6 +1,10 @@
 package com.diplomski.common.character;
 
+import java.util.List;
+
+import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.Tile;
+import com.diplomski.common.targeting.TargetingStyle;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,9 +18,14 @@ public class CharacterState {
 	private Party party;
 	private int maxHp;
 	private int currentHp;
-	private int dex;
+	private int dexterity;
 	private int exhaustionLevel;
+	private CharacterLevel level;
+	private CharacterClass characterClass;
+	private List<Weapon> weapons;
 	private Tile tile;
+	private PlayStyle playStyle;
+	private TargetingStyle targetingStyle;
 
 	private int walkingSpeed;
 

@@ -15,12 +15,12 @@ public class SimulationProvider implements ISimulationProvider {
 	private final IBattleProvider battleProvider;
 
 	@Override
-	public Simulation getSimulation(List<CharacterState> initialCharacterState, int simulationCount) {
+	public Simulation getSimulation(List<CharacterState> initialCharacterState, int simulationCount, int roundCountLimit) {
 		List<Battle> battles = new ArrayList<>();
 
 		// parallelize?
 		for (int i = 0; i < simulationCount; i++) {
-			battles.add(battleProvider.getBattle(initialCharacterState));
+			battles.add(battleProvider.getBattle(initialCharacterState, roundCountLimit));
 		}
 
 		return Simulation.builder().battles(battles).initialCharacterStates(initialCharacterState).build();

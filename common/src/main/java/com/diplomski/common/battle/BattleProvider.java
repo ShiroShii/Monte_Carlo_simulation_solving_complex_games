@@ -18,7 +18,7 @@ public class BattleProvider implements IBattleProvider {
 	private final IRoundProvider roundProvider;
 
 	@Override
-	public Battle getBattle(List<CharacterState> initialCharacterStates) {
+	public Battle getBattle(List<CharacterState> initialCharacterStates, int roundCountLimit) {
 		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates);
 		BoardState roundInitialBoardState = initialBoardState.toBuilder().build();
 		List<Round> rounds = new ArrayList<>();
@@ -29,7 +29,7 @@ public class BattleProvider implements IBattleProvider {
 			roundInitialBoardState = round.getFinalBoardState().toBuilder().build();
 
 			roundInitialBoardState.resetSpeed();
-		} while (!roundInitialBoardState.isBattleComplete());
+		} while (!roundInitialBoardState.isBattleComplete() || roundCountLimit == rounds.size());
 
 		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds)
 				.finalBoardState(

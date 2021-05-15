@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.dice.IDice;
+import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.ITurnProviderFactory;
 
@@ -17,17 +18,19 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardStateProvider implements IBoardStateProvider {
 	private final ITurnProviderFactory turnProviderFactory;
-	private final IDice dice;
+	private final IDiceFactory diceFactory;
 
 	@Override
 	public BoardState getInitialBoardState(List<CharacterState> characters) {
 		List<Entry<BattleCharacterState, Integer>> initiatives = new ArrayList<>();
 
 		for (CharacterState initialCharacterState : characters) {
-			int initiative = dice.getRoll() + initialCharacterState.getDex();
+			IDice dice = diceFactory.getD20();
+			//TODO: add Initiative Modifiers to initiative roll
+			int initiative = dice.getRoll() + initialCharacterState.getDexterity();
 
 			BattleCharacterState characterState = BattleCharacterState.builder().id(initialCharacterState.getId())
-					.currentHp(initialCharacterState.getCurrentHp()).dex(initialCharacterState.getDex())
+					.currentHp(initialCharacterState.getCurrentHp()).dexterity(initialCharacterState.getDexterity())
 					.exhaustionLevel(initialCharacterState.getExhaustionLevel()).maxHp(initialCharacterState.getMaxHp())
 					.party(initialCharacterState.getParty()).tile(initialCharacterState.getTile())
 					.walkingSpeed(initialCharacterState.getWalkingSpeed()).usedWalkingSpeed(0).build();

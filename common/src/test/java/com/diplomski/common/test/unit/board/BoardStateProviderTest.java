@@ -22,10 +22,12 @@ import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.dice.IDice;
+import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.ITurnProviderFactory;
 
 public class BoardStateProviderTest {
+	private IDiceFactory diceProviderFactory = mock(IDiceFactory.class);
 	private IDice diceMock = mock(IDice.class);
 	private ITurnProviderFactory turnProviderFactoryMock = mock(ITurnProviderFactory.class);
 
@@ -35,9 +37,9 @@ public class BoardStateProviderTest {
 	private Party character1Party = Party.PLAYER;
 	private Party character2Party = Party.PLAYER;
 	private Party character3Party = Party.ENEMY;
-	private int character1Dex = -1;
-	private int character2Dex = 0;
-	private int character3Dex = 1;
+	private int character1dexterity = -1;
+	private int character2dexterity = 0;
+	private int character3dexterity = 1;
 	private int character1InitiativeRoll = 15;
 	private int character2InitiativeRoll = 10;
 	private int character3InitiativeRoll = 20;
@@ -72,27 +74,27 @@ public class BoardStateProviderTest {
 	@Before
 	public void setup() {
 		character1InitialState = CharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
-				.maxHp(character1MaxHp).dex(character1Dex).exhaustionLevel(character1ExhaustionLevel)
+				.maxHp(character1MaxHp).dexterity(character1dexterity).exhaustionLevel(character1ExhaustionLevel)
 				.party(character1Party).build();
 
 		character2InitialState = CharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
-				.maxHp(character2MaxHp).dex(character2Dex).exhaustionLevel(character2ExhaustionLevel)
+				.maxHp(character2MaxHp).dexterity(character2dexterity).exhaustionLevel(character2ExhaustionLevel)
 				.party(character2Party).build();
 
 		character3InitialState = CharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
-				.maxHp(character3MaxHp).dex(character3Dex).exhaustionLevel(character3ExhaustionLevel)
+				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).build();
 
 		character1 = BattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
-				.maxHp(character1MaxHp).dex(character1Dex).exhaustionLevel(character1ExhaustionLevel)
+				.maxHp(character1MaxHp).dexterity(character1dexterity).exhaustionLevel(character1ExhaustionLevel)
 				.party(character1Party).turnProvider(character1TurnProviderMock).build();
 
 		character2 = BattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
-				.maxHp(character2MaxHp).dex(character2Dex).exhaustionLevel(character2ExhaustionLevel)
+				.maxHp(character2MaxHp).dexterity(character2dexterity).exhaustionLevel(character2ExhaustionLevel)
 				.party(character2Party).turnProvider(character2TurnProviderMock).build();
 
 		character3 = BattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
-				.maxHp(character3MaxHp).dex(character3Dex).exhaustionLevel(character3ExhaustionLevel)
+				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).turnProvider(character3TurnProviderMock).build();
 
 		initialCharacterStateList = Arrays.asList(character1InitialState, character2InitialState,
@@ -107,12 +109,14 @@ public class BoardStateProviderTest {
 
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
+		
+		when(diceProviderFactory.getD20()).thenReturn(diceMock);
 
 		when(turnProviderFactoryMock.getTurnProvider(eq(character1Id), any())).thenReturn(character1TurnProviderMock);
 		when(turnProviderFactoryMock.getTurnProvider(eq(character2Id), any())).thenReturn(character2TurnProviderMock);
 		when(turnProviderFactoryMock.getTurnProvider(eq(character3Id), any())).thenReturn(character3TurnProviderMock);
 
-		unitUnderTest = new BoardStateProvider(turnProviderFactoryMock, diceMock);
+		unitUnderTest = new BoardStateProvider(turnProviderFactoryMock, diceProviderFactory);
 	}
 
 	@Test

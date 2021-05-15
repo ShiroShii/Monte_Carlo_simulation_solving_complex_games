@@ -77,7 +77,7 @@ public class RoundProviderTest {
 		boardState1character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
 				.turnProvider(character3TurnProviderMock).currentHp(boardState1character3CurrentHp).build();
 
-		boardState1CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
+		boardState1CharacterStates = new LinkedHashMap<>();
 		boardState1CharacterStates.put(character1Id, boardState1character1);
 		boardState1CharacterStates.put(character2Id, boardState1character2);
 		boardState1CharacterStates.put(character3Id, boardState1character3);
@@ -93,7 +93,7 @@ public class RoundProviderTest {
 		boardState2character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
 				.turnProvider(character3TurnProviderMock).currentHp(boardState2character3CurrentHp).build();
 
-		boardState2CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
+		boardState2CharacterStates = new LinkedHashMap<>();
 		boardState2CharacterStates.put(character1Id, boardState2character1);
 		boardState2CharacterStates.put(character2Id, boardState2character2);
 		boardState2CharacterStates.put(character3Id, boardState2character3);
@@ -109,7 +109,7 @@ public class RoundProviderTest {
 		boardState3character3 = BattleCharacterState.builder().party(Party.PLAYER).id(character3Id)
 				.turnProvider(character3TurnProviderMock).currentHp(boardState3character3CurrentHp).build();
 
-		boardState3CharacterStates = new LinkedHashMap<String, BattleCharacterState>();
+		boardState3CharacterStates = new LinkedHashMap<>();
 		boardState3CharacterStates.put(character1Id, boardState3character1);
 		boardState3CharacterStates.put(character2Id, boardState3character2);
 		boardState3CharacterStates.put(character3Id, boardState3character3);

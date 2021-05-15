@@ -1,6 +1,7 @@
 package com.diplomski.common.test.unit.simulation;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -22,7 +23,9 @@ import com.diplomski.common.simulation.SimulationProvider;
 
 public class SimulationProviderTest {
 	private IBattleProvider battleProviderMock = mock(IBattleProvider.class);
-	private int expectedBattleCount = 3;
+
+	private final int ROUND_COUNT_LIMIT = 5;
+	private final int EXPECTED_BATTLE_COUNT = 3;
 	private Battle battle1;
 	private Battle battle2;
 	private Battle battle3;
@@ -45,16 +48,16 @@ public class SimulationProviderTest {
 
 		expectedSimulation = Simulation.builder().battles(battles).initialCharacterStates(characterStates).build();
 
-		when(battleProviderMock.getBattle(eq(characterStates))).thenReturn(battle1).thenReturn(battle2)
+		when(battleProviderMock.getBattle(eq(characterStates), anyInt())).thenReturn(battle1).thenReturn(battle2)
 				.thenReturn(battle3);
 		unitUnderTest = new SimulationProvider(battleProviderMock);
 	}
 
 	@Test
 	public void getSimulation() {
-		Simulation result = unitUnderTest.getSimulation(characterStates, expectedBattleCount);
+		Simulation result = unitUnderTest.getSimulation(characterStates, EXPECTED_BATTLE_COUNT, ROUND_COUNT_LIMIT);
 		assertEquals(expectedSimulation, result);
-		verify(battleProviderMock, times(3)).getBattle(eq(characterStates));
+		verify(battleProviderMock, times(3)).getBattle(eq(characterStates), anyInt());
 	}
 
 }
