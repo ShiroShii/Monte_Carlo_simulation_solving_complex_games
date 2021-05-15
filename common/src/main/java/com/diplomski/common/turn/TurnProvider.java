@@ -35,8 +35,8 @@ public class TurnProvider implements ITurnProvider {
 		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
 		IResource resource = switch (playStyle) {
-		default -> initiator.getWeapons().stream()
-				.filter(x -> x.getWeaponStyle().equals(WeaponStyle.MELEE)).findFirst().get();
+		default -> initiator.getWeapons().stream().filter(x -> x.getWeaponStyle().equals(WeaponStyle.MELEE)).findFirst()
+				.get();
 
 		};
 

@@ -33,9 +33,12 @@ public class RoundRobinTargetProviderTest {
 
 	@Before
 	public void setup() {
-		initiatorCharacterState = BattleCharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY).build();
-		enemyTargetCharacterState = BattleCharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY).build();
-		enemyIncapacitatedCharacterState = BattleCharacterState.builder().id(ENEMY_2_ID).currentHp(0).party(TARGET_PARTY).build();
+		initiatorCharacterState = BattleCharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY)
+				.build();
+		enemyTargetCharacterState = BattleCharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY)
+				.build();
+		enemyIncapacitatedCharacterState = BattleCharacterState.builder().id(ENEMY_2_ID).currentHp(0)
+				.party(TARGET_PARTY).build();
 
 		characterStatesWithTarget = new LinkedHashMap<>();
 		characterStatesWithTarget.put(INITIATOR_ID, initiatorCharacterState);

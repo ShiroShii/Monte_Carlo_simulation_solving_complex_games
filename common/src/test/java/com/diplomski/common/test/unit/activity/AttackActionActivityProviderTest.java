@@ -66,15 +66,15 @@ public class AttackActionActivityProviderTest {
 				.currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
 
 		initialCharacterStates = new LinkedHashMap<>();
-		initialCharacterStates.put(INITIATOR_ID, initiator); 
+		initialCharacterStates.put(INITIATOR_ID, initiator);
 		initialCharacterStates.put(TARGET_ID, targetInitialState);
 
 		finalHitCharacterStates = new LinkedHashMap<>();
-		finalHitCharacterStates.put(INITIATOR_ID, initiator); 
+		finalHitCharacterStates.put(INITIATOR_ID, initiator);
 		finalHitCharacterStates.put(TARGET_ID, targetFinalHitState);
-		
+
 		finalCriticalHitCharacterStates = new LinkedHashMap<>();
-		finalCriticalHitCharacterStates.put(INITIATOR_ID, initiator); 
+		finalCriticalHitCharacterStates.put(INITIATOR_ID, initiator);
 		finalCriticalHitCharacterStates.put(TARGET_ID, targetFinalCriticalHitState);
 
 		initialBoardState = BoardState.builder().characterStates(initialCharacterStates).build();
@@ -82,12 +82,10 @@ public class AttackActionActivityProviderTest {
 		finalCriticalHitBoardState = BoardState.builder().characterStates(finalCriticalHitCharacterStates).build();
 
 		expectedMissActivity = AttackActionActivity.builder().damage(MISS_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(initialBoardState).initiatorId(INITIATOR_ID)
-				.targetId(TARGET_ID).build();
+				.finalBoardState(initialBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build();
 
 		expectedHitActivity = AttackActionActivity.builder().damage(HIT_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(finalHitBoardState).initiatorId(INITIATOR_ID)
-				.targetId(TARGET_ID).build();
+				.finalBoardState(finalHitBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build();
 
 		expectedCriticalHitActivity = AttackActionActivity.builder().damage(CRITICAL_HIT_DAMAGE)
 				.initialBoardState(initialBoardState).finalBoardState(finalCriticalHitBoardState)

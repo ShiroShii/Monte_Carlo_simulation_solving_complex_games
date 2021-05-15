@@ -6,7 +6,7 @@ import com.diplomski.common.character.BattleCharacterState;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class AttackActionActivityProvider extends AbstractActivityProvider{
+public class AttackActionActivityProvider extends AbstractActivityProvider {
 	private final IAttackRollOutcomeProvider attackRollOutcomeProvider;
 	private final IDamageProvider damageProvider;
 
@@ -18,7 +18,8 @@ public class AttackActionActivityProvider extends AbstractActivityProvider{
 		int damage;
 		BoardState finalBoardState;
 
-		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome((Weapon) weapon, initiator, target);
+		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome((Weapon) weapon, initiator,
+				target);
 
 		switch (attackRoleOutcome) {
 		case HIT: {

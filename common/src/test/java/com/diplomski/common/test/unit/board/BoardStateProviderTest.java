@@ -109,7 +109,7 @@ public class BoardStateProviderTest {
 
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
-		
+
 		when(diceProviderFactory.getD20()).thenReturn(diceMock);
 
 		when(turnProviderFactoryMock.getTurnProvider(eq(character1Id), any())).thenReturn(character1TurnProviderMock);

@@ -44,7 +44,7 @@ public class FunctionalTest {
 	}
 
 	public void serviceSetup() {
-		//attackRollOutcomeProvider = new AttackRollOutcomeProvider();
+		// attackRollOutcomeProvider = new AttackRollOutcomeProvider();
 		// damageProvider = new DamageProvider();
 		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProvider, damageProvider);
 		boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
@@ -67,5 +67,4 @@ public class FunctionalTest {
 				ROUND_COUNT_LIMIT);
 		simulationReportProvider.getReport(simulation);
 	}
-
 }

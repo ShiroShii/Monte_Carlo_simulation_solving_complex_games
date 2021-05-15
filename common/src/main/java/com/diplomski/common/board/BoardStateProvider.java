@@ -26,7 +26,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 
 		for (CharacterState initialCharacterState : characters) {
 			IDice dice = diceFactory.getD20();
-			//TODO: add Initiative Modifiers to initiative roll
+			// TODO: add Initiative Modifiers to initiative roll
 			int initiative = dice.getRoll() + initialCharacterState.getDexterity();
 
 			BattleCharacterState characterState = BattleCharacterState.builder().id(initialCharacterState.getId())
