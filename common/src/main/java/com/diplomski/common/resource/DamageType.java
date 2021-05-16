@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.resource;
 
 public enum DamageType {
 	ACID,
@@ -13,5 +13,5 @@ public enum DamageType {
 	PHYCHIC,
 	RADIANT,
 	SLASHING,
-	THUNDER
+	THUNDER;
 }

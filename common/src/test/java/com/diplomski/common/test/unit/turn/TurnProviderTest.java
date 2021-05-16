@@ -16,11 +16,11 @@ import org.junit.Test;
 
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
-import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
+import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.targeting.ITargetProvider;
 import com.diplomski.common.turn.Turn;
 import com.diplomski.common.turn.TurnProvider;
@@ -39,7 +39,7 @@ public class TurnProviderTest {
 
 	private final String INITIATOR_ID = "Initiator Id";
 	private final String TARGET_ID = "Target Id";
-	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_DAMAGE;
+	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final Party TARGET_PARTY = Party.ENEMY;
 	private BattleCharacterState initiator;
 	LinkedHashMap<String, BattleCharacterState> characters;

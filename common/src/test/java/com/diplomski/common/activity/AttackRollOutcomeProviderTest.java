@@ -11,6 +11,7 @@ import org.junit.Test;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
+import com.diplomski.common.resource.Weapon;
 
 public class AttackRollOutcomeProviderTest {
 	private final int FUMBLE = 1;

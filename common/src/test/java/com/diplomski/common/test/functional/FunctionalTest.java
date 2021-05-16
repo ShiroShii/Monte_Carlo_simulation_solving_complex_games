@@ -6,6 +6,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import com.diplomski.common.activity.AttackRollModifierProvider;
 import com.diplomski.common.activity.AttackRollOutcomeProvider;
 import com.diplomski.common.activity.IArmorClassProvider;
 import com.diplomski.common.activity.IAttackRollModifierProvider;
@@ -53,7 +54,7 @@ public class FunctionalTest {
 	public void serviceSetup() {
 		// damageProvider = new DamageProvider();
 		// armorClassProvider = new ArmorClassProvider();
-		// attackRoleModifierProvider = new AttackRoleModifierProvider();
+		attackRoleModifierProvider = new AttackRollModifierProvider();
 		attackRollOutcomeProvider = new AttackRollOutcomeProvider(attackRoleModifierProvider, armorClassProvider, diceFactory);
 		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProvider, damageProvider);
 		boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);

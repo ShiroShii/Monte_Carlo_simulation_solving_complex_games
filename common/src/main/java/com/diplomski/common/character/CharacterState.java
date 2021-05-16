@@ -2,8 +2,8 @@ package com.diplomski.common.character;
 
 import java.util.List;
 
-import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.Tile;
+import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.targeting.TargetingStyle;
 
 import lombok.Data;
@@ -19,6 +19,10 @@ public class CharacterState {
 	private int maxHp;
 	private int currentHp;
 	private int dexterity;
+	private int strengh;
+	private int constitution;
+	private int intellect;
+	private int wisdom;
 	private int exhaustionLevel;
 	private CharacterLevel level;
 	private CharacterClass characterClass;

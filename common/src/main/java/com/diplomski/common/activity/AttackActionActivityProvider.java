@@ -11,18 +11,19 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 	private final IDamageProvider damageProvider;
 
 	@Override
-	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState, IResource weapon) {
+	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState, IResource resource) {
 		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 		BattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
 
-		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider
-				.getAttackOutcome((Weapon) weapon, initiator, target);
+		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome(resource, initiator, target);
 
 		int damage = switch (attackRoleOutcome) {
-			case HIT -> damageProvider.getDamage((Weapon) weapon, initiator, target);
-			case CRITICAL_HIT -> damageProvider.getDamage((Weapon) weapon, initiator, target) * 2;
+			case HIT -> damageProvider.getDamage(resource, initiator, target);
+			case CRITICAL_HIT -> damageProvider.getDamage(resource, initiator, target) * 2;
 			default -> 0;
 		};
+
+		// TODO: remove thrown item
 
 		BoardState finalBoardState = switch (attackRoleOutcome) {
 			case HIT, CRITICAL_HIT -> {

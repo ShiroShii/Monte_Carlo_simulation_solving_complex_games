@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.resource;
 
 import com.diplomski.common.character.BattleCharacterState;
 

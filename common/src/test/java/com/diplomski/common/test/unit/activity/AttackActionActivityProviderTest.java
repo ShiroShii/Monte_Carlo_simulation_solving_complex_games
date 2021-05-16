@@ -16,10 +16,10 @@ import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.AttackRollOutcome;
 import com.diplomski.common.activity.IAttackRollOutcomeProvider;
 import com.diplomski.common.activity.IDamageProvider;
-import com.diplomski.common.activity.Weapon;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.resource.Weapon;
 
 public class AttackActionActivityProviderTest {
 	private IAttackRollOutcomeProvider attackRollOutcomeProviderMock = mock(IAttackRollOutcomeProvider.class);
