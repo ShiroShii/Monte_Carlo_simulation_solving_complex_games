@@ -9,12 +9,12 @@ public interface INavigator {
 	 * 
 	 * @return Returns empty optional if path is not found.
 	 */
-	public Optional<Integer> getUnobstructedTileDistance(Tile tile1, Tile tile2);
+	public Optional<Integer> getUnobstructedTileDistance(ITile tile1, ITile tile2);
 
 	/**
 	 * @return Speed cost of moving from initialTile to targetTile;
 	 */
-	public int getMovementCost(Tile initialTile, Tile targetTile, BoardState boardState);
+	public int getMovementCost(ITile initialTile, ITile targetTile, BoardState boardState);
 
 	/**
 	 * @param distanceFromTarget Set to 0 to move to the target tile. <br/>
@@ -23,5 +23,5 @@ public interface INavigator {
 	 *                           Set to required distance as negative number to move
 	 *                           away. <br/>
 	 */
-	public Tile moveTowardsTargetTile(Tile initialTile, Tile targetTile, int distanceFromTarget);
+	public ITile moveTowardsTargetTile(ITile initialTile, ITile targetTile, int distanceFromTarget);
 }

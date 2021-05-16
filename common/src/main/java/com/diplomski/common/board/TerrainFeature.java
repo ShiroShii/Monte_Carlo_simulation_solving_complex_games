@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class TerrainFeature {
-	private Tile tile;
+	private ITile tile;
 	private TerrainFeatureType terrainFeatureType;
 }

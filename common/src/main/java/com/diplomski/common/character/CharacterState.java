@@ -2,7 +2,7 @@ package com.diplomski.common.character;
 
 import java.util.List;
 
-import com.diplomski.common.board.Tile;
+import com.diplomski.common.board.ITile;
 import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.targeting.TargetingStyle;
 
@@ -27,7 +27,7 @@ public class CharacterState {
 	private CharacterLevel level;
 	private CharacterClass characterClass;
 	private List<Weapon> weapons;
-	private Tile tile;
+	private ITile tile;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 
