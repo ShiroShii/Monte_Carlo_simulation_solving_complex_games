@@ -29,11 +29,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 			// TODO: add Initiative Modifiers to initiative roll
 			int initiative = dice.getRoll() + initialCharacterState.getDexterity();
 
-			BattleCharacterState characterState = BattleCharacterState.builder().id(initialCharacterState.getId())
-					.currentHp(initialCharacterState.getCurrentHp()).dexterity(initialCharacterState.getDexterity())
-					.exhaustionLevel(initialCharacterState.getExhaustionLevel()).maxHp(initialCharacterState.getMaxHp())
-					.party(initialCharacterState.getParty()).tile(initialCharacterState.getTile())
-					.walkingSpeed(initialCharacterState.getWalkingSpeed()).usedWalkingSpeed(0).build();
+			BattleCharacterState characterState = BattleCharacterState.toBuilder(initialCharacterState).build();
 
 			initiatives.add(Map.entry(characterState, initiative));
 		}

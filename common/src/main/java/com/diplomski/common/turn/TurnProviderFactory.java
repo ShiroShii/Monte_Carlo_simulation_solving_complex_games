@@ -3,11 +3,12 @@ package com.diplomski.common.turn;
 import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.activity.IAttackRollOutcomeProvider;
-import com.diplomski.common.activity.IDamageProvider;
+import com.diplomski.common.activity.WalkMovemementActivityProvider;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
+import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.targeting.ITargetProvider;
 import com.diplomski.common.targeting.RoundRobinTargetProvider;
 
@@ -20,14 +21,14 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 
 	@Override
 	public ITurnProvider getTurnProvider(String initiatorId, BoardState boardState) {
-		BattleCharacterState character = boardState.getCharacterStates().get(initiatorId);
-		PlayStyle playStyle = character.getPlayStyle();
-		ITargetProvider targetProvider = switch (character.getTargetingStyle()) {
+		BattleCharacterState initiator = boardState.getCharacterStates().get(initiatorId);
+		PlayStyle playStyle = initiator.getPlayStyle();
+		ITargetProvider targetProvider = switch (initiator.getTargetingStyle()) {
 			default -> new RoundRobinTargetProvider();
 		};
 
 		IActivityProvider movementProvider = switch (playStyle) {
-			default -> null;
+			default -> new WalkMovemementActivityProvider();
 		};
 
 		IActivityProvider actionProvider = switch (playStyle) {
@@ -35,8 +36,8 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 		};
 
 		Party targetParty = switch (playStyle) {
-			case SUPPORT -> Party.PLAYER;
-			default -> Party.ENEMY;
+			case SUPPORT -> initiator.getParty();
+			default -> initiator.getParty().getOpponentParty();
 		};
 
 		return new TurnProvider(initiatorId, targetParty, targetProvider, movementProvider, actionProvider, playStyle);

@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class CharacterState {
 	private String id;
@@ -36,5 +36,12 @@ public class CharacterState {
 	public void takeDamage(int damage) {
 		currentHp -= damage;
 		currentHp = currentHp < 0 ? 0 : currentHp;
+	}
+
+	public abstract static class CharacterStateBuilder<C extends CharacterState, B extends CharacterState.CharacterStateBuilder<C, B>> {
+		protected B $fillValuesFromParent(CharacterState instance) {
+			$fillValuesFromInstanceIntoBuilder(instance, this);
+			return self();
+		}
 	}
 }

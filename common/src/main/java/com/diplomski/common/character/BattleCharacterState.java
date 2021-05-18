@@ -8,11 +8,15 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Data
-@SuperBuilder
+@SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class BattleCharacterState extends CharacterState {
 	private int usedWalkingSpeed;
 
 	private ITurnProvider turnProvider;
+	
+    public static BattleCharacterStateBuilder<?, ?> toBuilder(CharacterState characterState) {
+        return new BattleCharacterStateBuilderImpl().$fillValuesFromParent(characterState);
+    }
 }

@@ -2,10 +2,12 @@ package com.diplomski.common.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
 import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.Party;
 import com.diplomski.common.round.IRoundProvider;
 import com.diplomski.common.round.Round;
 
@@ -31,9 +33,18 @@ public class BattleProvider implements IBattleProvider {
 			roundInitialBoardState.resetSpeed();
 		} while (!roundInitialBoardState.isBattleComplete() || roundCountLimit == rounds.size());
 
-		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds)
-				.finalBoardState(rounds.isEmpty() ? initialBoardState
-						: rounds.get(rounds.size() - 1).getFinalBoardState())
-				.build();
+		BoardState finalBoardState = rounds.isEmpty() ? initialBoardState
+				: rounds.get(rounds.size() - 1).getFinalBoardState();
+
+		Optional<Party> winningParty = Optional.empty();
+
+		if (finalBoardState.getPartyHp(Party.ENEMY) == 0) {
+			winningParty = Optional.of(Party.PLAYER);
+		} else if (finalBoardState.getPartyHp(Party.PLAYER) == 0) {
+			winningParty = Optional.of(Party.ENEMY);
+		}
+
+		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds).finalBoardState(finalBoardState)
+				.winningParty(winningParty).isBattleComplete(winningParty.isPresent()).build();
 	}
 }

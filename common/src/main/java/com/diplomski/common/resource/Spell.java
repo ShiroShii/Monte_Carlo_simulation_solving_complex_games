@@ -1,11 +1,12 @@
 package com.diplomski.common.resource;
 
+import static com.diplomski.common.damage.DamageType.FIRE;
+import static com.diplomski.common.damage.DamageType.LIGHTNING;
 import static com.diplomski.common.resource.CombatStyle.MELEE;
 import static com.diplomski.common.resource.CombatStyle.RANGED;
-import static com.diplomski.common.resource.DamageType.FIRE;
-import static com.diplomski.common.resource.DamageType.LIGHTNING;
 
 import com.diplomski.common.activity.IResource;
+import com.diplomski.common.damage.DamageType;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

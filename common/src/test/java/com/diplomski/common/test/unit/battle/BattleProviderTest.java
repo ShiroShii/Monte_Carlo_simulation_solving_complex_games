@@ -12,6 +12,7 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -133,7 +134,7 @@ public class BattleProviderTest {
 		rounds = Arrays.asList(round1, round2);
 
 		expectedBattle = Battle.builder().initialBoardState(boardState1).finalBoardState(boardState3).rounds(rounds)
-				.build();
+				.winningParty(Optional.of(Party.PLAYER)).isBattleComplete(true).build();
 
 		when(boardStateProviderMock.getInitialBoardState(any())).thenReturn(boardState1);
 		when(roundProviderMock.getRound(any())).thenReturn(round1).thenReturn(round2);

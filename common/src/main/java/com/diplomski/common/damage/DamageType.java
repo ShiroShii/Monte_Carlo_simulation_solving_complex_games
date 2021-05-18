@@ -1,4 +1,4 @@
-package com.diplomski.common.resource;
+package com.diplomski.common.damage;
 
 public enum DamageType {
 	ACID,

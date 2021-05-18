@@ -1,6 +1,7 @@
 package com.diplomski.common.activity;
 
 import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.damage.IArmorClassProvider;
 import com.diplomski.common.dice.IDiceFactory;
 
 import lombok.AllArgsConstructor;

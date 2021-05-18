@@ -43,16 +43,19 @@ public class TurnProvider implements ITurnProvider {
 		Optional<String> targetIdOptional = targetProvider.getTargetId(initiatorId, targetParty, currentBoardState);
 
 		if (targetIdOptional.isPresent()) {
-
-			Activity movementActivity = movementProvider
+			Optional<Activity> movementActivity = movementProvider
 					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState);
-			currentBoardState = movementActivity.getFinalBoardState();
-			activities.add(movementActivity);
+			if (movementActivity.isPresent()) {
+				currentBoardState = movementActivity.get().getFinalBoardState();
+				activities.add(movementActivity.get());
+			}
 
-			Activity actionActivity = actionProvider
+			Optional<Activity> actionActivity = actionProvider
 					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, resource);
-			currentBoardState = actionActivity.getFinalBoardState();
-			activities.add(actionActivity);
+			if (actionActivity.isPresent()) {
+				currentBoardState = actionActivity.get().getFinalBoardState();
+				activities.add(actionActivity.get());
+			}
 		}
 
 		return Turn.builder().initiatorId(initiatorId).initialBoardState(initialBoardState)

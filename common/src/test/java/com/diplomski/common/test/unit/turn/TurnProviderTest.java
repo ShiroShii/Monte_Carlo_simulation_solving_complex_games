@@ -65,8 +65,9 @@ public class TurnProviderTest {
 		when(movementActivity.getFinalBoardState()).thenReturn(battleState2);
 		when(actionActivity.getFinalBoardState()).thenReturn(battleState3);
 
-		when(movementActivityProviderMock.getActivity(any(), any(), any())).thenReturn(movementActivity);
-		when(actionActivityProviderMock.getActivity(any(), any(), any(), any())).thenReturn(actionActivity);
+		when(movementActivityProviderMock.getActivity(any(), any(), any())).thenReturn(Optional.of(movementActivity));
+		when(actionActivityProviderMock.getActivity(any(), any(), any(), any()))
+				.thenReturn(Optional.of(actionActivity));
 
 		expectedActivities = Arrays.asList(movementActivity, actionActivity);
 

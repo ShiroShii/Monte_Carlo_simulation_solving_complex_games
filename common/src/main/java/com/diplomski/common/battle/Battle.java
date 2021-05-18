@@ -1,6 +1,7 @@
 package com.diplomski.common.battle;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.Party;
@@ -16,5 +17,5 @@ public class Battle {
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
 	private boolean isBattleComplete;
-	private Party winningParty;
+	private Optional<Party> winningParty;
 }

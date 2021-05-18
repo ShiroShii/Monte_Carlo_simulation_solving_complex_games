@@ -1,7 +1,10 @@
 package com.diplomski.common.activity;
 
+import java.util.Optional;
+
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.damage.IDamageProvider;
 
 import lombok.AllArgsConstructor;
 
@@ -11,7 +14,11 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 	private final IDamageProvider damageProvider;
 
 	@Override
-	public Activity getActivity(String initiatorId, String targetId, BoardState initialBoardState, IResource resource) {
+	public Optional<Activity> getActivity(
+			String initiatorId,
+			String targetId,
+			BoardState initialBoardState,
+			IResource resource) {
 		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 		BattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
 
@@ -34,8 +41,8 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 			default -> initialBoardState;
 		};
 
-		return AttackActionActivity.builder().initiatorId(initiatorId).targetId(targetId)
-				.initialBoardState(initialBoardState).finalBoardState(finalBoardState).damage(damage).build();
+		return Optional.of(AttackActionActivity.builder().initiatorId(initiatorId).targetId(targetId)
+				.initialBoardState(initialBoardState).finalBoardState(finalBoardState).damage(damage).build());
 	}
 
 }
