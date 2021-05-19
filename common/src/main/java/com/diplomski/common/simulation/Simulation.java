@@ -13,4 +13,6 @@ import lombok.Data;
 public class Simulation {
 	private List<Battle> battles;
 	private List<CharacterState> initialCharacterStates;
+	private int simulationCount;
+	private int roundCountLimit;
 }

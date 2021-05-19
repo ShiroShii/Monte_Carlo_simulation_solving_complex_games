@@ -1,14 +1,15 @@
 package com.diplomski.common.simulation;
 
+import java.util.HashMap;
+
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class PartySimulationReport {
-	private int winCount;
-	private int lossCount;
-
+	private HashMap<Integer, Float> winRateConvergence;
+	
 	private float minimumRemainingHpAfterWin;
 	private float medianRemainingHpAfterWin;
 	private float maximumRemainingHpAfterWin;

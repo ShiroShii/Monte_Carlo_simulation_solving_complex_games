@@ -46,7 +46,7 @@ public class SimulationProviderTest {
 
 		characterStates = new ArrayList<>();
 
-		expectedSimulation = Simulation.builder().battles(battles).initialCharacterStates(characterStates).build();
+		expectedSimulation = Simulation.builder().simulationCount(EXPECTED_BATTLE_COUNT).roundCountLimit(ROUND_COUNT_LIMIT).battles(battles).initialCharacterStates(characterStates).build();
 
 		when(battleProviderMock.getBattle(eq(characterStates), anyInt())).thenReturn(battle1).thenReturn(battle2)
 				.thenReturn(battle3);

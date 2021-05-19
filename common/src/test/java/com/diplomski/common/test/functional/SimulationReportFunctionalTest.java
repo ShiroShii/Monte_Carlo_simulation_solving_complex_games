@@ -40,6 +40,7 @@ import com.diplomski.common.simulation.ISimulationProvider;
 import com.diplomski.common.simulation.ISimulationReportProvider;
 import com.diplomski.common.simulation.Simulation;
 import com.diplomski.common.simulation.SimulationProvider;
+import com.diplomski.common.simulation.SimulationReportProvider;
 import com.diplomski.common.targeting.TargetingStyle;
 import com.diplomski.common.turn.ITurnProviderFactory;
 import com.diplomski.common.turn.TurnProviderFactory;
@@ -47,7 +48,7 @@ import com.diplomski.common.turn.TurnProviderFactory;
 import lombok.NonNull;
 
 public class SimulationReportFunctionalTest {
-	private final int NUMBER_OF_SIMULATIONS = 100;
+	private final int SIMULATION_COUNT = 100;
 	private final int ROUND_COUNT_LIMIT = 5;
 	private final int PLAYER_TILE_ID = 1;
 	private final int ENEMY_TILE_ID = 2;
@@ -118,7 +119,7 @@ public class SimulationReportFunctionalTest {
 		roundProvider = new RoundProvider();
 		battleProvider = new BattleProvider(boardStateProvider, roundProvider);
 		simulationProvider = new SimulationProvider(battleProvider);
-		// simulationReportProvider = new SimulationReportProvider(simulationProvider);
+		simulationReportProvider = new SimulationReportProvider();
 	}
 
 	@Before
@@ -130,15 +131,15 @@ public class SimulationReportFunctionalTest {
 	@Test
 	public void generateSimulationReport() {
 		Simulation simulation = simulationProvider
-				.getSimulation(initialCharacterStates, NUMBER_OF_SIMULATIONS, ROUND_COUNT_LIMIT);
+				.getSimulation(initialCharacterStates, SIMULATION_COUNT, ROUND_COUNT_LIMIT);
 
 		assertNotNull(simulation);
-		assertEquals(NUMBER_OF_SIMULATIONS, simulation.getBattles().size());
+		assertEquals(SIMULATION_COUNT, simulation.getBattles().size());
 
 		int playerWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.PLAYER)).toArray().length;
 
-		assertNotEquals("Player always wins.", NUMBER_OF_SIMULATIONS, playerWins);
+		assertNotEquals("Player always wins.", SIMULATION_COUNT, playerWins);
 		assertNotEquals("Enemy always wins.", 0, playerWins);
 		// simulationReportProvider.getReport(simulation);
 	}

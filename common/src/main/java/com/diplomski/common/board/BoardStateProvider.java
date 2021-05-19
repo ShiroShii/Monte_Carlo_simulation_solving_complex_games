@@ -13,9 +13,9 @@ import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.turn.ITurnProvider;
 import com.diplomski.common.turn.ITurnProviderFactory;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class BoardStateProvider implements IBoardStateProvider {
 	private final ITurnProviderFactory turnProviderFactory;
 	private final IDiceFactory diceFactory;

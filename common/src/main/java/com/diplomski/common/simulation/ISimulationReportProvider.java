@@ -1,5 +1,5 @@
 package com.diplomski.common.simulation;
 
 public interface ISimulationReportProvider {
-	public SimulationReport getReport(Simulation simulation);
+	public SimulationReport getSimulationReport(Simulation simulation);
 }

@@ -26,7 +26,8 @@ public class SimulationProvider implements ISimulationProvider {
 			battles.add(battleProvider.getBattle(initialCharacterState, roundCountLimit));
 		}
 
-		return Simulation.builder().battles(battles).initialCharacterStates(initialCharacterState).build();
+		return Simulation.builder().simulationCount(simulationCount)
+				.roundCountLimit(roundCountLimit).battles(battles).initialCharacterStates(initialCharacterState).build();
 	}
 
 }

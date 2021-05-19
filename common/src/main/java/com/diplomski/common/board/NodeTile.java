@@ -1,6 +1,7 @@
 package com.diplomski.common.board;
 
 import java.util.HashSet;
+import java.util.Optional;
 
 import lombok.Builder;
 import lombok.Data;
@@ -10,4 +11,5 @@ import lombok.Data;
 public class NodeTile implements ITile {
 	private int id;
 	private HashSet<NodeTile> reachableTiles;
+	private Optional<TerrainFeature> terrainType;
 }

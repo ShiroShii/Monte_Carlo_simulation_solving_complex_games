@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "c43c404a-62a5-4472-a688-36e027b358bb",
+		"name": "Diplomski",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Simulation",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"simulationCount\":200,\r\n    \"roundCountLimit\":5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/simulation/d36c2d2d-7aea-403a-b45b-9509566f97a3/simulate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"simulation",
+						"d36c2d2d-7aea-403a-b45b-9509566f97a3",
+						"simulate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

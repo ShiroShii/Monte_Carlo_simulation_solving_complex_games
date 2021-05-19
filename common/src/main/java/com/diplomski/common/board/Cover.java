@@ -1,8 +1,8 @@
 package com.diplomski.common.board;
 
 public enum Cover {
-	NONE,
-	HALF,
-	THREE_QUARTER,
-	FULL;
+	NO_COVER,
+	HALF_COVER,
+	THREE_QUARTER_COVER,
+	FULL_COVER;
 }

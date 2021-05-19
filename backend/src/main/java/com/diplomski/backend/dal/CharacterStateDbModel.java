@@ -1,15 +1,18 @@
 package com.diplomski.backend.dal;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.GenericGenerator;
 
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.TargetingStyle;
@@ -20,9 +23,14 @@ import lombok.Data;
 @Table(name = "CharacterState")
 @Data
 public class CharacterStateDbModel {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(
+        name = "UUID",
+        strategy = "org.hibernate.id.UUIDGenerator"
+    )
+    @Column(name = "id", updatable = false, nullable = false)
+    private UUID id;
 
 	@Column(nullable = false)
 	private int currentHp;

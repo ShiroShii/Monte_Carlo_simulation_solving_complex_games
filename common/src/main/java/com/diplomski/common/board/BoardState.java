@@ -1,7 +1,5 @@
 package com.diplomski.common.board;
 
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
 
 import com.diplomski.common.character.BattleCharacterState;
@@ -14,8 +12,6 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class BoardState {
 	private LinkedHashMap<String, BattleCharacterState> characterStates;
-	private HashMap<ITile, TerrainFeature> terainFeatures;
-	private HashSet<ITile> obsticles;
 
 	public int getPartyHp(Party party) {
 		return characterStates.values().stream().filter(x -> x.getParty().equals(party)).mapToInt(x -> x.getCurrentHp())
