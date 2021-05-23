@@ -9,4 +9,5 @@ import com.diplomski.backend.dal.CharacterStateDbModel;
 
 public interface CharacterStateRepository extends CrudRepository<CharacterStateDbModel, Integer> {
 	public Optional<CharacterStateDbModel> findById(UUID id);
+	public void deleteById(UUID id);
 }

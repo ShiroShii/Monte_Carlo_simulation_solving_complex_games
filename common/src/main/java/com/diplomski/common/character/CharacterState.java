@@ -23,6 +23,7 @@ public class CharacterState {
 	private int constitution;
 	private int intellect;
 	private int wisdom;
+	private int armorClass;
 	private int exhaustionLevel;
 	private CharacterLevel level;
 	private CharacterClass characterClass;

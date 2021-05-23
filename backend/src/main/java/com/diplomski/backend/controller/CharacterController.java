@@ -3,10 +3,10 @@ package com.diplomski.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.diplomski.backend.service.CharacterModelService;
+import com.diplomski.backend.service.CharacterService;
 
 @Controller
-public class CharacterModelController {
+public class CharacterController {
 	@Autowired
-	private CharacterModelService characterModelService;
+	private CharacterService characterService;
 }

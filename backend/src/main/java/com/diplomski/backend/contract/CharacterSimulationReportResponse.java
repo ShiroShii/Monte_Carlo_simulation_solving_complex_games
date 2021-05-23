@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PartySimulationReportResponse {
-	private HashMap<Integer, Float> winRateConvergence;
+public class CharacterSimulationReportResponse {
+	private HashMap<Integer, Float> remainingHealthConvergence;
+	private HashMap<Integer, Float> deathRateConvergence;
 }

@@ -2,6 +2,7 @@ package com.diplomski.common.activity;
 
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.resource.CombatStyle;
+import com.diplomski.common.resource.IResource;
 import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.resource.WeaponProperty;
 

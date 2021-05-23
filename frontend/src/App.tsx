@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import SimulationCreationPage from './components/pages/SimulationCreationPage';
 import SimulationDetailsPage from './components/pages/SimulationDetailsPage';

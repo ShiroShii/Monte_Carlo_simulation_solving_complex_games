@@ -1,7 +1,7 @@
 package com.diplomski.common.damage;
 
-import com.diplomski.common.activity.IResource;
 import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.resource.IResource;
 
 public class DamageProvider implements IDamageProvider {
 

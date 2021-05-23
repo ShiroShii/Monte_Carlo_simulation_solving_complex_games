@@ -1,5 +1,6 @@
 package com.diplomski.backend.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -15,9 +16,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class BoardService {
 	@Autowired
-	private final RepositoryProvider unitOfWork;
-	
+	private final RepositoryProvider repositoryProvider;
+
 	public Optional<NodeBoardDbModel> getBoard(UUID id) {
-		return unitOfWork.getNodeBoardRepository().findById(id);
+		return repositoryProvider.getNodeBoardRepository().findById(id);
+	}
+	
+	public List<NodeBoardDbModel> getAllBoards(){
+		return repositoryProvider.getNodeBoardRepository().findAll();
+	}
+
+	public void deleteBoard(UUID id) {
+		repositoryProvider.getNodeBoardRepository().deleteById(id);
 	}
 }

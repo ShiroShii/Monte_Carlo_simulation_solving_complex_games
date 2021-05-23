@@ -17,11 +17,13 @@ import org.hibernate.annotations.GenericGenerator;
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "CharacterModel")
 @Data
+@Builder
 public class CharacterModelDbModel {
     @Id
     @GeneratedValue(generator = "UUID")

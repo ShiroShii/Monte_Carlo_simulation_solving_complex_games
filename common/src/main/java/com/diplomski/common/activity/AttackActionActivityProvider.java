@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.damage.IDamageProvider;
+import com.diplomski.common.resource.IResource;
 
 import lombok.AllArgsConstructor;
 

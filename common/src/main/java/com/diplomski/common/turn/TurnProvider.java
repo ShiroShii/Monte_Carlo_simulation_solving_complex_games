@@ -6,11 +6,11 @@ import java.util.Optional;
 
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
-import com.diplomski.common.activity.IResource;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
+import com.diplomski.common.resource.IResource;
 import com.diplomski.common.resource.WeaponCategory;
 import com.diplomski.common.targeting.ITargetProvider;
 

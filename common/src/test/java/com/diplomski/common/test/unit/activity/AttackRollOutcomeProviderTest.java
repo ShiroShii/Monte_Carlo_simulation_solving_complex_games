@@ -11,11 +11,11 @@ import org.junit.Test;
 import com.diplomski.common.activity.AttackRollOutcome;
 import com.diplomski.common.activity.AttackRollOutcomeProvider;
 import com.diplomski.common.activity.IAttackRollModifierProvider;
-import com.diplomski.common.activity.IResource;
 import com.diplomski.common.character.BattleCharacterState;
 import com.diplomski.common.damage.IArmorClassProvider;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
+import com.diplomski.common.resource.IResource;
 import com.diplomski.common.resource.Weapon;
 
 public class AttackRollOutcomeProviderTest {

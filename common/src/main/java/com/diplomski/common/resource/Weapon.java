@@ -9,7 +9,6 @@ import static com.diplomski.common.resource.WeaponProperty.THROWN;
 
 import java.util.EnumSet;
 
-import com.diplomski.common.activity.IResource;
 import com.diplomski.common.damage.DamageType;
 
 import lombok.AllArgsConstructor;

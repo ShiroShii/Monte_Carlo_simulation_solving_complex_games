@@ -6,8 +6,6 @@ public class ArmorClassProvider implements IArmorClassProvider {
 
 	@Override
 	public int getArmorClass(BattleCharacterState target) {
-		// TODO: Implement ArmorClassProvider getArmorClass
-		return 15;
+		return target.getArmorClass();
 	}
-
 }

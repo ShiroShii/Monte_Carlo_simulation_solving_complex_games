@@ -1,5 +1,6 @@
 package com.diplomski.backend.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -9,4 +10,7 @@ import com.diplomski.backend.dal.BoardStateDbModel;
 
 public interface BoardStateRepository extends CrudRepository<BoardStateDbModel, Integer> {
 	public Optional<BoardStateDbModel> findById(UUID id);
+	public void deleteById(UUID id);
+    @Override
+    List<BoardStateDbModel> findAll();
 }

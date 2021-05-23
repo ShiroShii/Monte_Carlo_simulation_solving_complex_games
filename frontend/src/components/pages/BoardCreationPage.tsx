@@ -1,5 +1,3 @@
-import React from 'react';
-
 function BoardCreationPage(){
     return(
         <p>Board Creation Page</p>
