@@ -11,12 +11,12 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class BattleCharacterState extends CharacterState {
+public class BattlePlayerCharacterState extends CharacterState implements IBattleCharacterState{
 	private int usedWalkingSpeed;
 
 	private ITurnProvider turnProvider;
 	
-    public static BattleCharacterStateBuilder<?, ?> toBuilder(CharacterState characterState) {
-        return new BattleCharacterStateBuilderImpl().$fillValuesFromParent(characterState);
+    public static BattlePlayerCharacterStateBuilder<?, ?> toBuilder(CharacterState characterState) {
+        return new BattlePlayerCharacterStateBuilderImpl().$fillValuesFromParent(characterState);
     }
 }

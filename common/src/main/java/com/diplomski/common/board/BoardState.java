@@ -2,7 +2,7 @@ package com.diplomski.common.board;
 
 import java.util.LinkedHashMap;
 
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class BoardState {
-	private LinkedHashMap<String, BattleCharacterState> characterStates;
+	private LinkedHashMap<String, IBattleCharacterState> characterStates;
 
 	public int getPartyHp(Party party) {
 		return characterStates.values().stream().filter(x -> x.getParty().equals(party)).mapToInt(x -> x.getCurrentHp())
@@ -19,7 +19,7 @@ public class BoardState {
 	}
 
 	public void resetSpeed() {
-		for (BattleCharacterState characterState : characterStates.values()) {
+		for (IBattleCharacterState characterState : characterStates.values()) {
 			characterState.setUsedWalkingSpeed(0);
 		}
 	}

@@ -5,7 +5,7 @@ import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.activity.IAttackRollOutcomeProvider;
 import com.diplomski.common.activity.WalkMovemementActivityProvider;
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.damage.IDamageProvider;
@@ -21,7 +21,7 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 
 	@Override
 	public ITurnProvider getTurnProvider(String initiatorId, BoardState boardState) {
-		BattleCharacterState initiator = boardState.getCharacterStates().get(initiatorId);
+		IBattleCharacterState initiator = boardState.getCharacterStates().get(initiatorId);
 		PlayStyle playStyle = initiator.getPlayStyle();
 		ITargetProvider targetProvider = switch (initiator.getTargetingStyle()) {
 			default -> new RoundRobinTargetProvider();

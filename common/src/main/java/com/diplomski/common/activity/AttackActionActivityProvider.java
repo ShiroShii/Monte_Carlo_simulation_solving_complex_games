@@ -3,7 +3,8 @@ package com.diplomski.common.activity;
 import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.resource.IResource;
 
@@ -20,8 +21,8 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 			String targetId,
 			BoardState initialBoardState,
 			IResource resource) {
-		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
-		BattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
+		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
+		IBattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);
 
 		AttackRollOutcome attackRoleOutcome = attackRollOutcomeProvider.getAttackOutcome(resource, initiator, target);
 

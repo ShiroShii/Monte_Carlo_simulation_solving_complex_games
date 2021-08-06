@@ -18,8 +18,9 @@ import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.BoardStateProvider;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
 import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
@@ -53,9 +54,9 @@ public class BoardStateProviderTest {
 	private int character2MaxHp = 11;
 	private int character3MaxHp = 12;
 
-	private BattleCharacterState character1;
-	private BattleCharacterState character2;
-	private BattleCharacterState character3;
+	private BattlePlayerCharacterState character1;
+	private BattlePlayerCharacterState character2;
+	private BattlePlayerCharacterState character3;
 
 	private CharacterState character1InitialState;
 	private CharacterState character2InitialState;
@@ -66,7 +67,7 @@ public class BoardStateProviderTest {
 	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
 
 	private List<CharacterState> initialCharacterStateList;
-	private LinkedHashMap<String, BattleCharacterState> expectedCharacterStateList;
+	private LinkedHashMap<String, IBattleCharacterState> expectedCharacterStateList;
 	private BoardState expectedBoardState;
 
 	private BoardStateProvider unitUnderTest;
@@ -85,15 +86,15 @@ public class BoardStateProviderTest {
 				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).build();
 
-		character1 = BattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
+		character1 = BattlePlayerCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
 				.maxHp(character1MaxHp).dexterity(character1dexterity).exhaustionLevel(character1ExhaustionLevel)
 				.party(character1Party).turnProvider(character1TurnProviderMock).build();
 
-		character2 = BattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
+		character2 = BattlePlayerCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
 				.maxHp(character2MaxHp).dexterity(character2dexterity).exhaustionLevel(character2ExhaustionLevel)
 				.party(character2Party).turnProvider(character2TurnProviderMock).build();
 
-		character3 = BattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
+		character3 = BattlePlayerCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
 				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
 				.party(character3Party).turnProvider(character3TurnProviderMock).build();
 

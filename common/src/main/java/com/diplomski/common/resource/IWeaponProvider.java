@@ -1,7 +1,7 @@
 package com.diplomski.common.resource;
 
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
 
 public interface IWeaponProvider {
-	public Weapon getWeapon(BattleCharacterState characterState);
+	public Weapon getWeapon(BattlePlayerCharacterState characterState);
 }

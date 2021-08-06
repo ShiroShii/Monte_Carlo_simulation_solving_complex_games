@@ -1,6 +1,7 @@
 package com.diplomski.common.activity;
 
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.resource.CombatStyle;
 import com.diplomski.common.resource.IResource;
 import com.diplomski.common.resource.Weapon;
@@ -11,7 +12,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AttackRollModifierProvider implements IAttackRollModifierProvider {
 	@Override
-	public int getAttackRollModifier(IResource resource, BattleCharacterState initiator) {
+	public int getAttackRollModifier(IResource resource, IBattleCharacterState initiator) {
 		int modifier = 0;
 		// TODO: Spell modifiers
 		// TODO: Check distance
@@ -28,7 +29,7 @@ public class AttackRollModifierProvider implements IAttackRollModifierProvider {
 					if (shouldUseDexterityForMeleeWeapon(weapon, initiator)) {
 						modifier += initiator.getDexterity();
 					} else {
-						modifier += initiator.getStrengh();
+						modifier += initiator.getStrength();
 					}
 
 					break;
@@ -49,7 +50,7 @@ public class AttackRollModifierProvider implements IAttackRollModifierProvider {
 					if (shouldUseDexterity) {
 						modifier += initiator.getDexterity();
 					} else {
-						modifier += initiator.getStrengh();
+						modifier += initiator.getStrength();
 					}
 
 					break;
@@ -62,9 +63,9 @@ public class AttackRollModifierProvider implements IAttackRollModifierProvider {
 		return modifier;
 	}
 
-	private boolean shouldUseDexterityForMeleeWeapon(Weapon weapon, BattleCharacterState initiator) {
+	private boolean shouldUseDexterityForMeleeWeapon(Weapon weapon, IBattleCharacterState initiator) {
 		return weapon.getProperties().contains(WeaponProperty.FINESSE)
-				&& initiator.getDexterity() > initiator.getStrengh();
+				&& initiator.getDexterity() > initiator.getStrength();
 
 	}
 }

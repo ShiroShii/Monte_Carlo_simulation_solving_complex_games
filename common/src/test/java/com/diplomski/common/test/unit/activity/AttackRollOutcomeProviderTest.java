@@ -11,7 +11,7 @@ import org.junit.Test;
 import com.diplomski.common.activity.AttackRollOutcome;
 import com.diplomski.common.activity.AttackRollOutcomeProvider;
 import com.diplomski.common.activity.IAttackRollModifierProvider;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
 import com.diplomski.common.damage.IArmorClassProvider;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
@@ -27,8 +27,8 @@ public class AttackRollOutcomeProviderTest {
 	private final int ATTACK_ROLL_MODIFIER = 5;
 
 	private final IResource RESOURCE = Weapon.CLUB;
-	private BattleCharacterState initiator;
-	private BattleCharacterState target;
+	private BattlePlayerCharacterState initiator;
+	private BattlePlayerCharacterState target;
 
 	private IAttackRollModifierProvider attackRollModifierProviderMock = mock(IAttackRollModifierProvider.class);
 	private IArmorClassProvider armorClassProviderMock = mock(IArmorClassProvider.class);
@@ -39,8 +39,8 @@ public class AttackRollOutcomeProviderTest {
 
 	@Before
 	public void setup() {
-		initiator = BattleCharacterState.builder().build();
-		target = BattleCharacterState.builder().build();
+		initiator = BattlePlayerCharacterState.builder().build();
+		target = BattlePlayerCharacterState.builder().build();
 		when(attackRollModifierProviderMock.getAttackRollModifier(any(), any())).thenReturn(ATTACK_ROLL_MODIFIER);
 		when(armorClassProviderMock.getArmorClass(any())).thenReturn(ARMOR_CLASS);
 		when(diceFactoryMock.getD20()).thenReturn(diceMock);

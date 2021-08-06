@@ -1,6 +1,7 @@
 package com.diplomski.common.activity;
 
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.damage.IArmorClassProvider;
 import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.resource.IResource;
@@ -17,8 +18,8 @@ public class AttackRollOutcomeProvider implements IAttackRollOutcomeProvider {
 	@Override
 	public AttackRollOutcome getAttackOutcome(
 			@NonNull IResource resource,
-			@NonNull BattleCharacterState initiator,
-			@NonNull BattleCharacterState target) {
+			@NonNull IBattleCharacterState initiator,
+			@NonNull IBattleCharacterState target) {
 		// TODO: Check for disadvantage
 		int d20Role = diceFactory.getD20().getRoll();
 

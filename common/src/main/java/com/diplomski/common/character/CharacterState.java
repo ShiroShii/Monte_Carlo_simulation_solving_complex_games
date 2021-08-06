@@ -19,7 +19,7 @@ public class CharacterState {
 	private int maxHp;
 	private int currentHp;
 	private int dexterity;
-	private int strengh;
+	private int strength;
 	private int constitution;
 	private int intellect;
 	private int wisdom;

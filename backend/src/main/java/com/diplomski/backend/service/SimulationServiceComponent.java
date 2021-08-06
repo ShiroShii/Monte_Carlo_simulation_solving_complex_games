@@ -23,8 +23,8 @@ import com.diplomski.common.targeting.TargetingStyle;
 
 @Component
 public class SimulationServiceComponent {
-	private final int PLAYER_TILE_ID = 1;
-	private final int ENEMY_TILE_ID = 2;
+	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
+	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final String PLAYER_ID = "Player Id";
 	private final String ENEMY_ID = "Enemy Id";
 	private final int PLAYER_INITIAL_HP = 30;
@@ -56,12 +56,12 @@ public class SimulationServiceComponent {
 		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(playerTile)));
 
 		CharacterState playerCharacterState = CharacterState.builder().id(PLAYER_ID).tile(playerTile)
-				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strengh(PLAYER_STRENGTH)
+				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH)
 				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE).weapons(Arrays.asList(Weapon.CLUB))
 				.level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
 		CharacterState enemyCharacterState = CharacterState.builder().id(ENEMY_ID).tile(enemyTile)
-				.dexterity(ENEMY_DEXTERITY).currentHp(ENEMY_INITIAL_HP).party(ENEMY).strengh(ENEMY_STRENGTH)
+				.dexterity(ENEMY_DEXTERITY).currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH)
 				.playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).weapons(Arrays.asList(Weapon.CLUB))
 				.level(ENEMY_LEVEL).characterClass(ENEMY_CLASS).build();
 

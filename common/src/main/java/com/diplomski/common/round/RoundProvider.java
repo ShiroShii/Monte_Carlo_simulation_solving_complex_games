@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.turn.Turn;
 
 import lombok.AllArgsConstructor;
@@ -21,7 +21,7 @@ public class RoundProvider implements IRoundProvider {
 				break;
 			}
 
-			BattleCharacterState characterState = currentBoardState.getCharacterStates().get(characterId);
+			IBattleCharacterState characterState = currentBoardState.getCharacterStates().get(characterId);
 
 			if (characterState.getCurrentHp() == 0) {
 				continue;

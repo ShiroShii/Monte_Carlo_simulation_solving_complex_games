@@ -7,7 +7,7 @@ import java.util.Optional;
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.resource.IResource;
@@ -32,7 +32,7 @@ public class TurnProvider implements ITurnProvider {
 	public Turn getTurn(BoardState initialBoardState) {
 		BoardState currentBoardState = initialBoardState;
 		List<Activity> activities = new ArrayList<>();
-		BattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
+		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
 		IResource resource = switch (playStyle) {
 			default -> initiator.getWeapons().stream()

@@ -17,7 +17,8 @@ import org.junit.Test;
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattleCharacterState;
+import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.resource.Weapon;
@@ -41,8 +42,8 @@ public class TurnProviderTest {
 	private final String TARGET_ID = "Target Id";
 	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final Party TARGET_PARTY = Party.ENEMY;
-	private BattleCharacterState initiator;
-	LinkedHashMap<String, BattleCharacterState> characters;
+	private BattlePlayerCharacterState initiator;
+	LinkedHashMap<String, IBattleCharacterState> characters;
 
 	private List<Weapon> weapons;
 	private List<Activity> expectedActivities;
@@ -54,7 +55,7 @@ public class TurnProviderTest {
 	@Before
 	public void setup() {
 		weapons = Arrays.asList(Weapon.CLUB);
-		initiator = BattleCharacterState.builder().id(INITIATOR_ID).weapons(weapons).build();
+		initiator = BattlePlayerCharacterState.builder().id(INITIATOR_ID).weapons(weapons).build();
 		characters = new LinkedHashMap<>();
 		characters.put(INITIATOR_ID, initiator);
 
