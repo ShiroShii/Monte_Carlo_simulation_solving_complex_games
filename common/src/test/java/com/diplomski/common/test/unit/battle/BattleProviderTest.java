@@ -21,10 +21,10 @@ import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
-import com.diplomski.common.character.BattlePlayerCharacterState;
-import com.diplomski.common.character.CharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
+import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.round.IRoundProvider;
 import com.diplomski.common.round.Round;
 
@@ -50,17 +50,17 @@ public class BattleProviderTest {
 	private int boardState2character3CurrentHp = 25;
 	private int boardState3character3CurrentHp = 0;
 
-	private BattlePlayerCharacterState boardState1character1;
-	private BattlePlayerCharacterState boardState2character1;
-	private BattlePlayerCharacterState boardState3character1;
-	private BattlePlayerCharacterState boardState1character2;
-	private BattlePlayerCharacterState boardState2character2;
-	private BattlePlayerCharacterState boardState3character2;
-	private BattlePlayerCharacterState boardState1character3;
-	private BattlePlayerCharacterState boardState2character3;
-	private BattlePlayerCharacterState boardState3character3;
+	private PlayerBattleCharacterState boardState1character1;
+	private PlayerBattleCharacterState boardState2character1;
+	private PlayerBattleCharacterState boardState3character1;
+	private PlayerBattleCharacterState boardState1character2;
+	private PlayerBattleCharacterState boardState2character2;
+	private PlayerBattleCharacterState boardState3character2;
+	private PlayerBattleCharacterState boardState1character3;
+	private PlayerBattleCharacterState boardState2character3;
+	private PlayerBattleCharacterState boardState3character3;
 
-	private List<CharacterState> initialCharacterStates;
+	private List<ICharacterState> initialCharacterStates;
 	private LinkedHashMap<String, IBattleCharacterState> boardState1CharacterStates;
 	private LinkedHashMap<String, IBattleCharacterState> boardState2CharacterStates;
 	private LinkedHashMap<String, IBattleCharacterState> boardState3CharacterStates;
@@ -79,13 +79,13 @@ public class BattleProviderTest {
 
 	@Before
 	public void setup() {
-		boardState1character1 = BattlePlayerCharacterState.builder().id(character1Id)
+		boardState1character1 = PlayerBattleCharacterState.builder().id(character1Id)
 				.currentHp(boardState1character1CurrentHp).party(character1Party).build();
 
-		boardState1character2 = BattlePlayerCharacterState.builder().id(character2Id)
+		boardState1character2 = PlayerBattleCharacterState.builder().id(character2Id)
 				.currentHp(boardState1character2CurrentHp).party(character2Party).build();
 
-		boardState1character3 = BattlePlayerCharacterState.builder().id(character3Id)
+		boardState1character3 = PlayerBattleCharacterState.builder().id(character3Id)
 				.currentHp(boardState1character3CurrentHp).party(character3Party).build();
 
 		initialCharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
@@ -97,13 +97,13 @@ public class BattleProviderTest {
 
 		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
 
-		boardState2character1 = BattlePlayerCharacterState.builder().id(character1Id)
+		boardState2character1 = PlayerBattleCharacterState.builder().id(character1Id)
 				.currentHp(boardState2character1CurrentHp).party(character1Party).build();
 
-		boardState2character2 = BattlePlayerCharacterState.builder().id(character2Id)
+		boardState2character2 = PlayerBattleCharacterState.builder().id(character2Id)
 				.currentHp(boardState2character2CurrentHp).party(character2Party).build();
 
-		boardState2character3 = BattlePlayerCharacterState.builder().id(character3Id)
+		boardState2character3 = PlayerBattleCharacterState.builder().id(character3Id)
 				.currentHp(boardState2character3CurrentHp).party(character3Party).build();
 
 		boardState2CharacterStates = new LinkedHashMap<>();
@@ -113,13 +113,13 @@ public class BattleProviderTest {
 
 		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
 
-		boardState3character1 = BattlePlayerCharacterState.builder().id(character1Id)
+		boardState3character1 = PlayerBattleCharacterState.builder().id(character1Id)
 				.currentHp(boardState3character1CurrentHp).party(character1Party).build();
 
-		boardState3character2 = BattlePlayerCharacterState.builder().id(character2Id)
+		boardState3character2 = PlayerBattleCharacterState.builder().id(character2Id)
 				.currentHp(boardState3character2CurrentHp).party(character2Party).build();
 
-		boardState3character3 = BattlePlayerCharacterState.builder().id(character3Id)
+		boardState3character3 = PlayerBattleCharacterState.builder().id(character3Id)
 				.currentHp(boardState3character3CurrentHp).party(character3Party).build();
 
 		boardState3CharacterStates = new LinkedHashMap<>();

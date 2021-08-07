@@ -3,7 +3,7 @@ package com.diplomski.common.simulation;
 import java.util.List;
 
 import com.diplomski.common.battle.Battle;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +12,7 @@ import lombok.Data;
 @Builder
 public class Simulation {
 	private List<Battle> battles;
-	private List<CharacterState> initialCharacterStates;
+	private List<ICharacterState> initialCharacterStates;
 	private int simulationCount;
 	private int roundCountLimit;
 }

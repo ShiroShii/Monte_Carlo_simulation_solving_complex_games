@@ -2,28 +2,26 @@ package com.diplomski.common.turn;
 
 import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.IActivityProvider;
-import com.diplomski.common.activity.IAttackRollOutcomeProvider;
+import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
 import com.diplomski.common.activity.WalkMovemementActivityProvider;
-import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.IBattleCharacterState;
+import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.targeting.ITargetProvider;
 import com.diplomski.common.targeting.RoundRobinTargetProvider;
+import com.diplomski.common.targeting.TargetingStyle;
 
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class TurnProviderFactory implements ITurnProviderFactory {
-	private IAttackRollOutcomeProvider attackRollOutcomeProvider;
+	private IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory;
 	private IDamageProvider damageProvider;
 
 	@Override
-	public ITurnProvider getTurnProvider(String initiatorId, BoardState boardState) {
-		IBattleCharacterState initiator = boardState.getCharacterStates().get(initiatorId);
-		PlayStyle playStyle = initiator.getPlayStyle();
-		ITargetProvider targetProvider = switch (initiator.getTargetingStyle()) {
+	public ITurnProvider getTurnProvider(String id, Party party, PlayStyle playStyle, TargetingStyle targetingStyle, CharacterType characterType) {
+		ITargetProvider targetProvider = switch (targetingStyle) {
 			default -> new RoundRobinTargetProvider();
 		};
 
@@ -31,16 +29,14 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 			default -> new WalkMovemementActivityProvider();
 		};
 
-		IActivityProvider actionProvider = switch (playStyle) {
-			default -> new AttackActionActivityProvider(attackRollOutcomeProvider, damageProvider);
-		};
+		IActivityProvider actionProvider =  new AttackActionActivityProvider(attackRollOutcomeProviderFactory.getAttackRollOutcomeProvider(characterType, playStyle), damageProvider);
 
 		Party targetParty = switch (playStyle) {
-			case SUPPORT -> initiator.getParty();
-			default -> initiator.getParty().getOpponentParty();
+			case SUPPORT -> party;
+			default -> party.getOpponentParty();
 		};
 
-		return new TurnProvider(initiatorId, targetParty, targetProvider, movementProvider, actionProvider, playStyle);
+		return new TurnProvider(id, targetParty, targetProvider, movementProvider, actionProvider, playStyle);
 	}
 
 }

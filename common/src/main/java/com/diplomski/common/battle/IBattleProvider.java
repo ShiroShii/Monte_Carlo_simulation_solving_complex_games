@@ -2,8 +2,8 @@ package com.diplomski.common.battle;
 
 import java.util.List;
 
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 
 public interface IBattleProvider {
-	public Battle getBattle(List<CharacterState> initialCharacterStates, int roundCountLimit);
+	public Battle getBattle(List<ICharacterState> initialCharacterStates, int roundCountLimit);
 }

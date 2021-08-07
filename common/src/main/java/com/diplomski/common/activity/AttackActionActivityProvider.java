@@ -3,7 +3,6 @@ package com.diplomski.common.activity;
 import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattlePlayerCharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.resource.IResource;

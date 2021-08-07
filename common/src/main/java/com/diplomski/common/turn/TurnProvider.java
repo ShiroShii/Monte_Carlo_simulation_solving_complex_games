@@ -10,8 +10,8 @@ import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
+import com.diplomski.common.resource.CombatStyle;
 import com.diplomski.common.resource.IResource;
-import com.diplomski.common.resource.WeaponCategory;
 import com.diplomski.common.targeting.ITargetProvider;
 
 import lombok.AllArgsConstructor;
@@ -35,8 +35,9 @@ public class TurnProvider implements ITurnProvider {
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
 		IResource resource = switch (playStyle) {
-			default -> initiator.getWeapons().stream()
-					.filter(x -> x.getWeaponCategory().equals(WeaponCategory.SIMPLE_MELEE)).findFirst().get();
+			case MELEE_WEAPON_DAMAGE-> initiator.getResources().stream()
+					.filter(x -> x.getCombatStyle().equals(CombatStyle.MELEE)).findFirst().get();
+			default -> throw new IllegalArgumentException("PlayStyle not implemented");
 
 		};
 

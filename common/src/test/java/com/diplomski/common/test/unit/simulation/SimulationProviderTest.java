@@ -17,7 +17,7 @@ import org.junit.Test;
 
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.IBattleProvider;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.simulation.Simulation;
 import com.diplomski.common.simulation.SimulationProvider;
 
@@ -32,7 +32,7 @@ public class SimulationProviderTest {
 
 	private List<Battle> battles;
 
-	private List<CharacterState> characterStates;
+	private List<ICharacterState> characterStates;
 	private Simulation expectedSimulation;
 	private SimulationProvider unitUnderTest;
 

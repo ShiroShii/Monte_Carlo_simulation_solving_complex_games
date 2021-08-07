@@ -2,7 +2,7 @@ package com.diplomski.common.simulation;
 
 import java.util.List;
 
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 
 import lombok.AllArgsConstructor;
 
@@ -13,7 +13,7 @@ public class SimulationService implements ISimulationService {
 
 	@Override
 	public SimulationReport getSimulation(
-			List<CharacterState> initialCharacterState,
+			List<ICharacterState> initialCharacterState,
 			int simulationCount,
 			int roundCountLimit) {
 		Simulation simulation = simulationProvider.getSimulation(initialCharacterState, simulationCount, roundCountLimit);

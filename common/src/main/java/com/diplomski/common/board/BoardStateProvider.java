@@ -1,14 +1,21 @@
 package com.diplomski.common.board;
 
+import static com.diplomski.common.character.CharacterType.MONSTER;
+import static com.diplomski.common.character.CharacterType.PLAYER;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.diplomski.common.character.BattlePlayerCharacterState;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.IBattleCharacterState;
+import com.diplomski.common.character.ICharacterState;
+import com.diplomski.common.character.MonsterBattleCharacterState;
+import com.diplomski.common.character.MonsterCharacterState;
+import com.diplomski.common.character.PlayerBattleCharacterState;
+import com.diplomski.common.character.PlayerCharacterState;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.turn.ITurnProvider;
@@ -22,14 +29,25 @@ public class BoardStateProvider implements IBoardStateProvider {
 	private final IDiceFactory diceFactory;
 
 	@Override
-	public BoardState getInitialBoardState(List<CharacterState> characters) {
+	public BoardState getInitialBoardState(List<ICharacterState> characters) {
 		List<Entry<IBattleCharacterState, Integer>> initiatives = new ArrayList<>();
 
-		for (CharacterState initialCharacterState : characters) {
-			IDice dice = diceFactory.getD20();
-			int initiative = dice.getRoll() + initialCharacterState.getDexterity();
+		IDice dice = diceFactory.getD20();
+		for (ICharacterState initialCharacterState : characters) {
+			int initiative = (dice.getRoll() + (int) Math.floor((initialCharacterState.getDexterity() - 10) / 2.0d));
+			CharacterType characterType = initialCharacterState instanceof PlayerCharacterState ? PLAYER : MONSTER;
+			
+			ITurnProvider turnProvider = turnProviderFactory
+					.getTurnProvider(initialCharacterState.getId(), initialCharacterState
+							.getParty(), initialCharacterState
+									.getPlayStyle(), initialCharacterState.getTargetingStyle(), characterType);
+			
+			IBattleCharacterState characterState = switch (characterType) {
+				case PLAYER -> PlayerBattleCharacterState.getBattleState((PlayerCharacterState) initialCharacterState, turnProvider);
+				case MONSTER -> MonsterBattleCharacterState.getBattleState((MonsterCharacterState) initialCharacterState, turnProvider);
+			};
 
-			BattlePlayerCharacterState characterState = BattlePlayerCharacterState.toBuilder(initialCharacterState).build();
+			characterState.setTurnProvider(turnProvider);
 
 			initiatives.add(Map.entry(characterState, initiative));
 		}
@@ -44,12 +62,6 @@ public class BoardStateProvider implements IBoardStateProvider {
 		}
 
 		BoardState boardState = BoardState.builder().characterStates(sortedCharacterStates).build();
-
-		// Add turn providers
-		for (IBattleCharacterState battleCharacterState : boardState.getCharacterStates().values()) {
-			ITurnProvider turnProvider = turnProviderFactory.getTurnProvider(battleCharacterState.getId(), boardState);
-			battleCharacterState.setTurnProvider(turnProvider);
-		}
 
 		return boardState;
 	}

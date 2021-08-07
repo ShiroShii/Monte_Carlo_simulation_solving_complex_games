@@ -18,7 +18,6 @@ import lombok.Getter;
 public enum Weapon implements IResource {
 	CLUB(SIMPLE_MELEE, BLUDGEONING, EnumSet.of(LIGHT)),
 	DAGGER(SIMPLE_MELEE, PIERCING, EnumSet.of(FINESSE, LIGHT, THROWN));
-
 	@Getter
 	private final WeaponCategory weaponCategory;
 
@@ -27,4 +26,9 @@ public enum Weapon implements IResource {
 
 	@Getter
 	private final EnumSet<WeaponProperty> properties;
+
+	@Override
+	public CombatStyle getCombatStyle() {
+		return this.weaponCategory.getStyle();
+	}
 }

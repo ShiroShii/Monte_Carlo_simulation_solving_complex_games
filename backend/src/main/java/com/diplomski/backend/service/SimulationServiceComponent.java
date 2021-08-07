@@ -13,8 +13,9 @@ import org.springframework.stereotype.Component;
 import com.diplomski.common.board.NodeTile;
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.character.PlayStyle;
+import com.diplomski.common.character.PlayerCharacterState;
 import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.simulation.ISimulationService;
 import com.diplomski.common.simulation.SimulationReport;
@@ -55,17 +56,17 @@ public class SimulationServiceComponent {
 		playerTile.setReachableTiles(new HashSet<>(Arrays.asList(enemyTile)));
 		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(playerTile)));
 
-		CharacterState playerCharacterState = CharacterState.builder().id(PLAYER_ID).tile(playerTile)
+		PlayerCharacterState playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tile(playerTile)
 				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH)
-				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE).weapons(Arrays.asList(Weapon.CLUB))
+				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB))
 				.level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
-		CharacterState enemyCharacterState = CharacterState.builder().id(ENEMY_ID).tile(enemyTile)
+		PlayerCharacterState enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tile(enemyTile)
 				.dexterity(ENEMY_DEXTERITY).currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH)
-				.playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).weapons(Arrays.asList(Weapon.CLUB))
+				.playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB))
 				.level(ENEMY_LEVEL).characterClass(ENEMY_CLASS).build();
 
-		List<CharacterState> initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
+		List<ICharacterState> initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
 
 		return simulationService.getSimulation(initialCharacterStates, simulationCount, roundCountLimit);
 	}

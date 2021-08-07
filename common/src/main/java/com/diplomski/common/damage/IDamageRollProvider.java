@@ -1,7 +1,7 @@
 package com.diplomski.common.damage;
 
-import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 
 public interface IDamageRollProvider {
-	public int getDamageRoll(BattlePlayerCharacterState characterState);
+	public int getDamageRoll(PlayerBattleCharacterState characterState);
 }

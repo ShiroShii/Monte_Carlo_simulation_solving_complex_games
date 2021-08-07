@@ -6,7 +6,7 @@ import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.IBoardStateProvider;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.round.IRoundProvider;
 import com.diplomski.common.round.Round;
@@ -20,7 +20,7 @@ public class BattleProvider implements IBattleProvider {
 	private final IRoundProvider roundProvider;
 
 	@Override
-	public Battle getBattle(List<CharacterState> initialCharacterStates, int roundCountLimit) {
+	public Battle getBattle(List<ICharacterState> initialCharacterStates, int roundCountLimit) {
 		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates);
 		BoardState roundInitialBoardState = initialBoardState.toBuilder().build();
 		List<Round> rounds = new ArrayList<>();

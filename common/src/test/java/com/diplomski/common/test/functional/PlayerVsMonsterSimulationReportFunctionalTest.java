@@ -24,6 +24,8 @@ import com.diplomski.common.board.NodeTile;
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
 import com.diplomski.common.character.ICharacterState;
+import com.diplomski.common.character.Monster;
+import com.diplomski.common.character.MonsterCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.character.PlayerCharacterState;
@@ -45,33 +47,28 @@ import com.diplomski.common.turn.TurnProviderFactory;
 
 import lombok.NonNull;
 
-public class SimulationReportFunctionalTest {
-	private final int SIMULATION_COUNT = 100;
+public class PlayerVsMonsterSimulationReportFunctionalTest {
+	private final int SIMULATION_COUNT = 10000;
 	private final int ROUND_COUNT_LIMIT = 5;
 	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final String PLAYER_ID = "Player Id";
 	private final String ENEMY_ID = "Enemy Id";
-	private final int PLAYER_INITIAL_HP = 30;
-	private final int ENEMY_INITIAL_HP = 30;
-	private final int PLAYER_DEXTERITY = 3;
-	private final int ENEMY_DEXTERITY = 3;
-	private final int PLAYER_STRENGTH = 20;
-	private final int ENEMY_STRENGTH = 20;
+	private final int PLAYER_INITIAL_HP = 11;
+	private final int PLAYER_DEXTERITY = 10;
+	private final int PLAYER_STRENGTH = 5;
 	private final PlayStyle PLAYER_PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final PlayStyle ENEMY_PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final TargetingStyle PLAYER_TARGETING_STYLE = TargetingStyle.CLOSEST;
 	private final TargetingStyle ENEMY_TARGETING_STYLE = TargetingStyle.CLOSEST;
 	private final CharacterLevel PLAYER_LEVEL = CharacterLevel.L3;
-	private final CharacterLevel ENEMY_LEVEL = CharacterLevel.L3;
 	private final CharacterClass PLAYER_CLASS = CharacterClass.FIGHTER;
-	private final CharacterClass ENEMY_CLASS = CharacterClass.FIGHTER;
 
 	private NodeTile playerTile;
 	private NodeTile enemyTile;
 
 	private PlayerCharacterState playerCharacterState;
-	private PlayerCharacterState enemyCharacterState;
+	private MonsterCharacterState enemyCharacterState;
 	private List<ICharacterState> initialCharacterStates;
 
 	private @NonNull ISimulationReportProvider simulationReportProvider;
@@ -95,10 +92,8 @@ public class SimulationReportFunctionalTest {
 				.targetingStyle(PLAYER_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL)
 				.characterClass(PLAYER_CLASS).build();
 
-		enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tile(enemyTile).dexterity(ENEMY_DEXTERITY)
-				.currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH).playStyle(ENEMY_PLAY_STYLE)
-				.targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(ENEMY_LEVEL)
-				.characterClass(ENEMY_CLASS).build();
+		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID).tile(enemyTile)
+				.party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).build();
 
 		initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
 
@@ -135,6 +130,6 @@ public class SimulationReportFunctionalTest {
 
 		assertNotEquals("Player always wins.", SIMULATION_COUNT, playerWins);
 		assertNotEquals("Enemy always wins.", 0, playerWins);
-		// simulationReportProvider.getReport(simulation);
+		System.out.println((double)playerWins/SIMULATION_COUNT);
 	}
 }

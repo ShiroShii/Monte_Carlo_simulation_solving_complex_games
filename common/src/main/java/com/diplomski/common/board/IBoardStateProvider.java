@@ -2,8 +2,8 @@ package com.diplomski.common.board;
 
 import java.util.List;
 
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 
 public interface IBoardStateProvider {
-	public BoardState getInitialBoardState(List<CharacterState> characterStates);
+	public BoardState getInitialBoardState(List<ICharacterState> characterStates);
 }

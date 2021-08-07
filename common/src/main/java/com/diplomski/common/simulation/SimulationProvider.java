@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.IBattleProvider;
-import com.diplomski.common.character.CharacterState;
+import com.diplomski.common.character.ICharacterState;
 
 import lombok.AllArgsConstructor;
 
@@ -16,7 +16,7 @@ public class SimulationProvider implements ISimulationProvider {
 
 	@Override
 	public Simulation getSimulation(
-			List<CharacterState> initialCharacterState,
+			List<ICharacterState> initialCharacterState,
 			int simulationCount,
 			int roundCountLimit) {
 		List<Battle> battles = new ArrayList<>();

@@ -3,7 +3,7 @@ package com.diplomski.common.character;
 import java.util.List;
 
 import com.diplomski.common.board.ITile;
-import com.diplomski.common.resource.Weapon;
+import com.diplomski.common.resource.IResource;
 import com.diplomski.common.targeting.TargetingStyle;
 
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class CharacterState {
+public class PlayerCharacterState implements ICharacterState{
 	private String id;
 	private Party party;
 	private int maxHp;
@@ -27,7 +27,7 @@ public class CharacterState {
 	private int exhaustionLevel;
 	private CharacterLevel level;
 	private CharacterClass characterClass;
-	private List<Weapon> weapons;
+	private List<IResource> resources;
 	private ITile tile;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
@@ -39,8 +39,8 @@ public class CharacterState {
 		currentHp = currentHp < 0 ? 0 : currentHp;
 	}
 
-	public abstract static class CharacterStateBuilder<C extends CharacterState, B extends CharacterState.CharacterStateBuilder<C, B>> {
-		protected B $fillValuesFromParent(CharacterState instance) {
+	public abstract static class PlayerCharacterStateBuilder<C extends PlayerCharacterState, B extends PlayerCharacterState.PlayerCharacterStateBuilder<C, B>> {
+		protected B $fillValuesFromParent(PlayerCharacterState instance) {
 			$fillValuesFromInstanceIntoBuilder(instance, this);
 			return self();
 		}

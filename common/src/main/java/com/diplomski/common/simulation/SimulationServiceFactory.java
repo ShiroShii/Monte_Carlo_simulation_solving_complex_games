@@ -1,16 +1,12 @@
 package com.diplomski.common.simulation;
 
-import com.diplomski.common.activity.AttackRollModifierProvider;
-import com.diplomski.common.activity.AttackRollOutcomeProvider;
-import com.diplomski.common.activity.IAttackRollModifierProvider;
-import com.diplomski.common.activity.IAttackRollOutcomeProvider;
+import com.diplomski.common.activity.AttackRollOutcomeProviderFactory;
+import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
 import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.battle.IBattleProvider;
 import com.diplomski.common.board.BoardStateProvider;
 import com.diplomski.common.board.IBoardStateProvider;
-import com.diplomski.common.damage.ArmorClassProvider;
 import com.diplomski.common.damage.DamageProvider;
-import com.diplomski.common.damage.IArmorClassProvider;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.dice.DiceFactory;
 import com.diplomski.common.dice.IDiceFactory;
@@ -23,10 +19,8 @@ public class SimulationServiceFactory {
 	public static ISimulationService getSimulationService() {
 		IDiceFactory diceFactory = new DiceFactory();
 		IDamageProvider damageProvider = new DamageProvider();
-		IArmorClassProvider armorClassProvider = new ArmorClassProvider();
-		IAttackRollModifierProvider attackRollModifierProvider = new AttackRollModifierProvider();
-		IAttackRollOutcomeProvider attackRollOutcomeProvider = new AttackRollOutcomeProvider(attackRollModifierProvider, armorClassProvider, diceFactory);
-		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProvider, damageProvider);
+		IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
+		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
 		IBoardStateProvider boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
 		IRoundProvider roundProvider = new RoundProvider();
 		IBattleProvider battleProvider = new BattleProvider(boardStateProvider, roundProvider);

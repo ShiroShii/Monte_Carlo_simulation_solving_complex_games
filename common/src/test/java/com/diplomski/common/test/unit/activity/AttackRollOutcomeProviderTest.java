@@ -11,8 +11,7 @@ import org.junit.Test;
 import com.diplomski.common.activity.AttackRollOutcome;
 import com.diplomski.common.activity.AttackRollOutcomeProvider;
 import com.diplomski.common.activity.IAttackRollModifierProvider;
-import com.diplomski.common.character.BattlePlayerCharacterState;
-import com.diplomski.common.damage.IArmorClassProvider;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.resource.IResource;
@@ -27,11 +26,10 @@ public class AttackRollOutcomeProviderTest {
 	private final int ATTACK_ROLL_MODIFIER = 5;
 
 	private final IResource RESOURCE = Weapon.CLUB;
-	private BattlePlayerCharacterState initiator;
-	private BattlePlayerCharacterState target;
+	private PlayerBattleCharacterState initiator;
+	private PlayerBattleCharacterState target;
 
 	private IAttackRollModifierProvider attackRollModifierProviderMock = mock(IAttackRollModifierProvider.class);
-	private IArmorClassProvider armorClassProviderMock = mock(IArmorClassProvider.class);
 	private IDiceFactory diceFactoryMock = mock(IDiceFactory.class);
 	private IDice diceMock = mock(IDice.class);
 
@@ -39,12 +37,11 @@ public class AttackRollOutcomeProviderTest {
 
 	@Before
 	public void setup() {
-		initiator = BattlePlayerCharacterState.builder().build();
-		target = BattlePlayerCharacterState.builder().build();
+		initiator = PlayerBattleCharacterState.builder().armorClass(ARMOR_CLASS).build();
+		target = PlayerBattleCharacterState.builder().armorClass(ARMOR_CLASS).build();
 		when(attackRollModifierProviderMock.getAttackRollModifier(any(), any())).thenReturn(ATTACK_ROLL_MODIFIER);
-		when(armorClassProviderMock.getArmorClass(any())).thenReturn(ARMOR_CLASS);
 		when(diceFactoryMock.getD20()).thenReturn(diceMock);
-		unitUnderTest = new AttackRollOutcomeProvider(attackRollModifierProviderMock, armorClassProviderMock, diceFactoryMock);
+		unitUnderTest = new AttackRollOutcomeProvider(attackRollModifierProviderMock, diceFactoryMock);
 	}
 
 	@Test

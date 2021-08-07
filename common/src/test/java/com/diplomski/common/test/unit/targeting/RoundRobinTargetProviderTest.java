@@ -9,7 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.BattlePlayerCharacterState;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.targeting.RoundRobinTargetProvider;
@@ -23,9 +23,9 @@ public class RoundRobinTargetProviderTest {
 	private BoardState boardStateWithTarget;
 	private BoardState boardStateWithoutTarget;
 
-	private BattlePlayerCharacterState initiatorCharacterState;
-	private BattlePlayerCharacterState enemyTargetCharacterState;
-	private BattlePlayerCharacterState enemyIncapacitatedCharacterState;
+	private PlayerBattleCharacterState initiatorCharacterState;
+	private PlayerBattleCharacterState enemyTargetCharacterState;
+	private PlayerBattleCharacterState enemyIncapacitatedCharacterState;
 
 	private LinkedHashMap<String, IBattleCharacterState> characterStatesWithTarget;
 	private LinkedHashMap<String, IBattleCharacterState> characterStatesWithoutTarget;
@@ -34,11 +34,11 @@ public class RoundRobinTargetProviderTest {
 
 	@Before
 	public void setup() {
-		initiatorCharacterState = BattlePlayerCharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY)
+		initiatorCharacterState = PlayerBattleCharacterState.builder().id(INITIATOR_ID).currentHp(50).party(INITIATOR_PARTY)
 				.build();
-		enemyTargetCharacterState = BattlePlayerCharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY)
+		enemyTargetCharacterState = PlayerBattleCharacterState.builder().id(ENEMY_1_ID).currentHp(50).party(TARGET_PARTY)
 				.build();
-		enemyIncapacitatedCharacterState = BattlePlayerCharacterState.builder().id(ENEMY_2_ID).currentHp(0)
+		enemyIncapacitatedCharacterState = PlayerBattleCharacterState.builder().id(ENEMY_2_ID).currentHp(0)
 				.party(TARGET_PARTY).build();
 
 		characterStatesWithTarget = new LinkedHashMap<>();
