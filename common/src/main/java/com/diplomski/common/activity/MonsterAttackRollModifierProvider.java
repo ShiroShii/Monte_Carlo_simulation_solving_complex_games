@@ -1,8 +1,8 @@
 package com.diplomski.common.activity;
 
 import com.diplomski.common.character.IBattleCharacterState;
-import com.diplomski.common.character.MonsterAttack;
 import com.diplomski.common.resource.IResource;
+import com.diplomski.common.resource.MonsterAttack;
 
 import lombok.AllArgsConstructor;
 

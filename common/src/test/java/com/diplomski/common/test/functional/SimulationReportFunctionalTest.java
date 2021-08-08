@@ -106,7 +106,7 @@ public class SimulationReportFunctionalTest {
 
 	public void serviceSetup() {
 		diceFactory = new DiceFactory();
-		damageProvider = new DamageProvider();
+		damageProvider = new DamageProvider(diceFactory);
 		attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
 		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
 		boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);

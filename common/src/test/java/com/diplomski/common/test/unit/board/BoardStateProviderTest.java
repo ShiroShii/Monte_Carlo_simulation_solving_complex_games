@@ -1,5 +1,6 @@
 package com.diplomski.common.test.unit.board;
 
+import static com.diplomski.common.dice.DiceType.D20;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -112,11 +113,14 @@ public class BoardStateProviderTest {
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
 
-		when(diceProviderFactory.getD20()).thenReturn(diceMock);
+		when(diceProviderFactory.getDice(D20)).thenReturn(diceMock);
 
-		when(turnProviderFactoryMock.getTurnProvider(eq(character1Id), any(), any(), any(), any())).thenReturn(character1TurnProviderMock);
-		when(turnProviderFactoryMock.getTurnProvider(eq(character2Id), any(), any(), any(), any())).thenReturn(character2TurnProviderMock);
-		when(turnProviderFactoryMock.getTurnProvider(eq(character3Id), any(), any(), any(), any())).thenReturn(character3TurnProviderMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character1Id), any(), any(), any(), any()))
+				.thenReturn(character1TurnProviderMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character2Id), any(), any(), any(), any()))
+				.thenReturn(character2TurnProviderMock);
+		when(turnProviderFactoryMock.getTurnProvider(eq(character3Id), any(), any(), any(), any()))
+				.thenReturn(character3TurnProviderMock);
 
 		unitUnderTest = new BoardStateProvider(turnProviderFactoryMock, diceProviderFactory);
 	}

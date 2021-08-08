@@ -1,34 +1,15 @@
 package com.diplomski.common.dice;
 
 public class DiceFactory implements IDiceFactory {
-
 	@Override
-	public IDice getD4() {
-		return new D4Dice();
-	}
-
-	@Override
-	public IDice getD6() {
-		return new D6Dice();
-	}
-
-	@Override
-	public IDice getD8() {
-		return new D8Dice();
-	}
-
-	@Override
-	public IDice getD10() {
-		return new D10Dice();
-	}
-
-	@Override
-	public IDice getD12() {
-		return new D12Dice();
-	}
-
-	@Override
-	public IDice getD20() {
-		return new D20Dice();
+	public IDice getDice(DiceType diceType) {
+		return switch (diceType) {
+			case D4 -> new D4Dice();
+			case D6 -> new D6Dice();
+			case D8 -> new D8Dice();
+			case D10 -> new D10Dice();
+			case D12 -> new D12Dice();
+			case D20 -> new D20Dice();
+		};
 	}
 }

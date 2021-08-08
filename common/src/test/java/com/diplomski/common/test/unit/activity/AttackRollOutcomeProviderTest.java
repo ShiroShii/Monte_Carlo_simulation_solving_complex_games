@@ -1,5 +1,6 @@
 package com.diplomski.common.test.unit.activity;
 
+import static com.diplomski.common.dice.DiceType.D20;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -40,7 +41,7 @@ public class AttackRollOutcomeProviderTest {
 		initiator = PlayerBattleCharacterState.builder().armorClass(ARMOR_CLASS).build();
 		target = PlayerBattleCharacterState.builder().armorClass(ARMOR_CLASS).build();
 		when(attackRollModifierProviderMock.getAttackRollModifier(any(), any())).thenReturn(ATTACK_ROLL_MODIFIER);
-		when(diceFactoryMock.getD20()).thenReturn(diceMock);
+		when(diceFactoryMock.getDice(D20)).thenReturn(diceMock);
 		unitUnderTest = new AttackRollOutcomeProvider(attackRollModifierProviderMock, diceFactoryMock);
 	}
 

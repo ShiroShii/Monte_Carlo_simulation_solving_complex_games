@@ -54,9 +54,9 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final String PLAYER_ID = "Player Id";
 	private final String ENEMY_ID = "Enemy Id";
-	private final int PLAYER_INITIAL_HP = 11;
+	private final int PLAYER_INITIAL_HP = 20;
 	private final int PLAYER_DEXTERITY = 10;
-	private final int PLAYER_STRENGTH = 5;
+	private final int PLAYER_STRENGTH = 10;
 	private final PlayStyle PLAYER_PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final PlayStyle ENEMY_PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final TargetingStyle PLAYER_TARGETING_STYLE = TargetingStyle.CLOSEST;
@@ -101,7 +101,7 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 
 	public void serviceSetup() {
 		diceFactory = new DiceFactory();
-		damageProvider = new DamageProvider();
+		damageProvider = new DamageProvider(diceFactory);
 		attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
 		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
 		boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);

@@ -1,5 +1,7 @@
 package com.diplomski.common.activity;
 
+import static com.diplomski.common.dice.DiceType.D20;
+
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.dice.IDiceFactory;
 import com.diplomski.common.resource.IResource;
@@ -18,7 +20,7 @@ public class AttackRollOutcomeProvider implements IAttackRollOutcomeProvider {
 			@NonNull IBattleCharacterState initiator,
 			@NonNull IBattleCharacterState target) {
 		// TODO: Check for disadvantage
-		int d20Role = diceFactory.getD20().getRoll();
+		int d20Role = diceFactory.getDice(D20).getRoll();
 
 		if (d20Role == 1) {
 			return AttackRollOutcome.FUMBLE;

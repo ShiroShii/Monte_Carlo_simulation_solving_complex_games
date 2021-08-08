@@ -2,6 +2,7 @@ package com.diplomski.common.board;
 
 import static com.diplomski.common.character.CharacterType.MONSTER;
 import static com.diplomski.common.character.CharacterType.PLAYER;
+import static com.diplomski.common.dice.DiceType.D20;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -32,19 +33,21 @@ public class BoardStateProvider implements IBoardStateProvider {
 	public BoardState getInitialBoardState(List<ICharacterState> characters) {
 		List<Entry<IBattleCharacterState, Integer>> initiatives = new ArrayList<>();
 
-		IDice dice = diceFactory.getD20();
+		IDice dice = diceFactory.getDice(D20);
 		for (ICharacterState initialCharacterState : characters) {
 			int initiative = (dice.getRoll() + (int) Math.floor((initialCharacterState.getDexterity() - 10) / 2.0d));
 			CharacterType characterType = initialCharacterState instanceof PlayerCharacterState ? PLAYER : MONSTER;
-			
+
 			ITurnProvider turnProvider = turnProviderFactory
 					.getTurnProvider(initialCharacterState.getId(), initialCharacterState
 							.getParty(), initialCharacterState
 									.getPlayStyle(), initialCharacterState.getTargetingStyle(), characterType);
-			
+
 			IBattleCharacterState characterState = switch (characterType) {
-				case PLAYER -> PlayerBattleCharacterState.getBattleState((PlayerCharacterState) initialCharacterState, turnProvider);
-				case MONSTER -> MonsterBattleCharacterState.getBattleState((MonsterCharacterState) initialCharacterState, turnProvider);
+				case PLAYER -> PlayerBattleCharacterState
+						.getBattleState((PlayerCharacterState) initialCharacterState, turnProvider);
+				case MONSTER -> MonsterBattleCharacterState
+						.getBattleState((MonsterCharacterState) initialCharacterState, turnProvider);
 			};
 
 			characterState.setTurnProvider(turnProvider);

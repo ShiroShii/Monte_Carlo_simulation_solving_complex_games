@@ -18,7 +18,7 @@ import com.diplomski.common.turn.TurnProviderFactory;
 public class SimulationServiceFactory {
 	public static ISimulationService getSimulationService() {
 		IDiceFactory diceFactory = new DiceFactory();
-		IDamageProvider damageProvider = new DamageProvider();
+		IDamageProvider damageProvider = new DamageProvider(diceFactory);
 		IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
 		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
 		IBoardStateProvider boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
