@@ -42,6 +42,15 @@ public class PlayerCharacterDbModel {
 
 	@Column(nullable = false)
 	private String name;
+	
+	@Column(nullable = false)
+	private int dexterity;
+	
+	@Column(nullable = false)
+	private int strength;
+	
+	@Column(nullable = false)
+	private int walkingSpeed;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
