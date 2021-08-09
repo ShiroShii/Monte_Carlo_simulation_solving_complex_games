@@ -4,6 +4,7 @@ import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
 import com.diplomski.common.activity.WalkMovemementActivityProvider;
+import com.diplomski.common.board.INavigator;
 import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class TurnProviderFactory implements ITurnProviderFactory {
 	private IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory;
 	private IDamageProvider damageProvider;
+	private INavigator navigator;
 
 	@Override
 	public ITurnProvider getTurnProvider(String id, Party party, PlayStyle playStyle, TargetingStyle targetingStyle, CharacterType characterType) {
@@ -36,7 +38,7 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 			default -> party.getOpponentParty();
 		};
 
-		return new TurnProvider(id, targetParty, targetProvider, movementProvider, actionProvider, playStyle);
+		return new TurnProvider(navigator, id, targetParty, targetProvider, movementProvider, actionProvider, playStyle);
 	}
 
 }

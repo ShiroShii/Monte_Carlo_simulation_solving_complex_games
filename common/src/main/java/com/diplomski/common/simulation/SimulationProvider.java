@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.IBattleProvider;
+import com.diplomski.common.board.IBoard;
 import com.diplomski.common.character.ICharacterState;
 
 import lombok.AllArgsConstructor;
@@ -17,13 +18,14 @@ public class SimulationProvider implements ISimulationProvider {
 	@Override
 	public Simulation getSimulation(
 			List<ICharacterState> initialCharacterState,
+			IBoard board,
 			int simulationCount,
 			int roundCountLimit) {
 		List<Battle> battles = new ArrayList<>();
 
 		// parallelize?
 		for (int i = 0; i < simulationCount; i++) {
-			battles.add(battleProvider.getBattle(initialCharacterState, roundCountLimit));
+			battles.add(battleProvider.getBattle(initialCharacterState, roundCountLimit, board));
 		}
 
 		return Simulation.builder().simulationCount(simulationCount)

@@ -19,7 +19,6 @@ public class AttackRollOutcomeProvider implements IAttackRollOutcomeProvider {
 			@NonNull IResource resource,
 			@NonNull IBattleCharacterState initiator,
 			@NonNull IBattleCharacterState target) {
-		// TODO: Check for disadvantage
 		int d20Role = diceFactory.getDice(D20).getRoll();
 
 		if (d20Role == 1) {

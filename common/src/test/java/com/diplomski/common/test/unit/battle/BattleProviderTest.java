@@ -20,6 +20,7 @@ import org.junit.Test;
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.board.BoardState;
+import com.diplomski.common.board.IBoard;
 import com.diplomski.common.board.IBoardStateProvider;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.ICharacterState;
@@ -32,6 +33,8 @@ public class BattleProviderTest {
 	private IBoardStateProvider boardStateProviderMock = mock(IBoardStateProvider.class);
 	private IRoundProvider roundProviderMock = mock(IRoundProvider.class);
 
+	private IBoard boardMock = mock(IBoard.class);
+	
 	private final int ROUND_COUNT_LIMIT = 5;
 	private String character1Id = "Player 1";
 	private String character2Id = "Player 2";
@@ -137,7 +140,7 @@ public class BattleProviderTest {
 		expectedBattle = Battle.builder().initialBoardState(boardState1).finalBoardState(boardState3).rounds(rounds)
 				.winningParty(Optional.of(Party.PLAYER)).isBattleComplete(true).build();
 
-		when(boardStateProviderMock.getInitialBoardState(any())).thenReturn(boardState1);
+		when(boardStateProviderMock.getInitialBoardState(any(), any())).thenReturn(boardState1);
 		when(roundProviderMock.getRound(any())).thenReturn(round1).thenReturn(round2);
 
 		unitUnderTest = new BattleProvider(boardStateProviderMock, roundProviderMock);
@@ -145,10 +148,10 @@ public class BattleProviderTest {
 
 	@Test
 	public void testGetBattle() {
-		Battle result = unitUnderTest.getBattle(initialCharacterStates, ROUND_COUNT_LIMIT);
+		Battle result = unitUnderTest.getBattle(initialCharacterStates, ROUND_COUNT_LIMIT, boardMock);
 
 		assertEquals(expectedBattle, result);
-		verify(boardStateProviderMock, times(1)).getInitialBoardState(eq(initialCharacterStates));
+		verify(boardStateProviderMock, times(1)).getInitialBoardState(eq(initialCharacterStates), eq(boardMock));
 		verify(roundProviderMock, times(2)).getRound(any());
 		verify(roundProviderMock, times(1)).getRound(eq(boardState1));
 		verify(roundProviderMock, times(1)).getRound(eq(boardState2));

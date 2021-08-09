@@ -19,6 +19,7 @@ import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.BoardStateProvider;
+import com.diplomski.common.board.IBoard;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.character.Party;
@@ -33,6 +34,7 @@ public class BoardStateProviderTest {
 	private IDiceFactory diceProviderFactory = mock(IDiceFactory.class);
 	private IDice diceMock = mock(IDice.class);
 	private ITurnProviderFactory turnProviderFactoryMock = mock(ITurnProviderFactory.class);
+	private IBoard boardMock = mock(IBoard.class);
 
 	private String character1Id = "Player 1";
 	private String character2Id = "Player 2";
@@ -108,7 +110,7 @@ public class BoardStateProviderTest {
 		expectedCharacterStateList.put(character1Id, character1);
 		expectedCharacterStateList.put(character2Id, character2);
 
-		expectedBoardState = BoardState.builder().characterStates(expectedCharacterStateList).build();
+		expectedBoardState = BoardState.builder().board(boardMock).characterStates(expectedCharacterStateList).build();
 
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
@@ -127,7 +129,7 @@ public class BoardStateProviderTest {
 
 	@Test
 	public void getInitialBoardState() {
-		BoardState result = unitUnderTest.getInitialBoardState(initialCharacterStateList);
+		BoardState result = unitUnderTest.getInitialBoardState(initialCharacterStateList, boardMock);
 
 		verify(diceMock, times(3)).getRoll();
 		assertEquals(expectedBoardState, result);

@@ -7,6 +7,8 @@ import java.util.Optional;
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.board.BoardState;
+import com.diplomski.common.board.INavigator;
+import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
@@ -21,6 +23,7 @@ import lombok.AllArgsConstructor;
  */
 @AllArgsConstructor
 public class TurnProvider implements ITurnProvider {
+	private final INavigator navigator;
 	private final String initiatorId;
 	private final Party targetParty;
 	private final ITargetProvider targetProvider;
@@ -35,27 +38,44 @@ public class TurnProvider implements ITurnProvider {
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
 		IResource resource = switch (playStyle) {
-			case MELEE_WEAPON_DAMAGE-> initiator.getResources().stream()
-					.filter(x -> x.getCombatStyle().equals(CombatStyle.MELEE)).findFirst().get();
+			case MELEE_WEAPON_DAMAGE -> initiator.getResources().stream()
+					.filter(x -> x.getCombatStyle().equals(CombatStyle.MELEE)).findAny().get();
+			case RANGED_WEAPON_DAMAGE -> initiator.getResources().stream()
+					.filter(x -> x.getCombatStyle().equals(CombatStyle.RANGED)).findAny().get();
 			default -> throw new IllegalArgumentException("PlayStyle not implemented");
-
 		};
 
 		Optional<String> targetIdOptional = targetProvider.getTargetId(initiatorId, targetParty, currentBoardState);
 
 		if (targetIdOptional.isPresent()) {
-			Optional<Activity> movementActivity = movementProvider
-					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState);
-			if (movementActivity.isPresent()) {
-				currentBoardState = movementActivity.get().getFinalBoardState();
-				activities.add(movementActivity.get());
-			}
+			IBattleCharacterState target = currentBoardState.getCharacterStates().get(targetIdOptional.get());
+			Optional<List<ITile>> optionalPath = navigator
+					.getCheapestUnobstructedPath(initiator.getTileId(), target.getTileId(), currentBoardState);
 
-			Optional<Activity> actionActivity = actionProvider
-					.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, resource);
-			if (actionActivity.isPresent()) {
-				currentBoardState = actionActivity.get().getFinalBoardState();
-				activities.add(actionActivity.get());
+			if (optionalPath.isPresent()) {
+				int distance = optionalPath.get().size();
+				double rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
+				if (rangeMultipier < 1D) {
+					Optional<Activity> movementActivity = movementProvider
+							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath.get(), distance, rangeMultipier);
+					if (movementActivity.isPresent()) {
+						currentBoardState = movementActivity.get().getFinalBoardState();
+						activities.add(movementActivity.get());
+						optionalPath = navigator.getCheapestUnobstructedPath(initiator.getTileId(), target
+								.getTileId(), currentBoardState);
+						distance = optionalPath.get().size();
+						rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
+					}
+				}
+
+				if (rangeMultipier > 0D) {
+					Optional<Activity> actionActivity = actionProvider
+							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath.get(), distance, rangeMultipier, resource);
+					if (actionActivity.isPresent()) {
+						currentBoardState = actionActivity.get().getFinalBoardState();
+						activities.add(actionActivity.get());
+					}
+				}
 			}
 		}
 

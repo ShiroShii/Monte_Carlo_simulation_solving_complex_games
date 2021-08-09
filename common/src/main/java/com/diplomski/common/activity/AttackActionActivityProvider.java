@@ -1,8 +1,10 @@
 package com.diplomski.common.activity;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
+import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.resource.IResource;
@@ -19,6 +21,9 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 			String initiatorId,
 			String targetId,
 			BoardState initialBoardState,
+			List<ITile> path,
+			int distance,
+			double rangeMultiplier,
 			IResource resource) {
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 		IBattleCharacterState target = initialBoardState.getCharacterStates().get(targetId);

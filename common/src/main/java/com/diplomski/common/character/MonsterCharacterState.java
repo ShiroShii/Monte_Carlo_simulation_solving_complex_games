@@ -1,6 +1,7 @@
 package com.diplomski.common.character;
 
-import com.diplomski.common.board.ITile;
+import java.util.UUID;
+
 import com.diplomski.common.targeting.TargetingStyle;
 
 import lombok.Data;
@@ -14,7 +15,7 @@ public class MonsterCharacterState implements ICharacterState{
 	private String id;
 	private Party party;
 	protected Monster monster;
-	private ITile tile;
+	private UUID tileId;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 
@@ -28,5 +29,10 @@ public class MonsterCharacterState implements ICharacterState{
 	@Override
 	public int getDexterity() {
 		return this.monster.getDexterity();
+	}
+
+	@Override
+	public int getWalkingSpeed() {
+		return this.monster.getWalkingSpeed();
 	}
 }

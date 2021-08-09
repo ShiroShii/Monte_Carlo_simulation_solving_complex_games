@@ -10,6 +10,7 @@ import static com.diplomski.common.resource.WeaponProperty.THROWN;
 
 import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.Optional;
 
 import com.diplomski.common.damage.DamageRoll;
 import com.diplomski.common.damage.DamageType;
@@ -19,8 +20,22 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum Weapon implements IResource {
-	CLUB(SIMPLE_MELEE, BLUDGEONING, EnumSet.of(LIGHT), DamageRoll.builder().dice(Arrays.asList(D4)).build()),
-	DAGGER(SIMPLE_MELEE, PIERCING, EnumSet.of(FINESSE, LIGHT, THROWN), DamageRoll.builder().dice(Arrays.asList(D4)).build());
+	CLUB(
+			SIMPLE_MELEE,
+			BLUDGEONING,
+			EnumSet.of(LIGHT),
+			DamageRoll.builder().dice(Arrays.asList(D4)).build(),
+			Optional.of(0),
+			Optional.of(3),
+			Optional.of(11)),
+	DAGGER(
+			SIMPLE_MELEE,
+			PIERCING,
+			EnumSet.of(FINESSE, LIGHT, THROWN),
+			DamageRoll.builder().dice(Arrays.asList(D4)).build(),
+			Optional.of(0),
+			Optional.of(3),
+			Optional.of(11));
 
 	@Getter
 	private final WeaponCategory weaponCategory;
@@ -34,8 +49,43 @@ public enum Weapon implements IResource {
 	@Getter
 	private final DamageRoll damageRoll;
 
+	@Getter
+	private final Optional<Integer> meleeRange;
+
+	@Getter
+	private final Optional<Integer> normalRangedRange;
+
+	@Getter
+	private final Optional<Integer> longRangedRange;
+
 	@Override
 	public CombatStyle getCombatStyle() {
 		return this.weaponCategory.getStyle();
+	}
+	
+	@Override
+	public double rangeMultiplier(int distance, CombatStyle combatStyle) {
+		return switch (combatStyle) {
+			case MELEE -> {
+				if(meleeRange.isPresent() && distance<=meleeRange.get()) {
+					yield 1D;
+				}
+				else {
+					yield 0D;
+				}
+			}
+			case RANGED -> {
+				if(normalRangedRange.isPresent() && distance<=normalRangedRange.get()) {
+					yield 1D;
+				}
+				
+				if(longRangedRange.isPresent() && distance<=longRangedRange.get()) {
+					yield 0.5D;
+				}
+				
+				yield 0D;
+				
+			}
+		};
 	}
 }

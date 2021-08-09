@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.diplomski.common.board.BoardState;
+import com.diplomski.common.board.IBoard;
 import com.diplomski.common.board.IBoardStateProvider;
 import com.diplomski.common.character.ICharacterState;
 import com.diplomski.common.character.Party;
@@ -20,8 +21,8 @@ public class BattleProvider implements IBattleProvider {
 	private final IRoundProvider roundProvider;
 
 	@Override
-	public Battle getBattle(List<ICharacterState> initialCharacterStates, int roundCountLimit) {
-		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates);
+	public Battle getBattle(List<ICharacterState> initialCharacterStates, int roundCountLimit, IBoard board) {
+		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates, board);
 		BoardState roundInitialBoardState = initialBoardState.toBuilder().build();
 		List<Round> rounds = new ArrayList<>();
 		do {
@@ -31,7 +32,7 @@ public class BattleProvider implements IBattleProvider {
 			roundInitialBoardState = round.getFinalBoardState().toBuilder().build();
 
 			roundInitialBoardState.resetSpeed();
-		} while (!roundInitialBoardState.isBattleComplete() || roundCountLimit == rounds.size());
+		} while (!roundInitialBoardState.isBattleComplete() && roundCountLimit > rounds.size());
 
 		BoardState finalBoardState = rounds.isEmpty() ? initialBoardState
 				: rounds.get(rounds.size() - 1).getFinalBoardState();

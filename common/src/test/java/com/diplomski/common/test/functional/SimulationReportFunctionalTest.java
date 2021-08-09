@@ -7,8 +7,10 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.junit.Before;
@@ -20,6 +22,9 @@ import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.battle.IBattleProvider;
 import com.diplomski.common.board.BoardStateProvider;
 import com.diplomski.common.board.IBoardStateProvider;
+import com.diplomski.common.board.INavigator;
+import com.diplomski.common.board.NodeBoard;
+import com.diplomski.common.board.NodeNavigator;
 import com.diplomski.common.board.NodeTile;
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
@@ -46,14 +51,14 @@ import com.diplomski.common.turn.TurnProviderFactory;
 import lombok.NonNull;
 
 public class SimulationReportFunctionalTest {
-	private final int SIMULATION_COUNT = 100;
+	private final int SIMULATION_COUNT = 10000;
 	private final int ROUND_COUNT_LIMIT = 5;
 	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final String PLAYER_ID = "Player Id";
 	private final String ENEMY_ID = "Enemy Id";
-	private final int PLAYER_INITIAL_HP = 30;
-	private final int ENEMY_INITIAL_HP = 30;
+	private final int PLAYER_INITIAL_HP = 10;
+	private final int ENEMY_INITIAL_HP = 10;
 	private final int PLAYER_DEXTERITY = 3;
 	private final int ENEMY_DEXTERITY = 3;
 	private final int PLAYER_STRENGTH = 20;
@@ -69,6 +74,7 @@ public class SimulationReportFunctionalTest {
 
 	private NodeTile playerTile;
 	private NodeTile enemyTile;
+	private NodeBoard board;
 
 	private PlayerCharacterState playerCharacterState;
 	private PlayerCharacterState enemyCharacterState;
@@ -79,6 +85,7 @@ public class SimulationReportFunctionalTest {
 	private @NonNull IBattleProvider battleProvider;
 	private @NonNull IBoardStateProvider boardStateProvider;
 	private @NonNull IDiceFactory diceFactory;
+	private @NonNull INavigator navigator;
 	private @NonNull ITurnProviderFactory turnProviderFactory;
 	private @NonNull IRoundProvider roundProvider;
 	private @NonNull IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory;
@@ -87,15 +94,17 @@ public class SimulationReportFunctionalTest {
 	public void objectSetup() {
 		playerTile = NodeTile.builder().id(PLAYER_TILE_ID).build();
 		enemyTile = NodeTile.builder().id(ENEMY_TILE_ID).build();
-		playerTile.setReachableTiles(new HashSet<>(Arrays.asList(enemyTile)));
-		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(playerTile)));
+		playerTile.setReachableTiles(new HashSet<>(Arrays.asList(ENEMY_TILE_ID)));
+		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(PLAYER_TILE_ID)));
+		board = NodeBoard.builder().tiles(new HashMap<>(Map.of(PLAYER_TILE_ID, playerTile, ENEMY_TILE_ID, enemyTile)))
+				.build();
 
-		playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tile(playerTile).dexterity(PLAYER_DEXTERITY)
+		playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tileId(PLAYER_TILE_ID).dexterity(PLAYER_DEXTERITY)
 				.currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH).playStyle(PLAYER_PLAY_STYLE)
 				.targetingStyle(PLAYER_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL)
 				.characterClass(PLAYER_CLASS).build();
 
-		enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tile(enemyTile).dexterity(ENEMY_DEXTERITY)
+		enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tileId(ENEMY_TILE_ID).dexterity(ENEMY_DEXTERITY)
 				.currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH).playStyle(ENEMY_PLAY_STYLE)
 				.targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(ENEMY_LEVEL)
 				.characterClass(ENEMY_CLASS).build();
@@ -108,7 +117,8 @@ public class SimulationReportFunctionalTest {
 		diceFactory = new DiceFactory();
 		damageProvider = new DamageProvider(diceFactory);
 		attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
-		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
+		navigator = new NodeNavigator();
+		turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider, navigator);
 		boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
 		roundProvider = new RoundProvider();
 		battleProvider = new BattleProvider(boardStateProvider, roundProvider);
@@ -125,16 +135,23 @@ public class SimulationReportFunctionalTest {
 	@Test
 	public void generateSimulationReport() {
 		Simulation simulation = simulationProvider
-				.getSimulation(initialCharacterStates, SIMULATION_COUNT, ROUND_COUNT_LIMIT);
+				.getSimulation(initialCharacterStates, board, SIMULATION_COUNT, ROUND_COUNT_LIMIT);
 
 		assertNotNull(simulation);
 		assertEquals(SIMULATION_COUNT, simulation.getBattles().size());
 
 		int playerWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.PLAYER)).toArray().length;
+		
+		int enemyWins = simulation.getBattles().stream()
+				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.ENEMY)).toArray().length;
+		
+		int draws = simulation.getBattles().stream()
+				.filter(x -> !x.isBattleComplete()).toArray().length;
 
-		assertNotEquals("Player always wins.", SIMULATION_COUNT, playerWins);
-		assertNotEquals("Enemy always wins.", 0, playerWins);
-		// simulationReportProvider.getReport(simulation);
+		assertNotEquals("Player always wins", playerWins, SIMULATION_COUNT);
+		assertNotEquals("Enemy always wins", enemyWins, SIMULATION_COUNT);
+		assertNotEquals("All battles are a draw", draws, SIMULATION_COUNT);
+		//System.out.println((double) playerWins / SIMULATION_COUNT);
 	}
 }

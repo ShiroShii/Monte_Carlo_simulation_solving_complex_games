@@ -8,6 +8,7 @@ import static com.diplomski.common.resource.CombatStyle.MELEE;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import com.diplomski.common.damage.DamageRoll;
 import com.diplomski.common.resource.IResource;
@@ -22,20 +23,21 @@ public enum Monster {
 	PANTHER(
 			12,
 			13,
-			50,
+			10,
 			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D6)).build()).damageType(PIERCING)
+					.meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty())
 					.build(), MonsterAttack.builder().name("Claw").combatStyle(MELEE).attackRollModifier(4)
 							.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
-							.damageType(SLASHING).build()),
+							.damageType(SLASHING).meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
 			15),
 	GIANT_RAT(
 			12,
 			7,
-			30,
+			6,
 			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build()).damageType(PIERCING)
-					.build()),
+					.meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
 			15);
 
 	@Getter

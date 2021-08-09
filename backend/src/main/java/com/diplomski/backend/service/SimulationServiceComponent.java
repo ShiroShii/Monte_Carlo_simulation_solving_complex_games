@@ -4,12 +4,15 @@ import static com.diplomski.common.character.Party.ENEMY;
 import static com.diplomski.common.character.Party.PLAYER;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
+import com.diplomski.common.board.NodeBoard;
 import com.diplomski.common.board.NodeTile;
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
@@ -53,21 +56,23 @@ public class SimulationServiceComponent {
 
 		NodeTile playerTile = NodeTile.builder().id(PLAYER_TILE_ID).build();
 		NodeTile enemyTile = NodeTile.builder().id(ENEMY_TILE_ID).build();
-		playerTile.setReachableTiles(new HashSet<>(Arrays.asList(enemyTile)));
-		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(playerTile)));
-
-		PlayerCharacterState playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tile(playerTile)
+		playerTile.setReachableTiles(new HashSet<>(Arrays.asList(ENEMY_TILE_ID)));
+		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(PLAYER_TILE_ID)));
+		NodeBoard board = NodeBoard.builder().tiles(new HashMap<>(Map.of(PLAYER_TILE_ID, playerTile, ENEMY_TILE_ID, enemyTile)))
+				.build();
+		
+		PlayerCharacterState playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tileId(PLAYER_TILE_ID)
 				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH)
 				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB))
 				.level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
-		PlayerCharacterState enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tile(enemyTile)
+		PlayerCharacterState enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tileId(ENEMY_TILE_ID)
 				.dexterity(ENEMY_DEXTERITY).currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH)
 				.playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB))
 				.level(ENEMY_LEVEL).characterClass(ENEMY_CLASS).build();
 
 		List<ICharacterState> initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
 
-		return simulationService.getSimulation(initialCharacterStates, simulationCount, roundCountLimit);
+		return simulationService.getSimulation(initialCharacterStates, board, simulationCount, roundCountLimit);
 	}
 }

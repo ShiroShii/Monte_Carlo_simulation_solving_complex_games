@@ -12,6 +12,7 @@ import lombok.Data;
 @Builder(toBuilder = true)
 public class BoardState {
 	private LinkedHashMap<String, IBattleCharacterState> characterStates;
+	private IBoard board;
 
 	public int getPartyHp(Party party) {
 		return characterStates.values().stream().filter(x -> x.getParty().equals(party)).mapToInt(x -> x.getCurrentHp())

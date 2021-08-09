@@ -5,4 +5,5 @@ import com.diplomski.common.damage.DamageRoll;
 public interface IResource {
 	public CombatStyle getCombatStyle();
 	public DamageRoll getDamageRoll();
+	public double rangeMultiplier(int distance, CombatStyle combatStyle);
 }

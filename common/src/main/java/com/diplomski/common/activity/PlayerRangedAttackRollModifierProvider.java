@@ -14,7 +14,7 @@ public class PlayerRangedAttackRollModifierProvider implements IAttackRollModifi
 	@Override
 	public int getAttackRollModifier(IResource resource, IBattleCharacterState initiator) {
 		int modifier = 0;
-		// TODO: Check distance
+		// TODO: Check for disadvantage
 		if (resource instanceof Weapon) {
 			Weapon weapon = (Weapon) resource;
 

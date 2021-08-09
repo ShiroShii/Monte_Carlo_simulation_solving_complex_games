@@ -1,8 +1,8 @@
 package com.diplomski.common.character;
 
 import java.util.List;
+import java.util.UUID;
 
-import com.diplomski.common.board.ITile;
 import com.diplomski.common.resource.IResource;
 import com.diplomski.common.targeting.TargetingStyle;
 
@@ -28,7 +28,7 @@ public class PlayerCharacterState implements ICharacterState{
 	private CharacterLevel level;
 	private CharacterClass characterClass;
 	private List<IResource> resources;
-	private ITile tile;
+	private UUID tileId;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 

@@ -30,7 +30,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 	private final IDiceFactory diceFactory;
 
 	@Override
-	public BoardState getInitialBoardState(List<ICharacterState> characters) {
+	public BoardState getInitialBoardState(List<ICharacterState> characters, IBoard board) {
 		List<Entry<IBattleCharacterState, Integer>> initiatives = new ArrayList<>();
 
 		IDice dice = diceFactory.getDice(D20);
@@ -64,7 +64,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 			sortedCharacterStates.put(characterState.getId(), characterState);
 		}
 
-		BoardState boardState = BoardState.builder().characterStates(sortedCharacterStates).build();
+		BoardState boardState = BoardState.builder().board(board).characterStates(sortedCharacterStates).build();
 
 		return boardState;
 	}

@@ -5,7 +5,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -17,9 +19,10 @@ import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.AttackRollOutcome;
 import com.diplomski.common.activity.IAttackRollOutcomeProvider;
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.PlayerBattleCharacterState;
+import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.resource.Weapon;
 
@@ -37,6 +40,9 @@ public class AttackActionActivityProviderTest {
 	private final int TARGET_INITIAL_HP = 15;
 	private final int TARGET_FINAL_HIT_HP = 5;
 	private final int TARGET_FINAL_CRITICAL_HIT_HP = 0;
+	private List<ITile> path;
+	private final int DISTANCE = 0;
+	private final double RANGE_MULTIPLIER = 1D;
 
 	private PlayerBattleCharacterState initiator;
 	private PlayerBattleCharacterState targetInitialState;
@@ -61,9 +67,13 @@ public class AttackActionActivityProviderTest {
 	public void setup() {
 		when(damageProviderMock.getDamage(any(), any(), any())).thenReturn(HIT_DAMAGE);
 
+		path = new ArrayList<>();
+
 		initiator = PlayerBattleCharacterState.builder().party(Party.PLAYER).build();
-		targetInitialState = PlayerBattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_INITIAL_HP).build();
-		targetFinalHitState = PlayerBattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_FINAL_HIT_HP).build();
+		targetInitialState = PlayerBattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_INITIAL_HP)
+				.build();
+		targetFinalHitState = PlayerBattleCharacterState.builder().party(Party.ENEMY).currentHp(TARGET_FINAL_HIT_HP)
+				.build();
 		targetFinalCriticalHitState = PlayerBattleCharacterState.builder().party(Party.ENEMY)
 				.currentHp(TARGET_FINAL_CRITICAL_HIT_HP).build();
 
@@ -83,11 +93,13 @@ public class AttackActionActivityProviderTest {
 		finalHitBoardState = BoardState.builder().characterStates(finalHitCharacterStates).build();
 		finalCriticalHitBoardState = BoardState.builder().characterStates(finalCriticalHitCharacterStates).build();
 
-		expectedMissActivity = Optional.of(AttackActionActivity.builder().damage(MISS_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(initialBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build());
+		expectedMissActivity = Optional
+				.of(AttackActionActivity.builder().damage(MISS_DAMAGE).initialBoardState(initialBoardState)
+						.finalBoardState(initialBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build());
 
-		expectedHitActivity = Optional.of(AttackActionActivity.builder().damage(HIT_DAMAGE).initialBoardState(initialBoardState)
-				.finalBoardState(finalHitBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build());
+		expectedHitActivity = Optional
+				.of(AttackActionActivity.builder().damage(HIT_DAMAGE).initialBoardState(initialBoardState)
+						.finalBoardState(finalHitBoardState).initiatorId(INITIATOR_ID).targetId(TARGET_ID).build());
 
 		expectedCriticalHitActivity = Optional.of(AttackActionActivity.builder().damage(CRITICAL_HIT_DAMAGE)
 				.initialBoardState(initialBoardState).finalBoardState(finalCriticalHitBoardState)
@@ -100,7 +112,8 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_fumble() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.FUMBLE);
 
-		Optional<Activity> result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
+		Optional<Activity> result = unitUnderTest
+				.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, path, DISTANCE, RANGE_MULTIPLIER);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -109,7 +122,8 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_miss() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.MISS);
 
-		Optional<Activity> result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState);
+		Optional<Activity> result = unitUnderTest
+				.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, path, DISTANCE, RANGE_MULTIPLIER);
 
 		assertEquals(expectedMissActivity, result);
 	}
@@ -118,7 +132,8 @@ public class AttackActionActivityProviderTest {
 	public void testGetActivity_hit() {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any())).thenReturn(AttackRollOutcome.HIT);
 
-		Optional<Activity> result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, weapon);
+		Optional<Activity> result = unitUnderTest
+				.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, path, DISTANCE, RANGE_MULTIPLIER, weapon);
 
 		assertEquals(expectedHitActivity, result);
 	}
@@ -128,7 +143,8 @@ public class AttackActionActivityProviderTest {
 		when(attackRollOutcomeProviderMock.getAttackOutcome(any(), any(), any()))
 				.thenReturn(AttackRollOutcome.CRITICAL_HIT);
 
-		Optional<Activity> result = unitUnderTest.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, weapon);
+		Optional<Activity> result = unitUnderTest
+				.getActivity(INITIATOR_ID, TARGET_ID, initialBoardState, path, DISTANCE, RANGE_MULTIPLIER, weapon);
 
 		assertEquals(expectedCriticalHitActivity, result);
 	}

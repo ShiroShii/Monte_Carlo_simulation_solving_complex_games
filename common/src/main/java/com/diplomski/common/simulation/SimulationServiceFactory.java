@@ -6,6 +6,8 @@ import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.battle.IBattleProvider;
 import com.diplomski.common.board.BoardStateProvider;
 import com.diplomski.common.board.IBoardStateProvider;
+import com.diplomski.common.board.INavigator;
+import com.diplomski.common.board.NodeNavigator;
 import com.diplomski.common.damage.DamageProvider;
 import com.diplomski.common.damage.IDamageProvider;
 import com.diplomski.common.dice.DiceFactory;
@@ -20,7 +22,8 @@ public class SimulationServiceFactory {
 		IDiceFactory diceFactory = new DiceFactory();
 		IDamageProvider damageProvider = new DamageProvider(diceFactory);
 		IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
-		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider);
+		INavigator navigator = new NodeNavigator();
+		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider, navigator);
 		IBoardStateProvider boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
 		IRoundProvider roundProvider = new RoundProvider();
 		IBattleProvider battleProvider = new BattleProvider(boardStateProvider, roundProvider);
