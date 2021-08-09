@@ -13,17 +13,23 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.TargetingStyle;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "CharacterState")
 @Data
-public class CharacterStateDbModel {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PlayerCharacterStateDbModel {
     @Id
+    @Type(type="uuid-char")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
         name = "UUID",
@@ -44,8 +50,8 @@ public class CharacterStateDbModel {
 	private TargetingStyle targetingStyle;
 
 	@ManyToOne
-	@JoinColumn(name = "CharacterModelId", nullable = false)
-	private CharacterModelDbModel characterModel;
+	@JoinColumn(name = "PlayerCharacterId", nullable = false)
+	private PlayerCharacterDbModel playerCharacter;
 
 	@ManyToOne
 	@JoinColumn(name = "BoardStateId", nullable = false)

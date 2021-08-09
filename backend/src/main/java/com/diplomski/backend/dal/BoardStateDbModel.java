@@ -13,14 +13,20 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "BoardState")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class BoardStateDbModel {
     @Id
+    @Type(type="uuid-char")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
         name = "UUID",
@@ -33,7 +39,7 @@ public class BoardStateDbModel {
 	private String name;
 
 	@OneToMany(mappedBy = "boardState")
-	private List<CharacterStateDbModel> characterStates;
+	private List<PlayerCharacterStateDbModel> characterStates;
 
 	@ManyToOne
 	@JoinColumn(name = "NodeBoardId", nullable = false)

@@ -13,19 +13,25 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "CharacterModel")
 @Data
 @Builder
-public class CharacterModelDbModel {
+@NoArgsConstructor
+@AllArgsConstructor
+public class PlayerCharacterDbModel {
     @Id
+    @Type(type="uuid-char")
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(
         name = "UUID",
@@ -45,6 +51,6 @@ public class CharacterModelDbModel {
 	@Column(nullable = false)
 	private CharacterLevel characterLevel;
 
-	@OneToMany(mappedBy = "characterModel")
-	private List<CharacterStateDbModel> characterStates;
+	@OneToMany(mappedBy = "playerCharacter")
+	private List<PlayerCharacterStateDbModel> playerCharacterStates;
 }

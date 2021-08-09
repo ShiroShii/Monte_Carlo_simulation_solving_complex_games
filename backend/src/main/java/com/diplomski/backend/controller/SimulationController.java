@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.diplomski.backend.contract.SimulationRequest;
-import com.diplomski.backend.service.BoardStateService;
 import com.diplomski.backend.service.SimulationServiceComponent;
 import com.diplomski.common.simulation.SimulationReport;
 
@@ -20,8 +19,6 @@ import com.diplomski.common.simulation.SimulationReport;
 public class SimulationController {
 	@Autowired
 	private SimulationServiceComponent simulationService;
-	@Autowired
-	private BoardStateService boardStateService;
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/simulation/{id}/simulate")
