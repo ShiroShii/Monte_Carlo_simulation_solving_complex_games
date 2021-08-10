@@ -12,7 +12,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
 public class MonsterCharacterState implements ICharacterState{
-	private String id;
+	private UUID id;
 	private Party party;
 	protected Monster monster;
 	private UUID tileId;

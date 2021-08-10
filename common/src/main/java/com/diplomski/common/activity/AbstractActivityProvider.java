@@ -2,6 +2,7 @@ package com.diplomski.common.activity;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.ITile;
@@ -9,8 +10,8 @@ import com.diplomski.common.resource.IResource;
 
 public abstract class AbstractActivityProvider implements IActivityProvider {
 	public abstract Optional<Activity> getActivity(
-			String initiatorId,
-			String targetId,
+			UUID initiatorId,
+			UUID targetId,
 			BoardState initialBoardState,
 			List<ITile> path,
 			int distance,
@@ -18,8 +19,8 @@ public abstract class AbstractActivityProvider implements IActivityProvider {
 			IResource resource);
 
 	public Optional<Activity> getActivity(
-			String initiatorId,
-			String targetId,
+			UUID initiatorId,
+			UUID targetId,
 			BoardState initialBoardState,
 			List<ITile> path,
 			int distance,

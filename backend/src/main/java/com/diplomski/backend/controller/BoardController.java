@@ -24,7 +24,7 @@ public class BoardController {
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/board")
-	public ResponseEntity<NodeBoardResponse> getSimulation(
+	public ResponseEntity<NodeBoardResponse> create(
 			@RequestBody NodeBoardCreateRequest request) {
 		NodeBoardResponse response = NodeBoardTranslator.translate(boardService.saveBoard(request));
 		return new ResponseEntity<>(response, HttpStatus.OK);
@@ -32,7 +32,7 @@ public class BoardController {
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/board/{id}")
-	public ResponseEntity<NodeBoardResponse> getBoard(
+	public ResponseEntity<NodeBoardResponse> get(
 			@PathVariable("id") UUID boardId) {
 		NodeBoardResponse response = NodeBoardTranslator.translate(boardService.getBoard(boardId).get());
 		return new ResponseEntity<>(response, HttpStatus.OK);

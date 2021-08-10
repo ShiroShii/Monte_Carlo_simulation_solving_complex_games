@@ -47,15 +47,15 @@ public class TurnProviderTest {
 
 	private ITile distanceTile = mock(ITile.class);
 	
-	private final String INITIATOR_ID = "Initiator Id";
-	private final String TARGET_ID = "Target Id";
+	private final UUID INITIATOR_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private final UUID TARGET_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final UUID INITIATOR_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID TARGET_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
 	private final Party TARGET_PARTY = Party.ENEMY;
 	private PlayerBattleCharacterState initiator;
 	private PlayerBattleCharacterState target;
-	LinkedHashMap<String, IBattleCharacterState> characters;
+	LinkedHashMap<UUID, IBattleCharacterState> characters;
 
 	private List<IResource> weapons;
 	private List<Activity> expectedActivities;

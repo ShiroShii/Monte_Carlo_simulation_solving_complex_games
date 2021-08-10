@@ -1,6 +1,7 @@
 package com.diplomski.common.turn;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.board.BoardState;
@@ -12,7 +13,7 @@ import lombok.Data;
 @Builder
 public class Turn {
 	private List<Activity> activities;
-	private String initiatorId;
+	private UUID initiatorId;
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
 }

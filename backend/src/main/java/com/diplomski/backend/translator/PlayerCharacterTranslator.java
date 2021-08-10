@@ -7,6 +7,7 @@ public class PlayerCharacterTranslator {
 	public static PlayerCharacterResponse translate(PlayerCharacterDbModel input) {
 		return PlayerCharacterResponse.builder().id(input.getId()).name(input.getName()).dexterity(input.getDexterity())
 				.strength(input.getStrength()).walkingSpeed(input.getWalkingSpeed())
-				.characterClass(input.getCharacterClass()).characterLevel(input.getCharacterLevel()).build();
+				.weapons(input.getWeapons())
+				.armorClass(input.getArmorClass()).characterClass(input.getCharacterClass()).characterLevel(input.getCharacterLevel()).build();
 	}
 }

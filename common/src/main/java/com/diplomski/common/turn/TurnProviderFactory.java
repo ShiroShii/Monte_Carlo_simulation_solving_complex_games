@@ -1,5 +1,7 @@
 package com.diplomski.common.turn;
 
+import java.util.UUID;
+
 import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
@@ -22,7 +24,7 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 	private INavigator navigator;
 
 	@Override
-	public ITurnProvider getTurnProvider(String id, Party party, PlayStyle playStyle, TargetingStyle targetingStyle, CharacterType characterType) {
+	public ITurnProvider getTurnProvider(UUID id, Party party, PlayStyle playStyle, TargetingStyle targetingStyle, CharacterType characterType) {
 		ITargetProvider targetProvider = switch (targetingStyle) {
 			default -> new RoundRobinTargetProvider();
 		};

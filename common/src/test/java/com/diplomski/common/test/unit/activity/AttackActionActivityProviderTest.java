@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -31,8 +32,8 @@ public class AttackActionActivityProviderTest {
 	private IDamageProvider damageProviderMock = mock(IDamageProvider.class);
 
 	private final Weapon weapon = Weapon.CLUB;
-	private final String INITIATOR_ID = "Initiator Id";
-	private final String TARGET_ID = "Target Id";
+	private final UUID INITIATOR_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private final UUID TARGET_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final int MISS_DAMAGE = 0;
 	private final int HIT_DAMAGE = 10;
 	private final int CRITICAL_HIT_DAMAGE = 20;
@@ -49,9 +50,9 @@ public class AttackActionActivityProviderTest {
 	private PlayerBattleCharacterState targetFinalHitState;
 	private PlayerBattleCharacterState targetFinalCriticalHitState;
 
-	private LinkedHashMap<String, IBattleCharacterState> initialCharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> finalHitCharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> finalCriticalHitCharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> initialCharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> finalHitCharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> finalCriticalHitCharacterStates;
 
 	private BoardState initialBoardState;
 	private BoardState finalHitBoardState;

@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +37,10 @@ public class BattleProviderTest {
 	private IBoard boardMock = mock(IBoard.class);
 	
 	private final int ROUND_COUNT_LIMIT = 5;
-	private String character1Id = "Player 1";
-	private String character2Id = "Player 2";
-	private String character3Id = "Enemy 1";
+	private UUID character1Id = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private UUID character2Id = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
+	private UUID character3Id = UUID.fromString("5394c3eb-c5b3-4698-a05f-9e4298f58de7");
+
 	private Party character1Party = Party.PLAYER;
 	private Party character2Party = Party.PLAYER;
 	private Party character3Party = Party.ENEMY;
@@ -64,9 +66,9 @@ public class BattleProviderTest {
 	private PlayerBattleCharacterState boardState3character3;
 
 	private List<ICharacterState> initialCharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> boardState1CharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> boardState2CharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> boardState3CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState1CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState2CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState3CharacterStates;
 
 	private BoardState boardState1;
 	private BoardState boardState2;

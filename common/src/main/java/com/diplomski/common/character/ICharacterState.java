@@ -11,7 +11,7 @@ public interface ICharacterState {
 
 	Party getParty();
 
-	String getId();
+	UUID getId();
 
 	TargetingStyle getTargetingStyle();
 

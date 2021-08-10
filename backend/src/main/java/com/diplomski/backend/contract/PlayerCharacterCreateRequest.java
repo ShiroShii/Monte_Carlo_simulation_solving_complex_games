@@ -1,7 +1,10 @@
 package com.diplomski.backend.contract;
 
+import java.util.List;
+
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
+import com.diplomski.common.resource.Weapon;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,6 +20,8 @@ public class PlayerCharacterCreateRequest {
 	private int dexterity;
 	private int strength;
 	private int walkingSpeed;
+	private int armorClass;
+	private List<Weapon> weapons;
 	private CharacterClass characterClass;
 	private CharacterLevel characterLevel;
 }

@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.IBattleCharacterState;
@@ -57,7 +58,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 
 		initiatives.sort(Entry.<IBattleCharacterState, Integer>comparingByValue().reversed());
 
-		LinkedHashMap<String, IBattleCharacterState> sortedCharacterStates = new LinkedHashMap<>();
+		LinkedHashMap<UUID, IBattleCharacterState> sortedCharacterStates = new LinkedHashMap<>();
 
 		for (Entry<IBattleCharacterState, Integer> initiative : initiatives) {
 			IBattleCharacterState characterState = initiative.getKey();

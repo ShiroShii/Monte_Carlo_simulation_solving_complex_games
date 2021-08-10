@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,6 +18,7 @@ import org.hibernate.annotations.Type;
 
 import com.diplomski.common.character.CharacterClass;
 import com.diplomski.common.character.CharacterLevel;
+import com.diplomski.common.resource.Weapon;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +26,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "CharacterModel")
+@Table(name = "PlayerCharacter")
 @Data
 @Builder
 @NoArgsConstructor
@@ -51,10 +53,18 @@ public class PlayerCharacterDbModel {
 	
 	@Column(nullable = false)
 	private int walkingSpeed;
+	
+	@Column(nullable = false)
+	private int armorClass;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private CharacterClass characterClass;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
+	@ElementCollection(targetClass = Weapon.class)
+	private List<Weapon> weapons;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)

@@ -1,5 +1,7 @@
 package com.diplomski.common.activity;
 
+import java.util.UUID;
+
 import com.diplomski.common.board.BoardState;
 
 import lombok.Data;
@@ -12,5 +14,5 @@ import lombok.experimental.SuperBuilder;
 public abstract class Activity {
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
-	private String initiatorId;
+	private UUID initiatorId;
 }

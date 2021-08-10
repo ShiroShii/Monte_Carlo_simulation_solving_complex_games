@@ -10,14 +10,15 @@ import static org.mockito.Mockito.when;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.round.Round;
 import com.diplomski.common.round.RoundProvider;
 import com.diplomski.common.turn.ITurnProvider;
@@ -29,9 +30,9 @@ public class RoundProviderTest {
 	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
 	private RoundProvider unitUnderTest;
 
-	private final String character1Id = "Enemy 1";
-	private final String character2Id = "Player 1";
-	private final String character3Id = "Player 2";
+	private UUID character1Id = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private UUID character2Id = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
+	private UUID character3Id = UUID.fromString("5394c3eb-c5b3-4698-a05f-9e4298f58de7");
 
 	private final int boardState1character1CurrentHp = 20;
 	private final int boardState2character1CurrentHp = 20;
@@ -53,9 +54,9 @@ public class RoundProviderTest {
 	private PlayerBattleCharacterState boardState2character3;
 	private PlayerBattleCharacterState boardState3character3;
 
-	private LinkedHashMap<String, IBattleCharacterState> boardState1CharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> boardState2CharacterStates;
-	private LinkedHashMap<String, IBattleCharacterState> boardState3CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState1CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState2CharacterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> boardState3CharacterStates;
 
 	private BoardState boardState1;
 	private BoardState boardState2;

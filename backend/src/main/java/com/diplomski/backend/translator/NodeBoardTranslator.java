@@ -16,6 +16,6 @@ public class NodeBoardTranslator {
 
 	public static NodeBoardResponse translate(NodeBoardDbModel input) {
 		return NodeBoardResponse.builder().id(input.getId()).name(input.getName())
-				.nodes(input.getNodeTiles().stream().map(x -> translate(x)).collect(Collectors.toList())).build();
+				.nodes(input.getNodeTiles().stream().map(x -> translate(x)).toList()).build();
 	}
 }

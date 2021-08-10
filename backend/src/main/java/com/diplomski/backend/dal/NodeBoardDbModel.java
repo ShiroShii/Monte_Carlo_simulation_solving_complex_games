@@ -43,5 +43,5 @@ public class NodeBoardDbModel {
 	private List<NodeTileDbModel> nodeTiles;
 
 	@OneToMany(mappedBy = "nodeBoard")
-	private List<BoardStateDbModel> boardStates;
+	private List<BattleDbModel> boardStates;
 }

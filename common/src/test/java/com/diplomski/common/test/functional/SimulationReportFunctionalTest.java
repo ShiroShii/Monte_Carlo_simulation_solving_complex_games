@@ -55,8 +55,8 @@ public class SimulationReportFunctionalTest {
 	private final int ROUND_COUNT_LIMIT = 5;
 	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
-	private final String PLAYER_ID = "Player Id";
-	private final String ENEMY_ID = "Enemy Id";
+	private UUID PLAYER_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private UUID ENEMY_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final int PLAYER_INITIAL_HP = 10;
 	private final int ENEMY_INITIAL_HP = 10;
 	private final int PLAYER_DEXTERITY = 3;
@@ -99,15 +99,15 @@ public class SimulationReportFunctionalTest {
 		board = NodeBoard.builder().tiles(new HashMap<>(Map.of(PLAYER_TILE_ID, playerTile, ENEMY_TILE_ID, enemyTile)))
 				.build();
 
-		playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tileId(PLAYER_TILE_ID).dexterity(PLAYER_DEXTERITY)
-				.currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH).playStyle(PLAYER_PLAY_STYLE)
-				.targetingStyle(PLAYER_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL)
-				.characterClass(PLAYER_CLASS).build();
+		playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tileId(PLAYER_TILE_ID)
+				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH)
+				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE)
+				.resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
-		enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tileId(ENEMY_TILE_ID).dexterity(ENEMY_DEXTERITY)
-				.currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH).playStyle(ENEMY_PLAY_STYLE)
-				.targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB)).level(ENEMY_LEVEL)
-				.characterClass(ENEMY_CLASS).build();
+		enemyCharacterState = PlayerCharacterState.builder().id(ENEMY_ID).tileId(ENEMY_TILE_ID)
+				.dexterity(ENEMY_DEXTERITY).currentHp(ENEMY_INITIAL_HP).party(ENEMY).strength(ENEMY_STRENGTH)
+				.playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).resources(Arrays.asList(Weapon.CLUB))
+				.level(ENEMY_LEVEL).characterClass(ENEMY_CLASS).build();
 
 		initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
 
@@ -142,16 +142,15 @@ public class SimulationReportFunctionalTest {
 
 		int playerWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.PLAYER)).toArray().length;
-		
+
 		int enemyWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.ENEMY)).toArray().length;
-		
-		int draws = simulation.getBattles().stream()
-				.filter(x -> !x.isBattleComplete()).toArray().length;
+
+		int draws = simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).toArray().length;
 
 		assertNotEquals("Player always wins", playerWins, SIMULATION_COUNT);
 		assertNotEquals("Enemy always wins", enemyWins, SIMULATION_COUNT);
 		assertNotEquals("All battles are a draw", draws, SIMULATION_COUNT);
-		//System.out.println((double) playerWins / SIMULATION_COUNT);
+		// System.out.println((double) playerWins / SIMULATION_COUNT);
 	}
 }

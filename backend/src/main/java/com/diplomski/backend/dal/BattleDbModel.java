@@ -3,6 +3,7 @@ package com.diplomski.backend.dal;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,15 +17,17 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "BoardState")
+@Table(name = "Battle")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardStateDbModel {
+public class BattleDbModel {
     @Id
     @Type(type="uuid-char")
     @GeneratedValue(generator = "UUID")
@@ -38,10 +41,13 @@ public class BoardStateDbModel {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "boardState")
-	private List<PlayerCharacterStateDbModel> characterStates;
+	@OneToMany(mappedBy = "battle", cascade = CascadeType.ALL)
+	private List<PlayerCharacterStateDbModel> playerCharacterStates;
+	
+	@OneToMany(mappedBy = "battle", cascade = CascadeType.ALL)
+	private List<MonsterStateDbModel> monsterStates;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "NodeBoardId", nullable = false)
 	private NodeBoardDbModel nodeBoard;
 }

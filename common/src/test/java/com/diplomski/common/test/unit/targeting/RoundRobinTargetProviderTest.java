@@ -4,20 +4,21 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.LinkedHashMap;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.board.BoardState;
-import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.targeting.RoundRobinTargetProvider;
 
 public class RoundRobinTargetProviderTest {
-	private final String INITIATOR_ID = "Initiator Id";
-	private final String ENEMY_1_ID = "Enemy 1 Id";
-	private final String ENEMY_2_ID = "Enemy 1 Id";
+	private final UUID INITIATOR_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private final UUID ENEMY_1_ID =  UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
+	private final UUID ENEMY_2_ID = UUID.fromString("5394c3eb-c5b3-4698-a05f-9e4298f58de7");
 	private final Party INITIATOR_PARTY = Party.PLAYER;
 	private final Party TARGET_PARTY = Party.ENEMY;
 	private BoardState boardStateWithTarget;
@@ -27,8 +28,8 @@ public class RoundRobinTargetProviderTest {
 	private PlayerBattleCharacterState enemyTargetCharacterState;
 	private PlayerBattleCharacterState enemyIncapacitatedCharacterState;
 
-	private LinkedHashMap<String, IBattleCharacterState> characterStatesWithTarget;
-	private LinkedHashMap<String, IBattleCharacterState> characterStatesWithoutTarget;
+	private LinkedHashMap<UUID, IBattleCharacterState> characterStatesWithTarget;
+	private LinkedHashMap<UUID, IBattleCharacterState> characterStatesWithoutTarget;
 
 	RoundRobinTargetProvider unitUnderTest;
 
@@ -57,14 +58,14 @@ public class RoundRobinTargetProviderTest {
 
 	@Test
 	public void testGetTargetId_shouldGetTarget() {
-		Optional<String> result = unitUnderTest.getTargetId(INITIATOR_ID, TARGET_PARTY, boardStateWithTarget);
+		Optional<UUID> result = unitUnderTest.getTargetId(INITIATOR_ID, TARGET_PARTY, boardStateWithTarget);
 
-		assertEquals(Optional.of(ENEMY_2_ID), result);
+		assertEquals(Optional.of(ENEMY_1_ID), result);
 	}
 
 	@Test
 	public void testGetTargetId_shouldNotGetTarget() {
-		Optional<String> result = unitUnderTest.getTargetId(INITIATOR_ID, TARGET_PARTY, boardStateWithoutTarget);
+		Optional<UUID> result = unitUnderTest.getTargetId(INITIATOR_ID, TARGET_PARTY, boardStateWithoutTarget);
 
 		assertEquals(Optional.empty(), result);
 	}

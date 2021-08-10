@@ -25,8 +25,14 @@ public class SimulationController {
 	public ResponseEntity<SimulationReport> getSimulation(
 			@PathVariable("id") UUID boardStateId,
 			@RequestBody SimulationRequest simulationRequest) {
-		SimulationReport response = simulationService.getSimulation(boardStateId, simulationRequest
-				.getSimulationCount(), simulationRequest.getRoundCountLimit());
-		return new ResponseEntity<>(response, HttpStatus.OK);
+		SimulationReport response;
+		try {
+			response = simulationService.getSimulation(boardStateId, simulationRequest
+					.getSimulationCount(), simulationRequest.getRoundCountLimit());
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
 	}
 }

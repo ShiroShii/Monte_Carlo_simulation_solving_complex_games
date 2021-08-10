@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -36,9 +37,9 @@ public class BoardStateProviderTest {
 	private ITurnProviderFactory turnProviderFactoryMock = mock(ITurnProviderFactory.class);
 	private IBoard boardMock = mock(IBoard.class);
 
-	private String character1Id = "Player 1";
-	private String character2Id = "Player 2";
-	private String character3Id = "Enemy 1";
+	private UUID character1Id = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private UUID character2Id = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
+	private UUID character3Id = UUID.fromString("5394c3eb-c5b3-4698-a05f-9e4298f58de7");
 	private Party character1Party = Party.PLAYER;
 	private Party character2Party = Party.PLAYER;
 	private Party character3Party = Party.ENEMY;
@@ -71,7 +72,7 @@ public class BoardStateProviderTest {
 	private ITurnProvider character3TurnProviderMock = mock(ITurnProvider.class);
 
 	private List<ICharacterState> initialCharacterStateList;
-	private LinkedHashMap<String, IBattleCharacterState> expectedCharacterStateList;
+	private LinkedHashMap<UUID, IBattleCharacterState> expectedCharacterStateList;
 	private BoardState expectedBoardState;
 
 	private BoardStateProvider unitUnderTest;
@@ -135,8 +136,8 @@ public class BoardStateProviderTest {
 		assertEquals(expectedBoardState, result);
 
 		// Verify order
-		Iterator<String> expectedIterator = expectedBoardState.getCharacterStates().keySet().iterator();
-		Iterator<String> resultIterator = result.getCharacterStates().keySet().iterator();
+		Iterator<UUID> expectedIterator = expectedBoardState.getCharacterStates().keySet().iterator();
+		Iterator<UUID> resultIterator = result.getCharacterStates().keySet().iterator();
 
 		while (expectedIterator.hasNext() && resultIterator.hasNext()) {
 			assertEquals(expectedIterator.next(), resultIterator.next());

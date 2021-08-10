@@ -57,8 +57,8 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 	private final int ROUND_COUNT_LIMIT = 5;
 	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
-	private final String PLAYER_ID = "Player Id";
-	private final String ENEMY_ID = "Enemy Id";
+	private final UUID PLAYER_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private final UUID ENEMY_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final int PLAYER_INITIAL_HP = 20;
 	private final int PLAYER_DEXTERITY = 10;
 	private final int PLAYER_STRENGTH = 10;
@@ -87,7 +87,7 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 	private @NonNull IRoundProvider roundProvider;
 	private @NonNull IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory;
 	private @NonNull IDamageProvider damageProvider;
-	
+
 	public void objectSetup() {
 		playerTile = NodeTile.builder().id(PLAYER_TILE_ID).build();
 		enemyTile = NodeTile.builder().id(ENEMY_TILE_ID).build();
@@ -101,8 +101,9 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE)
 				.resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
-		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID).tileId(ENEMY_TILE_ID)
-				.party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE).build();
+		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID)
+				.tileId(ENEMY_TILE_ID).party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE)
+				.build();
 
 		initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);
 
@@ -137,16 +138,15 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 
 		int playerWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.PLAYER)).toArray().length;
-		
+
 		int enemyWins = simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(Party.ENEMY)).toArray().length;
-		
-		int draws = simulation.getBattles().stream()
-				.filter(x -> !x.isBattleComplete()).toArray().length;
+
+		int draws = simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).toArray().length;
 
 		assertNotEquals("Player always wins", playerWins, SIMULATION_COUNT);
 		assertNotEquals("Enemy always wins", enemyWins, SIMULATION_COUNT);
 		assertNotEquals("All battles are a draw", draws, SIMULATION_COUNT);
-		//System.out.println((double) playerWins / SIMULATION_COUNT);
+		// System.out.println((double) playerWins / SIMULATION_COUNT);
 	}
 }

@@ -1,6 +1,7 @@
 package com.diplomski.common.board;
 
 import java.util.LinkedHashMap;
+import java.util.UUID;
 
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
@@ -11,7 +12,7 @@ import lombok.Data;
 @Data
 @Builder(toBuilder = true)
 public class BoardState {
-	private LinkedHashMap<String, IBattleCharacterState> characterStates;
+	private LinkedHashMap<UUID, IBattleCharacterState> characterStates;
 	private IBoard board;
 
 	public int getPartyHp(Party party) {

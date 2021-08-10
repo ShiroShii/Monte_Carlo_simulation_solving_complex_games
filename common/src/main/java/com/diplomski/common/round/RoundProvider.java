@@ -2,6 +2,7 @@ package com.diplomski.common.round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.character.IBattleCharacterState;
@@ -16,7 +17,7 @@ public class RoundProvider implements IRoundProvider {
 		BoardState currentBoardState = initialBoardState;
 		List<Turn> turns = new ArrayList<>();
 
-		for (String characterId : initialBoardState.getCharacterStates().keySet()) {
+		for (UUID characterId : initialBoardState.getCharacterStates().keySet()) {
 			if (currentBoardState.isBattleComplete()) {
 				break;
 			}

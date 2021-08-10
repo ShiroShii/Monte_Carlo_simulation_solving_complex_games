@@ -3,6 +3,7 @@ package com.diplomski.common.turn;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import com.diplomski.common.activity.Activity;
 import com.diplomski.common.activity.IActivityProvider;
@@ -24,7 +25,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class TurnProvider implements ITurnProvider {
 	private final INavigator navigator;
-	private final String initiatorId;
+	private final UUID initiatorId;
 	private final Party targetParty;
 	private final ITargetProvider targetProvider;
 	private final IActivityProvider movementProvider;
@@ -45,7 +46,7 @@ public class TurnProvider implements ITurnProvider {
 			default -> throw new IllegalArgumentException("PlayStyle not implemented");
 		};
 
-		Optional<String> targetIdOptional = targetProvider.getTargetId(initiatorId, targetParty, currentBoardState);
+		Optional<UUID> targetIdOptional = targetProvider.getTargetId(initiatorId, targetParty, currentBoardState);
 
 		if (targetIdOptional.isPresent()) {
 			IBattleCharacterState target = currentBoardState.getCharacterStates().get(targetIdOptional.get());

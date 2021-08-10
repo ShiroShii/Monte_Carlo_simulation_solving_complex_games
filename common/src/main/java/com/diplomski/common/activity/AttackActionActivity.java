@@ -1,5 +1,7 @@
 package com.diplomski.common.activity;
 
+import java.util.UUID;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -10,6 +12,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class AttackActionActivity extends Activity {
-	private String targetId;
+	private UUID targetId;
 	private int damage;
 }

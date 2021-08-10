@@ -67,8 +67,8 @@ public class PlayerVsMonsterWithTileBetweenSimulationReportFunctionalTest {
 	private final UUID DISTANCE_TILE_7_ID = UUID.fromString("058b1670-2812-4bcb-ab35-157be8df41e7");
 	private final UUID DISTANCE_TILE_8_ID = UUID.fromString("7ea566e5-aa72-4628-9efa-f0371b235eec");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
-	private final String PLAYER_ID = "Player Id";
-	private final String ENEMY_ID = "Enemy Id";
+	private final UUID PLAYER_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
+	private final UUID ENEMY_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final int PLAYER_INITIAL_HP = 20;
 	private final int PLAYER_DEXTERITY = 10;
 	private final int PLAYER_STRENGTH = 10;

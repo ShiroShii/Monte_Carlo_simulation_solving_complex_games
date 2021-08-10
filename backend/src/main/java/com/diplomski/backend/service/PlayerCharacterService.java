@@ -20,7 +20,8 @@ public class PlayerCharacterService {
 	public PlayerCharacterDbModel save(PlayerCharacterCreateRequest request) {
 		PlayerCharacterDbModel playerCharacter = PlayerCharacterDbModel.builder().name(request.getName())
 				.dexterity(request.getDexterity()).strength(request.getStrength())
-				.walkingSpeed(request.getWalkingSpeed()).characterClass(request.getCharacterClass())
+				.weapons(request.getWeapons())
+				.armorClass(request.getArmorClass()).walkingSpeed(request.getWalkingSpeed()).characterClass(request.getCharacterClass())
 				.characterLevel(request.getCharacterLevel()).build();
 		return playerCharacterRepository.save(playerCharacter);
 	}

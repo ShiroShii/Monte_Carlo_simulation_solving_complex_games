@@ -1,18 +1,18 @@
 {
 	"info": {
-		"_postman_id": "c43c404a-62a5-4472-a688-36e027b358bb",
+		"_postman_id": "3e011b95-1d52-43d3-b06e-1b3cb3fbc84c",
 		"name": "Diplomski",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "Get Simulation",
+			"name": "SimulationRequest",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"simulationCount\":200,\r\n    \"roundCountLimit\":5\r\n}",
+					"raw": "{\r\n    \"simulationCount\":1000,\r\n    \"roundCountLimit\": 10\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,16 +20,153 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/simulation/d36c2d2d-7aea-403a-b45b-9509566f97a3/simulate",
-					"protocol": "http",
+					"raw": "localhost:8080/simulation/a75fe602-0345-4900-9999-1cc87c21f1c0/simulate",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"simulation",
-						"d36c2d2d-7aea-403a-b45b-9509566f97a3",
+						"a75fe602-0345-4900-9999-1cc87c21f1c0",
 						"simulate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBoard",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/board/81162f4a-b9cf-4ed2-a372-00f8cd5e44dc",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"board",
+						"81162f4a-b9cf-4ed2-a372-00f8cd5e44dc"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBoard",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"BasicBoard\",\r\n    \"nodes\": [\r\n        {\r\n            \"reachableTiles\": [\r\n                1\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        },\r\n        {\r\n            \"reachableTiles\": [\r\n                0\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/board",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"board"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetPlayerCharacter",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/player-character/6f489a03-01a2-4ebb-bcac-53541ccf724a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"player-character",
+						"6f489a03-01a2-4ebb-bcac-53541ccf724a"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreatePlayerCharacter",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Character1\",\r\n    \"characterLevel\": \"L7\",\r\n    \"characterClass\": \"BARBARIAN\",\r\n    \"strength\": 20,\r\n    \"dexterity\": 20,\r\n    \"walkingSpeed\": 5,\r\n    \"armorClass\": 3,\r\n    \"weapons\": [\r\n        \"CLUB\"\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/player-character",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"player-character"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateBattle",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Battle_1\",\r\n    \"boardId\": \"4abd16d3-5e93-408b-b6c4-a7aafe44d562\",\r\n    \"playerCharacterStates\": [\r\n        {\r\n            \"playerCharacterId\": \"882ee319-064e-41da-8282-3af465e98263\",\r\n            \"currentHp\": 12,\r\n            \"tileId\": \"27c2a556-6449-4a35-b166-5a9c2a6e5721\",\r\n            \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n            \"targetingStyle\": \"CLOSEST\",\r\n            \"party\": \"PLAYER\"\r\n        }\r\n    ],\r\n    \"monsterStates\": [\r\n        {\r\n            \"monster\": \"GIANT_RAT\",\r\n            \"currentHp\": 45,\r\n            \"tileId\": \"1775efc5-38f0-4749-9617-08b4b19954d3\",\r\n            \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n            \"targetingStyle\": \"CLOSEST\",\r\n            \"party\": \"ENEMY\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/battle",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"battle"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetBattle",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/battle/f411b183-35eb-43b5-86d9-a73b86857099",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"battle",
+						"f411b183-35eb-43b5-86d9-a73b86857099"
 					]
 				}
 			},

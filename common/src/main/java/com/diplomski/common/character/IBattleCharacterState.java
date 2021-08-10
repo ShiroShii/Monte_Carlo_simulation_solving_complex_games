@@ -7,7 +7,7 @@ import com.diplomski.common.resource.IResource;
 import com.diplomski.common.turn.ITurnProvider;
 
 public interface IBattleCharacterState {
-	public String getId();
+	public UUID getId();
 	
 	public Party getParty();
 

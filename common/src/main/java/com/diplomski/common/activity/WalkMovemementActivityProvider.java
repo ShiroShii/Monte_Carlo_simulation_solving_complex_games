@@ -12,8 +12,8 @@ import com.diplomski.common.resource.IResource;
 public class WalkMovemementActivityProvider extends AbstractActivityProvider {
 	@Override
 	public Optional<Activity> getActivity(
-			String initiatorId,
-			String targetId,
+			UUID initiatorId,
+			UUID targetId,
 			BoardState initialBoardState,
 			List<ITile> path,
 			int distance,
