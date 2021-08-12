@@ -7,7 +7,7 @@ import BoardCreationPage from './components/pages/BoardCreationPage';
 import BoardDetailsPage from './components/pages/BoardDetailsPage';
 import NavigationBar from './components/NavigationBar';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import CharacterListPage from './components/pages/CharacterListPage';
+import PlayerCharacterListPage from './components/pages/PlayerCharacterListPage';
 import BoardListPage from './components/pages/BoardListPage';
 import SimulationListPage from './components/pages/SimulationListPage';
 
@@ -18,7 +18,7 @@ function App() {
         <Router>
           <NavigationBar />
           <Switch>
-            <Route exact path="/character" component={CharacterListPage} />
+            <Route exact path="/character" component={PlayerCharacterListPage} />
             <Route exact path="/character/create" component={CharacterCreationPage} />
             <Route exact path="/character/:id" render={routeProps => <CharacterDetailsPage id={routeProps.match.params.id} />} />
             <Route exact path="/board" component={BoardListPage} />

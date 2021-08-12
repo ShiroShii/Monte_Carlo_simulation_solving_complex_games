@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.diplomski.backend.contract.PlayerCharacterCreateRequest;
 import com.diplomski.backend.dal.PlayerCharacterDbModel;
@@ -14,6 +15,7 @@ import lombok.AllArgsConstructor;
 
 @Component
 @AllArgsConstructor
+@Transactional
 public class PlayerCharacterService {
 	private PlayerCharacterRepository playerCharacterRepository;
 
