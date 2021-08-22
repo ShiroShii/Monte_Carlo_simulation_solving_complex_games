@@ -50,7 +50,7 @@ public class BoardService {
 		return nodeBoardRepository.findById(id);
 	}
 
-	public List<NodeBoardDbModel> getAllBoards() {
+	public List<NodeBoardDbModel> getAll() {
 		return nodeBoardRepository.findAll();
 	}
 

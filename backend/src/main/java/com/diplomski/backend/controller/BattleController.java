@@ -1,5 +1,6 @@
 package com.diplomski.backend.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,6 +42,13 @@ public class BattleController {
 	public ResponseEntity<BattleResponse> get(
 			@PathVariable("id") UUID id) {
 		BattleResponse response = BattleTranslator.translate(battleService.get(id).get());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping(path = "/battle")
+	public ResponseEntity<List<BattleResponse>> getAll() {
+		List<BattleResponse> response = BattleTranslator.translate(battleService.getAll());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

@@ -1,5 +1,6 @@
 package com.diplomski.backend.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,13 @@ public class BoardController {
 	public ResponseEntity<NodeBoardResponse> get(
 			@PathVariable("id") UUID boardId) {
 		NodeBoardResponse response = NodeBoardTranslator.translate(boardService.getBoard(boardId).get());
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@GetMapping(path = "/board")
+	public ResponseEntity<List<NodeBoardResponse>> getAll() {
+		List<NodeBoardResponse> response = NodeBoardTranslator.translate(boardService.getAll());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

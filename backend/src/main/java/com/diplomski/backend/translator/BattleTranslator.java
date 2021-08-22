@@ -1,5 +1,7 @@
 package com.diplomski.backend.translator;
 
+import java.util.List;
+
 import com.diplomski.backend.contract.BattleResponse;
 import com.diplomski.backend.contract.MonsterStateResponse;
 import com.diplomski.backend.contract.PlayerCharacterStateResponse;
@@ -25,5 +27,9 @@ public class BattleTranslator {
 		return BattleResponse.builder().id(input.getId()).name(input.getName()).boardId(input.getNodeBoard().getId())
 				.playerCharacterStates(input.getPlayerCharacterStates().stream().map(x -> translate(x)).toList())
 				.monsterStates(input.getMonsterStates().stream().map(x -> translate(x)).toList()).build();
+	}
+	
+	public static List<BattleResponse> translate(List<BattleDbModel> input) {
+		return input.stream().map(x -> translate(x)).toList();
 	}
 }
