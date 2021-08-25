@@ -4,7 +4,9 @@ type BattleDetailsPageProps = {
 
 function BattleDetailsPage(props: BattleDetailsPageProps) {
     return (
-        <p>Battle Details Page for id={props.id}</p>
+        <>
+            <p>Battle Details Page for id={props.id}</p>
+        </>
     );
 }
 

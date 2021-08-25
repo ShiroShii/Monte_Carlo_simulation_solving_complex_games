@@ -1,14 +1,16 @@
-import { DataGrid, GridColDef, GridRowsProp } from '@material-ui/data-grid';
+import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 function PlayerCharacterList() {
-    const [playerCharacter, getPlayerCharacter] = useState<GridRowsProp>([])
+    const [playerCharacter, setPlayerCharacter] = useState<GridRowsProp>([])
+    const [loading, setLoading] = useState(true)
 
     useEffect(() => {
         axios.get('http://localhost:8080/player-character')
             .then((response) => {
-                getPlayerCharacter(response.data);
+                setPlayerCharacter(response.data);
+                setLoading(false);
                 console.log(response);
             }).catch(response => {
                 console.log(response);
@@ -16,11 +18,23 @@ function PlayerCharacterList() {
     }, []);
 
     const columns: GridColDef[] = [
-        { field: 'id', headerName: 'ID', width: 500 }
+        {
+            field: 'name',
+            headerName: 'Name',
+            width: 200
+        },
+        {
+            field: 'id',
+            headerName: 'Details',
+            width: 150,
+            renderCell: (params: GridCellParams) => {
+                return <Link to={`/character/${params.id}`}>Details</Link>;
+            },
+        },
     ];
 
     return (
-        <DataGrid autoHeight rows={playerCharacter} columns={columns} />
+        <DataGrid autoHeight loading={loading} rows={playerCharacter} columns={columns} />
     );
 }
 
