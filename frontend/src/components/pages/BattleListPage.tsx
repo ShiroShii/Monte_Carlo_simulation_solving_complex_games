@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import BattleList from "../battle/BattleList";
+import { Link } from "react-router-dom"
+import BattleList from "../battle/BattleList"
 
 function BattleListPage() {
     return (
@@ -11,4 +11,4 @@ function BattleListPage() {
     );
 }
 
-export default BattleListPage;
+export default BattleListPage

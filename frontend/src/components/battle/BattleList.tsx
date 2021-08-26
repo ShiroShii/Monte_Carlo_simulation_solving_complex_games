@@ -1,7 +1,7 @@
-import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 function BattleList() {
     const [battle, setBattle] = useState<GridRowsProp>([])
@@ -39,4 +39,4 @@ function BattleList() {
     );
 }
 
-export default BattleList;
+export default BattleList

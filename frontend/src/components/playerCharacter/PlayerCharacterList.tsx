@@ -1,7 +1,7 @@
-import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid';
-import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid'
+import axios from 'axios'
+import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 function PlayerCharacterList() {
     const [playerCharacter, setPlayerCharacter] = useState<GridRowsProp>([])
     const [loading, setLoading] = useState(true)
@@ -38,4 +38,4 @@ function PlayerCharacterList() {
     );
 }
 
-export default PlayerCharacterList;
+export default PlayerCharacterList

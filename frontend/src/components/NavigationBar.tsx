@@ -1,5 +1,5 @@
-import { Nav, Navbar } from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Nav, Navbar } from 'react-bootstrap'
+import {Link} from 'react-router-dom'
 
 function NavigationBar() {
     return (
@@ -13,4 +13,4 @@ function NavigationBar() {
     );
 }
 
-export default NavigationBar;
+export default NavigationBar

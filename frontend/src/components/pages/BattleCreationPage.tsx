@@ -4,4 +4,4 @@ function BattleCreationPage() {
     );
 }
 
-export default BattleCreationPage;
+export default BattleCreationPage

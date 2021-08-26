@@ -1,6 +1,6 @@
 
-import { Link } from "react-router-dom";
-import PlayerCharacterList from "../playerCharacter/PlayerCharacterList";
+import { Link } from "react-router-dom"
+import PlayerCharacterList from "../playerCharacter/PlayerCharacterList"
 
 function PlayerCharacterListPage() {
     return (
@@ -12,4 +12,4 @@ function PlayerCharacterListPage() {
     );
 }
 
-export default PlayerCharacterListPage;
+export default PlayerCharacterListPage

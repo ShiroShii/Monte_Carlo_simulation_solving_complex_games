@@ -4,4 +4,4 @@ function BoardCreationPage(){
     );
 }
 
-export default BoardCreationPage;
+export default BoardCreationPage

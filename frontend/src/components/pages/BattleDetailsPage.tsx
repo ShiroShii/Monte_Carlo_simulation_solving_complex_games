@@ -1,5 +1,5 @@
 type BattleDetailsPageProps = {
-    id: string;
+    id: string
 }
 
 function BattleDetailsPage(props: BattleDetailsPageProps) {
@@ -10,4 +10,4 @@ function BattleDetailsPage(props: BattleDetailsPageProps) {
     );
 }
 
-export default BattleDetailsPage;
+export default BattleDetailsPage

@@ -8,4 +8,4 @@ function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps){
     );
 }
 
-export default PlayerCharacterDetailsPage;
+export default PlayerCharacterDetailsPage
