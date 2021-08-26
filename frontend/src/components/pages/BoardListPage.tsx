@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import BoardList from "../board/BoardList";
+import { Link } from "react-router-dom"
+import BoardList from "../board/BoardList"
 
 function BoardListPage() {
     return (
@@ -11,4 +11,4 @@ function BoardListPage() {
     );
 }
 
-export default BoardListPage;
+export default BoardListPage

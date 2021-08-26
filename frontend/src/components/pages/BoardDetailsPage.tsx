@@ -8,4 +8,4 @@ function BoardDetailsPage(props: BoardDetailsPageProps){
     );
 }
 
-export default BoardDetailsPage;
+export default BoardDetailsPage
