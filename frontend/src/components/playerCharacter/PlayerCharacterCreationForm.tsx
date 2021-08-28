@@ -17,7 +17,8 @@ function PlayerCharacterCreationForm() {
         walkingSpeed: Number,
         armorClass: Number,
         characterLevel: String,
-        characterClass: String
+        characterClass: String,
+        weapons: [String],
     }
 
     const onSubmit = async (values: Values) => {
