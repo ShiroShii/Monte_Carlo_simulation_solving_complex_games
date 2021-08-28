@@ -49,6 +49,10 @@ public class BoardService {
 	public Optional<NodeBoardDbModel> getBoard(UUID id) {
 		return nodeBoardRepository.findById(id);
 	}
+	
+	public NodeBoardDbModel updateBoard(NodeBoardDbModel request) {
+		return nodeBoardRepository.save(request);
+	}
 
 	public List<NodeBoardDbModel> getAll() {
 		return nodeBoardRepository.findAll();

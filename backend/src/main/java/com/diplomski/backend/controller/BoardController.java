@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.diplomski.backend.contract.NodeBoardContract;
 import com.diplomski.backend.contract.NodeBoardCreateRequest;
-import com.diplomski.backend.contract.NodeBoardResponse;
 import com.diplomski.backend.service.BoardService;
 import com.diplomski.backend.translator.NodeBoardTranslator;
 
@@ -25,24 +25,24 @@ public class BoardController {
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/board")
-	public ResponseEntity<NodeBoardResponse> create(
+	public ResponseEntity<NodeBoardContract> create(
 			@RequestBody NodeBoardCreateRequest request) {
-		NodeBoardResponse response = NodeBoardTranslator.translate(boardService.saveBoard(request));
+		NodeBoardContract response = NodeBoardTranslator.translate(boardService.saveBoard(request));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/board/{id}")
-	public ResponseEntity<NodeBoardResponse> get(
+	public ResponseEntity<NodeBoardContract> get(
 			@PathVariable("id") UUID boardId) {
-		NodeBoardResponse response = NodeBoardTranslator.translate(boardService.getBoard(boardId).get());
+		NodeBoardContract response = NodeBoardTranslator.translate(boardService.getBoard(boardId).get());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/board")
-	public ResponseEntity<List<NodeBoardResponse>> getAll() {
-		List<NodeBoardResponse> response = NodeBoardTranslator.translate(boardService.getAll());
+	public ResponseEntity<List<NodeBoardContract>> getAll() {
+		List<NodeBoardContract> response = NodeBoardTranslator.translate(boardService.getAll());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 }

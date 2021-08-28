@@ -1,21 +1,10 @@
-import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import usePlayerCharacterList from './UsePlayerCharacterList'
 function PlayerCharacterList() {
-    const [playerCharacter, setPlayerCharacter] = useState<GridRowsProp>([])
     const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        axios.get('http://localhost:8080/player-character')
-            .then((response) => {
-                setPlayerCharacter(response.data);
-                setLoading(false);
-                console.log(response);
-            }).catch(response => {
-                console.log(response);
-            });
-    }, []);
+    const playerCharacter = usePlayerCharacterList(setLoading)
 
     const columns: GridColDef[] = [
         {

@@ -1,22 +1,11 @@
-import { DataGrid, GridCellParams, GridColDef, GridRowsProp } from '@material-ui/data-grid'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import useBattleList from './UseBattleList'
 
 function BattleList() {
-    const [battle, setBattle] = useState<GridRowsProp>([])
     const [loading, setLoading] = useState(true)
-
-    useEffect(() => {
-        axios.get('http://localhost:8080/battle')
-            .then((response) => {
-                setBattle(response.data);
-                setLoading(false)
-                console.log(response);
-            }).catch(response => {
-                console.log(response);
-            });
-    }, []);
+    const battleList = useBattleList(setLoading)
 
     const columns: GridColDef[] = [
         {
@@ -35,7 +24,7 @@ function BattleList() {
     ];
 
     return (
-        <DataGrid autoHeight loading={loading} rows={battle} columns={columns} />
+        <DataGrid autoHeight loading={loading} rows={battleList} columns={columns} />
     );
 }
 

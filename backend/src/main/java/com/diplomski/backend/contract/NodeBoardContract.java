@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NodeBoardResponse {
+public class NodeBoardContract {
 	private UUID id;
 	private String name;
 	private List<NodeTileResponse> nodes;

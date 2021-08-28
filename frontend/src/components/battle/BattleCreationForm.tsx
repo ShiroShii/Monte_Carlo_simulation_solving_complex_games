@@ -2,16 +2,36 @@ import axios from 'axios'
 import arrayMutators from 'final-form-arrays'
 import { Form } from "react-final-form"
 import NameField from '../forms/NameField'
-import Tile from './Tile';
-import TileField from './TileField'
-function BoardCreationForm() {
+import BoardField from './BoardField'
+function BattleCreationForm() {
+
     interface Values {
         name: String,
-        List: [Tile]
+        boardId: String,
+        playerCharacterStates: [PlayerCharacterState],
+        monsterStates: [MonsterState]
+    }
+
+    interface PlayerCharacterState {
+        playerCharacterId: String,
+        currentHp: Number,
+        tileId: String,
+        playStyle: String,
+        targetingStyle: String,
+        party: String
+    }
+
+    interface MonsterState {
+        monster: String,
+        currentHp: Number,
+        tileId: String,
+        playStyle: String,
+        targetingStyle: String,
+        party: String
     }
 
     const onSubmit = async (values: Values) => {
-        axios.post('http://localhost:8080/board', values)
+        axios.post('http://localhost:8080/player-character', values)
             .then((response) => {
                 console.log(response);
                 //TODO: redirect to details
@@ -33,7 +53,7 @@ function BoardCreationForm() {
             }) => (
                 <form onSubmit={handleSubmit}>
                     <NameField />
-                    <TileField push={push} />
+                    <BoardField />
                     <button type="submit">Submit</button>
                 </form>
             )}
@@ -41,4 +61,4 @@ function BoardCreationForm() {
     )
 }
 
-export default BoardCreationForm
+export default BattleCreationForm

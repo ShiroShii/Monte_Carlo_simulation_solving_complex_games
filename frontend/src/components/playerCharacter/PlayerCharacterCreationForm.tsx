@@ -1,14 +1,15 @@
 import axios from 'axios'
 import arrayMutators from 'final-form-arrays'
 import { Form } from "react-final-form"
+import NameField from '../forms/NameField'
 import ArmorClassField from "./ArmorClassField"
 import CharacterClassField from "./CharacterClassField"
 import CharacterLevelField from "./CharacterLevelField"
 import DexterityField from "./DexterityField"
-import NameField from "./NameField"
 import StrenghField from "./StrengthField"
 import WalkingSpeedField from "./WalkingSpeedField"
 import WeaponField from "./WeaponField"
+
 function PlayerCharacterCreationForm() {
     interface Values {
         name: String,

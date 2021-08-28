@@ -1,6 +1,11 @@
+import BattleCreationForm from "../battle/BattleCreationForm";
+
 function BattleCreationPage() {
     return (
-        <p>Battle Creation Page</p>
+        <>
+            <p>Battle Creation Page</p>
+            <BattleCreationForm />
+        </>
     );
 }
 

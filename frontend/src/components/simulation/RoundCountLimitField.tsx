@@ -1,16 +1,17 @@
 import { TextField } from "@material-ui/core"
 import { Field } from "react-final-form"
 
-function NameField() {
+function RoundCountLimitField() {
     return (
-        <Field name="name">
+        <Field name="roundCountLimit">
             {props => (
                 <div>
                     <TextField
                         name={props.input.name}
                         value={props.input.value}
                         onChange={props.input.onChange}
-                        label="Name"
+                        label="Round Count Limit"
+                        type="number"
                         required
                     />
                 </div>
@@ -19,4 +20,4 @@ function NameField() {
     )
 }
 
-export default NameField
+export default RoundCountLimitField
