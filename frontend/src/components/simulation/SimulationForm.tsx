@@ -1,10 +1,13 @@
 import axios from "axios";
+import { Dispatch, SetStateAction } from "react";
 import { Form } from "react-final-form";
+import ISimulationResult from "./ISimulationResult";
 import RoundCountLimitField from "./RoundCountLimitField";
 import SimulationCountField from "./SimulationCountField";
 
 type SimulationFormProps = {
     battleId: String
+    setSimulationResult: Dispatch<SetStateAction<ISimulationResult | null | undefined>>
 }
 
 function SimulationForm(props: SimulationFormProps) {
@@ -18,6 +21,7 @@ function SimulationForm(props: SimulationFormProps) {
         console.log(values);
         axios.post('http://localhost:8080/simulation', values)
             .then((response) => {
+                props.setSimulationResult(response.data)
                 console.log(response);
             }).catch(response => {
                 console.log(response);

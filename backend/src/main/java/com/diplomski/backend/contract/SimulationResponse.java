@@ -1,6 +1,6 @@
 package com.diplomski.backend.contract;
 
-import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 import lombok.AllArgsConstructor;
@@ -13,10 +13,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimulationResponse {
+	private List<BattleOutcomeConvergence> battleOutcomeConvergence; 
 	private PartySimulationReportResponse playerPartySimulationReport;
 	private PartySimulationReportResponse enemyPartySimulationReport;
-	private HashMap<Integer, Float> drawRateConvergence;
 	private int simulationCount;
 	private int roundCountLimit;
-	private UUID boardStateId;
+	private UUID battleId;
 }

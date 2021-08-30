@@ -3,7 +3,7 @@ import { useState } from "react";
 import BattleDetailsForm from "../battle/BattleDetailsForm";
 import IBattle from "../battle/IBattle";
 import useBattle from '../battle/UseBattle';
-import SimulationForm from "../simulation/SimulationForm";
+import SimulationDashboard from "../simulation/SimulationDashboard";
 
 type BattleDetailsPageProps = {
     id: string
@@ -19,7 +19,7 @@ function BattleDetailsPage(props: BattleDetailsPageProps) {
                 loading ? <CircularProgress /> :
                     <>
                         <BattleDetailsForm battle={battle as IBattle} />
-                        <SimulationForm battleId={(battle as IBattle).id} />
+                        <SimulationDashboard battleId={(battle as IBattle).id} />
                     </>
             }
         </>

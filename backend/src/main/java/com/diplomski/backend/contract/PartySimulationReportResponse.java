@@ -1,6 +1,6 @@
 package com.diplomski.backend.contract;
 
-import java.util.HashMap;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PartySimulationReportResponse {
-	private HashMap<Integer, Float> winRateConvergence;
+	private List<ValueConvergence> winRateConvergence;
 }
