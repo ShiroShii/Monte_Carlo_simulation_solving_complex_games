@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.diplomski.backend.contract.BattleOutcomeConvergence;
+import com.diplomski.backend.contract.NameValueIntPair;
 import com.diplomski.backend.contract.PlayerCharacterStateResponse;
 import com.diplomski.backend.contract.SimulationResponse;
 import com.diplomski.backend.dal.PlayerCharacterStateDbModel;
@@ -27,7 +28,13 @@ public class SimulationTranslator {
 							.winRate(input.getPlayerPartyReport().getWinRateConvergence().get(i)).build());
 		}
 
+		List<NameValueIntPair> battleOutcomeSlices = new ArrayList<>();
+		battleOutcomeSlices.add(NameValueIntPair.builder().name("Wins").value(input.getWinCount()).build());
+		battleOutcomeSlices.add(NameValueIntPair.builder().name("Draws").value(input.getDrawCount()).build());
+		battleOutcomeSlices.add(NameValueIntPair.builder().name("Losses").value(input.getLossCount()).build());
+		
 		return SimulationResponse.builder().battleId(battleId).roundCountLimit(input.getRoundCountLimit())
-				.simulationCount(input.getSimulationCount()).battleOutcomeConvergence(battleOutcomeConvergence).build();
+				.simulationCount(input.getSimulationCount()).battleOutcomeConvergence(battleOutcomeConvergence)
+				.battleOutcomeSlices(battleOutcomeSlices).build();
 	}
 }

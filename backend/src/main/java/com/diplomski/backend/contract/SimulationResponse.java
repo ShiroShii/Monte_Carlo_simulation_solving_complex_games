@@ -13,9 +13,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimulationResponse {
-	private List<BattleOutcomeConvergence> battleOutcomeConvergence; 
-	private PartySimulationReportResponse playerPartySimulationReport;
-	private PartySimulationReportResponse enemyPartySimulationReport;
+	private List<BattleOutcomeConvergence> battleOutcomeConvergence;
+	private List<NameValueIntPair> battleOutcomeSlices;
 	private int simulationCount;
 	private int roundCountLimit;
 	private UUID battleId;

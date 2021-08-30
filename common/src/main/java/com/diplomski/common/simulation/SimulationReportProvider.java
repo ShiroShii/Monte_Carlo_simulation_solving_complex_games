@@ -1,5 +1,8 @@
 package com.diplomski.common.simulation;
 
+import static com.diplomski.common.character.Party.ENEMY;
+import static com.diplomski.common.character.Party.PLAYER;
+
 import java.util.HashMap;
 
 import com.diplomski.common.battle.Battle;
@@ -12,9 +15,17 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		PartySimulationReport playerPartySimulationReport = getPartySimulationReport(Party.PLAYER, simulation);
 		PartySimulationReport enemyPartySimulationReport = getPartySimulationReport(Party.ENEMY, simulation);
 		HashMap<Integer, Float> drawRateConvergence = getDrawRateConvergence(simulation);
+
+		int winCount = (int) simulation.getBattles().stream()
+				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(PLAYER)).count();
+		int lossCount = (int) simulation.getBattles().stream()
+				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY)).count();
+		int drawCount = (int) simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).count();
+
 		return SimulationReport.builder().playerPartyReport(playerPartySimulationReport)
-				.enemyPartyReport(enemyPartySimulationReport).drawRateConvergence(drawRateConvergence).simulationCount(simulation.getSimulationCount())
-				.roundCountLimit(simulation.getRoundCountLimit()).build();
+				.enemyPartyReport(enemyPartySimulationReport).drawRateConvergence(drawRateConvergence)
+				.simulationCount(simulation.getSimulationCount()).roundCountLimit(simulation.getRoundCountLimit())
+				.winCount(winCount).lossCount(lossCount).drawCount(drawCount).build();
 	}
 
 	private HashMap<Integer, Float> getDrawRateConvergence(Simulation simulation) {

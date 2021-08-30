@@ -11,6 +11,9 @@ public class SimulationReport {
 	private PartySimulationReport playerPartyReport;
 	private PartySimulationReport enemyPartyReport;
 	private HashMap<Integer, Float> drawRateConvergence;
+	private int winCount;
+	private int lossCount;
+	private int drawCount;
 	private int simulationCount;
 	private int roundCountLimit;
 }
