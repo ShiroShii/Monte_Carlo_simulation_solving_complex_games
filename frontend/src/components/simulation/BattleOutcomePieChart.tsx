@@ -14,22 +14,36 @@ type RenderCustomPieLabelProps = {
 }
 
 const renderCustomPieLabel = (props: RenderCustomPieLabelProps) => {
-    const {cx, cy, midAngle, innerRadius, outerRadius, percent} = props
+    const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props
     const radius = innerRadius + (outerRadius - innerRadius) * 0.5
     const x = cx + radius * Math.cos(-midAngle * RADIAN)
     const y = cy + radius * Math.sin(-midAngle * RADIAN)
 
     return (
-        <>{percent !== 0 && <text
-            style={{ fontWeight: 'bold' }}
-            x={x}
-            y={y}
-            fill="white"
-            textAnchor="middle"
-            dominantBaseline="middle"
-        >
-            {`${(percent * 100).toFixed(0)}%`}
-        </text>}</>
+        <>{percent !== 0 &&
+            <>
+                <rect
+                    x={x - 25}
+                    y={y - 11}
+                    width="50"
+                    height="20"
+                    rx="3"
+                    fill="black"
+                    opacity="0.4"
+                />
+                <text
+                    style={{ fontWeight: 'bold' }}
+                    x={x}
+                    y={y}
+                    fill="white"
+                    textAnchor="middle"
+                    dominantBaseline="middle"
+                >
+                    {`${(percent * 100).toFixed(0)}%`}
+                </text>
+            </>
+        }
+        </>
     );
 };
 

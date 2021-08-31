@@ -4,6 +4,7 @@ import static com.diplomski.common.character.Party.ENEMY;
 import static com.diplomski.common.character.Party.PLAYER;
 
 import java.util.HashMap;
+import java.util.List;
 
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.character.Party;
@@ -15,6 +16,22 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		PartySimulationReport playerPartySimulationReport = getPartySimulationReport(Party.PLAYER, simulation);
 		PartySimulationReport enemyPartySimulationReport = getPartySimulationReport(Party.ENEMY, simulation);
 		HashMap<Integer, Float> drawRateConvergence = getDrawRateConvergence(simulation);
+		HashMap<Pair<Integer, Integer>, Integer> outcomes = new HashMap<>();
+
+		for (Battle battle : simulation.getBattles()) {
+			Integer playerActiveCount = battle.getFinalBoardState().getPartyActiveCount(PLAYER);
+			Integer enemyActiveCount = battle.getFinalBoardState().getPartyActiveCount(ENEMY);
+			Pair<Integer, Integer> outcome = new Pair<>(playerActiveCount, enemyActiveCount);
+
+			int count = outcomes.containsKey(outcome) ? outcomes.get(outcome) : 0;
+			outcomes.put(outcome, count + 1);
+		}
+
+		List<Pair<Pair<Integer, Integer>, Integer>> orderedOutcomes = outcomes.entrySet().stream()
+				.sorted((x, y) -> x.getKey().get_1() > y.getKey().get_1()
+						|| (x.getKey().get_1() == y.getKey().get_1() && x.getKey().get_2() < y.getKey().get_2()) ? -1
+								: 1)
+				.map(entry -> new Pair<Pair<Integer, Integer>, Integer>(entry.getKey(), entry.getValue())).toList();
 
 		int winCount = (int) simulation.getBattles().stream()
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(PLAYER)).count();
@@ -25,7 +42,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		return SimulationReport.builder().playerPartyReport(playerPartySimulationReport)
 				.enemyPartyReport(enemyPartySimulationReport).drawRateConvergence(drawRateConvergence)
 				.simulationCount(simulation.getSimulationCount()).roundCountLimit(simulation.getRoundCountLimit())
-				.winCount(winCount).lossCount(lossCount).drawCount(drawCount).build();
+				.winCount(winCount).lossCount(lossCount).drawCount(drawCount).outcomes(orderedOutcomes).build();
 	}
 
 	private HashMap<Integer, Float> getDrawRateConvergence(Simulation simulation) {

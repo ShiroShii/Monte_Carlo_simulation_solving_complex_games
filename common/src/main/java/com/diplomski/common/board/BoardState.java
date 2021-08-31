@@ -29,4 +29,9 @@ public class BoardState {
 	public boolean isBattleComplete() {
 		return getPartyHp(Party.PLAYER) == 0 || getPartyHp(Party.ENEMY) == 0;
 	}
+
+	public int getPartyActiveCount(Party party) {
+		return (int) characterStates.values().stream().filter(x -> x.getParty().equals(party) && x.getCurrentHp() > 0)
+				.count();
+	}
 }

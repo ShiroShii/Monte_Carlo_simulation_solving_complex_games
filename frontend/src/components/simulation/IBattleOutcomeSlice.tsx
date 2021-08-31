@@ -1,6 +1,6 @@
-interface IBattleOutcomeConvergence{
+interface IBattleOutcomeSlice{
     name: string
     value: number
 }
 
-export default IBattleOutcomeConvergence
+export default IBattleOutcomeSlice

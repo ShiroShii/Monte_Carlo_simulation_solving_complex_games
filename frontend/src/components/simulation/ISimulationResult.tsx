@@ -4,6 +4,7 @@ import IBattleOutcomeSlice from "./IBattleOutcomeSlice"
 interface ISimulationResult {
     battleOutcomeConvergence: [IBattleOutcomeConvergence]
     battleOutcomeSlices: [IBattleOutcomeSlice]
+    battleOutcomeBars: [IBattleOutcomeSlice]
     simulationCount: number
     roundCountLimit: number
 }

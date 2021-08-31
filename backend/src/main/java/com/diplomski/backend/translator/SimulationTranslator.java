@@ -28,13 +28,16 @@ public class SimulationTranslator {
 							.winRate(input.getPlayerPartyReport().getWinRateConvergence().get(i)).build());
 		}
 
+		List<NameValueIntPair> outcomes = input.getOutcomes().stream().sequential()
+				.map(x -> NameValueIntPair.builder().name(x.get_1().toString()).value(x.get_2()).build()).toList();
+
 		List<NameValueIntPair> battleOutcomeSlices = new ArrayList<>();
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Wins").value(input.getWinCount()).build());
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Draws").value(input.getDrawCount()).build());
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Losses").value(input.getLossCount()).build());
-		
+
 		return SimulationResponse.builder().battleId(battleId).roundCountLimit(input.getRoundCountLimit())
 				.simulationCount(input.getSimulationCount()).battleOutcomeConvergence(battleOutcomeConvergence)
-				.battleOutcomeSlices(battleOutcomeSlices).build();
+				.battleOutcomeBars(outcomes).battleOutcomeSlices(battleOutcomeSlices).build();
 	}
 }

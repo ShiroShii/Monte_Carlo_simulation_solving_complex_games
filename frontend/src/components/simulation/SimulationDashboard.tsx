@@ -1,3 +1,4 @@
+import BattleOutcomeBarChart from "./BattleOutcomeBarChart"
 import BattleOutcomeLineChart from "./BattleOutcomeLineChart"
 import BattleOutcomePieChart from "./BattleOutcomePieChart"
 import ISimulationResult from "./ISimulationResult"
@@ -7,14 +8,21 @@ type SimulationDashboardProps = {
 }
 
 function SimulationDashboard(props: SimulationDashboardProps) {
-    const { simulationResult } = props
-    const winRate = simulationResult.battleOutcomeConvergence[simulationResult.simulationCount - 1].winRate
-    const drawRate = simulationResult.battleOutcomeConvergence[simulationResult.simulationCount - 1].drawRate
+    const { 
+        battleOutcomeConvergence,
+        battleOutcomeSlices,
+        battleOutcomeBars,
+        simulationCount
+    } = props.simulationResult
+
+    const winRate = battleOutcomeConvergence[simulationCount - 1].winRate
+    const drawRate = battleOutcomeConvergence[simulationCount - 1].drawRate
 
     return (
         <>
-            <BattleOutcomePieChart simulationCount={simulationResult.simulationCount} battleOutcomeSlices={simulationResult.battleOutcomeSlices} />
-            <BattleOutcomeLineChart winRate={winRate} drawRate={drawRate} battleOutcomeConvergence={simulationResult.battleOutcomeConvergence} />
+            <BattleOutcomePieChart simulationCount={simulationCount} battleOutcomeSlices={battleOutcomeSlices} />
+            <BattleOutcomeLineChart winRate={winRate} drawRate={drawRate} battleOutcomeConvergence={battleOutcomeConvergence} />
+            <BattleOutcomeBarChart battleOutcomeBars={battleOutcomeBars} />
         </>
     )
 }

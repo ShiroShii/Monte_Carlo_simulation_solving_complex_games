@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class SimulationResponse {
 	private List<BattleOutcomeConvergence> battleOutcomeConvergence;
 	private List<NameValueIntPair> battleOutcomeSlices;
+	private List<NameValueIntPair> battleOutcomeBars;
 	private int simulationCount;
 	private int roundCountLimit;
 	private UUID battleId;
