@@ -3,18 +3,17 @@ package com.diplomski.common.simulation;
 import static com.diplomski.common.character.Party.ENEMY;
 import static com.diplomski.common.character.Party.PLAYER;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.diplomski.common.battle.Battle;
-import com.diplomski.common.character.Party;
 
 public class SimulationReportProvider implements ISimulationReportProvider {
 
 	@Override
 	public SimulationReport getSimulationReport(Simulation simulation) {
-		PartySimulationReport playerPartySimulationReport = getPartySimulationReport(Party.PLAYER, simulation);
-		PartySimulationReport enemyPartySimulationReport = getPartySimulationReport(Party.ENEMY, simulation);
+		HashMap<Integer, Float> winRateConvergence = getWinConvergence(simulation);
 		HashMap<Integer, Float> drawRateConvergence = getDrawRateConvergence(simulation);
 		HashMap<Pair<Integer, Integer>, Integer> outcomes = new HashMap<>();
 
@@ -39,8 +38,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY)).count();
 		int drawCount = (int) simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).count();
 
-		return SimulationReport.builder().playerPartyReport(playerPartySimulationReport)
-				.enemyPartyReport(enemyPartySimulationReport).drawRateConvergence(drawRateConvergence)
+		return SimulationReport.builder().winRateConvergence(winRateConvergence).drawRateConvergence(drawRateConvergence)
 				.simulationCount(simulation.getSimulationCount()).roundCountLimit(simulation.getRoundCountLimit())
 				.winCount(winCount).lossCount(lossCount).drawCount(drawCount).outcomes(orderedOutcomes).build();
 	}
@@ -57,17 +55,30 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		return drawRateConvergence;
 	}
 
-	private PartySimulationReport getPartySimulationReport(Party party, Simulation simulation) {
+	private HashMap<Integer, Float> getWinConvergence(Simulation simulation) {
 		HashMap<Integer, Float> winRateConvergence = new HashMap<>();
+		
 		int battlesWon = 0;
 		for (int i = 0; i < simulation.getBattles().size(); i++) {
 			Battle battle = simulation.getBattles().get(i);
-			if (battle.isBattleComplete() && battle.getWinningParty().get().equals(party)) {
+			if (battle.isBattleComplete() && battle.getWinningParty().get().equals(PLAYER)) {
 				battlesWon++;
 			}
 			winRateConvergence.put(i + 1, (float) battlesWon / (i + 1));
 		}
 
-		return PartySimulationReport.builder().winRateConvergence(winRateConvergence).build();
+		return winRateConvergence;
+	}
+	
+	private List<Battle> getWonBattlesNoCasualties(Simulation simulation) {
+		List<Battle> wonBattles = new ArrayList<>();
+		
+		for (Battle battle : simulation.getBattles()) {
+			if (battle.isBattleComplete() && battle.getWinningParty().get().equals(PLAYER)) {
+				wonBattles.add(battle);
+			}
+		}
+
+		return wonBattles;
 	}
 }

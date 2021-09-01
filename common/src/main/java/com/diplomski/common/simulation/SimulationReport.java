@@ -9,8 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 public class SimulationReport {
-	private PartySimulationReport playerPartyReport;
-	private PartySimulationReport enemyPartyReport;
+	private HashMap<Integer, Float> winRateConvergence;
 	private HashMap<Integer, Float> drawRateConvergence;
 	private List<Pair<Pair<Integer, Integer>, Integer>> outcomes;
 	private int winCount;

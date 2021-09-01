@@ -25,7 +25,7 @@ public class SimulationTranslator {
 		for (int i = 1; i <= input.getSimulationCount(); i++) {
 			battleOutcomeConvergence
 					.add(BattleOutcomeConvergence.builder().count(i).drawRate(input.getDrawRateConvergence().get(i))
-							.winRate(input.getPlayerPartyReport().getWinRateConvergence().get(i)).build());
+							.winRate(input.getWinRateConvergence().get(i)).build());
 		}
 
 		List<NameValueIntPair> outcomes = input.getOutcomes().stream().sequential()
