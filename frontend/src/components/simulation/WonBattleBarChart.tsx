@@ -1,88 +1,5 @@
 import { CartesianGrid, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
-
-const healthData = [
-    {
-        category: "Health",
-        label: "Lower Extreme",
-        value: 10
-    },
-    {
-        category: "Health",
-        label: "Lower Quartile",
-        value: 20
-    },
-    {
-        category: "Health",
-        label: "Median",
-        value: 30
-    },
-    {
-        category: "Health",
-        label: "Upper Quartile",
-        value: 40
-    },
-    {
-        category: "Health",
-        label: "Upper Extreme",
-        value: 50
-    }
-];
-
-const damageTakenData = [
-    {
-        category: "Damage Taken",
-        label: "Lower Extreme",
-        value: 3
-    },
-    {
-        category: "Damage Taken",
-        label: "Lower Quartile",
-        value: 20
-    },
-    {
-        category: "Damage Taken",
-        label: "Median",
-        value: 30
-    },
-    {
-        category: "Damage Taken",
-        label: "Upper Quartile",
-        value: 32
-    },
-    {
-        category: "Damage Taken",
-        label: "Upper Extreme",
-        value: 78
-    }
-];
-
-const damageDeltData = [
-    {
-        category: "Damage Delt",
-        label: "Lower Extreme",
-        value: 8
-    },
-    {
-        category: "Damage Delt",
-        label: "Lower Quartile",
-        value: 20
-    },
-    {
-        category: "Damage Delt",
-        label: "Median",
-        value: 30
-    },
-    {
-        category: "Damage Delt",
-        label: "Upper Quartile",
-        value: 50
-    },
-    {
-        category: "Damage Delt",
-        label: "Upper Extreme",
-        value: 100
-    }
-];
+import ICategoryData from "./ICategoryData";
 
 const CustomLine = ({
     points
@@ -108,7 +25,7 @@ const CustomShape = ({
 }: any) => {
     console.log(cx, cy)
     return (
-        <rect x={cx - 25 } y={cy -5} width={50} height={10} opacity="0"/>
+        <rect x={cx - 25} y={cy - 5} width={50} height={10} opacity="0" />
     );
 }
 
@@ -132,7 +49,14 @@ const CustomTooltip = ({ active, payload }: any) => {
     return null;
 };
 
-function WonBattleBarChart() {
+type WonBattleBarChartProps = {
+    healthData: [ICategoryData]
+    damageTakenData: [ICategoryData]
+    damageDeltData: [ICategoryData]
+}
+
+function WonBattleBarChart(props: WonBattleBarChartProps) {
+    const { healthData, damageTakenData, damageDeltData } = props
     return (
         <ScatterChart
             width={500}

@@ -6,7 +6,9 @@ import static com.diplomski.common.character.Party.PLAYER;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import com.diplomski.common.activity.AttackActionActivity;
 import com.diplomski.common.battle.Battle;
 
 public class SimulationReportProvider implements ISimulationReportProvider {
@@ -38,9 +40,17 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY)).count();
 		int drawCount = (int) simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).count();
 
-		return SimulationReport.builder().winRateConvergence(winRateConvergence).drawRateConvergence(drawRateConvergence)
-				.simulationCount(simulation.getSimulationCount()).roundCountLimit(simulation.getRoundCountLimit())
-				.winCount(winCount).lossCount(lossCount).drawCount(drawCount).outcomes(orderedOutcomes).build();
+		StatReport healthStatReport = getPlayerHealthStatReport(getWonBattlesNoCasualties(simulation));
+		StatReport damageDeltReport = getPlayerDamageDeltReport(simulation);
+		StatReport damageTakenReport = getPlayerDamageTakenReport(simulation);
+
+		PlayerWinStateReport playerWinStateReport = PlayerWinStateReport.builder().health(healthStatReport)
+				.damageDelt(damageDeltReport).damageTaken(damageTakenReport).build();
+
+		return SimulationReport.builder().winRateConvergence(winRateConvergence)
+				.drawRateConvergence(drawRateConvergence).simulationCount(simulation.getSimulationCount())
+				.roundCountLimit(simulation.getRoundCountLimit()).winCount(winCount).lossCount(lossCount)
+				.drawCount(drawCount).outcomes(orderedOutcomes).playerWinStateReport(playerWinStateReport).build();
 	}
 
 	private HashMap<Integer, Float> getDrawRateConvergence(Simulation simulation) {
@@ -57,7 +67,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 
 	private HashMap<Integer, Float> getWinConvergence(Simulation simulation) {
 		HashMap<Integer, Float> winRateConvergence = new HashMap<>();
-		
+
 		int battlesWon = 0;
 		for (int i = 0; i < simulation.getBattles().size(); i++) {
 			Battle battle = simulation.getBattles().get(i);
@@ -69,10 +79,10 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 
 		return winRateConvergence;
 	}
-	
+
 	private List<Battle> getWonBattlesNoCasualties(Simulation simulation) {
 		List<Battle> wonBattles = new ArrayList<>();
-		
+
 		for (Battle battle : simulation.getBattles()) {
 			if (battle.isBattleComplete() && battle.getWinningParty().get().equals(PLAYER)) {
 				wonBattles.add(battle);
@@ -80,5 +90,127 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		}
 
 		return wonBattles;
+	}
+
+	private StatReport getPlayerHealthStatReport(List<Battle> battles) {
+		List<Integer> healthList = battles.stream().map(x -> x.getFinalBoardState())
+				.flatMap(x -> x.getCharacterStates().values().stream()).filter(x -> x.getParty().equals(PLAYER))
+				.map(x -> x.getCurrentHp()).filter(x -> x > 0).sorted().toList();
+
+		int min = healthList.get(0);
+		int max = healthList.get(healthList.size() - 1);
+
+		float median = (healthList.size() % 2 == 0)
+				? ((float) healthList.get(healthList.size() / 2) + (float) healthList.get(healthList.size() / 2 - 1))
+						/ 2
+				: (float) healthList.get(healthList.size() / 2);
+
+		List<Integer> lower = healthList
+				.subList(0, (healthList.size() % 2 == 0) ? (healthList.size() / 2) : healthList.size() / 2 + 1);
+
+		List<Integer> upper = healthList.subList(healthList.size() / 2, healthList.size());
+
+		float lowerQuantile = (lower.size() % 2 == 0)
+				? ((float) lower.get(lower.size() / 2) + (float) lower.get(lower.size() / 2 - 1)) / 2
+				: (float) lower.get(lower.size() / 2);
+
+		float upperQuantile = (upper.size() % 2 == 0)
+				? ((float) upper.get(upper.size() / 2) + (float) upper.get(upper.size() / 2 - 1)) / 2
+				: (float) upper.get(upper.size() / 2);
+
+		return StatReport.builder().min(min).lowerQuantile(lowerQuantile).median(median).upperQuantile(upperQuantile)
+				.max(max).build();
+	}
+
+	private StatReport getPlayerDamageTakenReport(Simulation simulation) {
+		List<Integer> damageTakenList = simulation.getBattles().stream().flatMap(battle -> battle.getRounds().stream()
+				.flatMap(round -> round.getTurns().stream().flatMap(turn -> turn.getActivities().stream()
+						.filter(activity -> activity instanceof AttackActionActivity)
+						.map(activity -> (AttackActionActivity) activity)
+						.filter(x -> simulation.getInitialCharacterStates().stream()
+								.filter(y -> y.getId().equals(x.getTargetId())).findFirst().get().getParty()
+								.equals(PLAYER))
+						.collect(Collectors.groupingBy(x -> x.getTargetId(), Collectors.summingInt(x -> x.getDamage())))
+						.entrySet().stream())
+						.collect(Collectors
+								.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
+						.entrySet().stream())
+				.collect(Collectors.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
+				.entrySet().stream())
+				.map(entry -> entry.getValue())
+				.sorted()
+				.toList();
+
+		int min = damageTakenList.get(0);
+		int max = damageTakenList.get(damageTakenList.size() - 1);
+
+		float median = (damageTakenList.size() % 2 == 0)
+				? ((float) damageTakenList.get(damageTakenList.size() / 2)
+						+ (float) damageTakenList.get(damageTakenList.size() / 2 - 1)) / 2
+				: (float) damageTakenList.get(damageTakenList.size() / 2);
+
+		List<Integer> lower = damageTakenList
+				.subList(0, (damageTakenList.size() % 2 == 0) ? (damageTakenList.size() / 2)
+						: damageTakenList.size() / 2 + 1);
+
+		List<Integer> upper = damageTakenList.subList(damageTakenList.size() / 2, damageTakenList.size());
+
+		float lowerQuantile = (lower.size() % 2 == 0)
+				? ((float) lower.get(lower.size() / 2) + (float) lower.get(lower.size() / 2 - 1)) / 2
+				: (float) lower.get(lower.size() / 2);
+
+		float upperQuantile = (upper.size() % 2 == 0)
+				? ((float) upper.get(upper.size() / 2) + (float) upper.get(upper.size() / 2 - 1)) / 2
+				: (float) upper.get(upper.size() / 2);
+
+		return StatReport.builder().min(min).lowerQuantile(lowerQuantile).median(median).upperQuantile(upperQuantile)
+				.max(max).build();
+	}
+
+	private StatReport getPlayerDamageDeltReport(Simulation simulation) {
+		List<Integer> damageDeltList = simulation.getBattles().stream()
+				.flatMap(battle -> battle.getRounds().stream()
+						.flatMap(round -> round.getTurns().stream().flatMap(turn -> turn.getActivities().stream()
+								.filter(activity -> activity instanceof AttackActionActivity)
+								.map(activity -> (AttackActionActivity) activity)
+								.filter(x -> simulation.getInitialCharacterStates().stream()
+										.filter(y -> y.getId().equals(x.getInitiatorId())).findFirst().get().getParty()
+										.equals(PLAYER))
+								.collect(Collectors
+										.groupingBy(x -> x.getInitiatorId(), Collectors.summingInt(x -> x.getDamage())))
+								.entrySet().stream())
+								.collect(Collectors
+										.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
+								.entrySet().stream())
+						.collect(Collectors
+								.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
+						.entrySet().stream())
+					.map(entry -> entry.getValue())
+					.sorted()
+					.toList();
+
+		int min = damageDeltList.get(0);
+		int max = damageDeltList.get(damageDeltList.size() - 1);
+
+		float median = (damageDeltList.size() % 2 == 0)
+				? ((float) damageDeltList.get(damageDeltList.size() / 2)
+						+ (float) damageDeltList.get(damageDeltList.size() / 2 - 1)) / 2
+				: (float) damageDeltList.get(damageDeltList.size() / 2);
+
+		List<Integer> lower = damageDeltList.subList(0, (damageDeltList.size() % 2 == 0) ? (damageDeltList.size() / 2)
+				: damageDeltList.size() / 2 + 1);
+
+		List<Integer> upper = damageDeltList.subList(damageDeltList.size() / 2, damageDeltList.size());
+
+		float lowerQuantile = (lower.size() % 2 == 0)
+				? ((float) lower.get(lower.size() / 2) + (float) lower.get(lower.size() / 2 - 1)) / 2
+				: (float) lower.get(lower.size() / 2);
+
+		float upperQuantile = (upper.size() % 2 == 0)
+				? ((float) upper.get(upper.size() / 2) + (float) upper.get(upper.size() / 2 - 1)) / 2
+				: (float) upper.get(upper.size() / 2);
+
+		return StatReport.builder().min(min).lowerQuantile(lowerQuantile).median(median).upperQuantile(upperQuantile)
+				.max(max).build();
 	}
 }

@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SimulationResponse {
+	private PlayerBoxPlot playerBoxPlot;
 	private List<BattleOutcomeConvergence> battleOutcomeConvergence;
 	private List<NameValueIntPair> battleOutcomeSlices;
 	private List<NameValueIntPair> battleOutcomeBars;

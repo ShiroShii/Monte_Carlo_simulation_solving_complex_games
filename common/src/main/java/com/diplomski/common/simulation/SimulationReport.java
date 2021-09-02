@@ -17,4 +17,5 @@ public class SimulationReport {
 	private int drawCount;
 	private int simulationCount;
 	private int roundCountLimit;
+	private PlayerWinStateReport playerWinStateReport;
 }

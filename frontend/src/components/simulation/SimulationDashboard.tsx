@@ -13,7 +13,8 @@ function SimulationDashboard(props: SimulationDashboardProps) {
         battleOutcomeConvergence,
         battleOutcomeSlices,
         battleOutcomeBars,
-        simulationCount
+        simulationCount,
+        playerBoxPlot
     } = props.simulationResult
 
     const winRate = battleOutcomeConvergence[simulationCount - 1].winRate
@@ -24,7 +25,7 @@ function SimulationDashboard(props: SimulationDashboardProps) {
             <BattleOutcomePieChart simulationCount={simulationCount} battleOutcomeSlices={battleOutcomeSlices} />
             <BattleOutcomeLineChart winRate={winRate} drawRate={drawRate} battleOutcomeConvergence={battleOutcomeConvergence} />
             <BattleOutcomeBarChart battleOutcomeBars={battleOutcomeBars} />
-            <WonBattleBarChart />
+            <WonBattleBarChart healthData={playerBoxPlot.health} damageDeltData={playerBoxPlot.damageDelt} damageTakenData={playerBoxPlot.damageTaken} />
         </>
     )
 }
