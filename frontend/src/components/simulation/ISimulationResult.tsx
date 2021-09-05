@@ -1,5 +1,6 @@
 import IBattleOutcomeConvergence from "./IBattleOutcomeConvergence"
 import IBattleOutcomeSlice from "./IBattleOutcomeSlice"
+import IDownedPlayer from "./IDownedPlayer"
 import IPlayerBoxPlot from "./IPlayerBoxPlot"
 
 interface ISimulationResult {
@@ -9,6 +10,8 @@ interface ISimulationResult {
     playerBoxPlot: IPlayerBoxPlot
     simulationCount: number
     roundCountLimit: number
+    downedPlayers: [IDownedPlayer]
+    initialPlayerCount: number
 }
 
 export default ISimulationResult

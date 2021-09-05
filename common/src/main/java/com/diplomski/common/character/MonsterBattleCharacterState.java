@@ -24,7 +24,7 @@ public class MonsterBattleCharacterState extends MonsterCharacterState implement
 	public static MonsterBattleCharacterState getBattleState(
 			MonsterCharacterState characterState,
 			ITurnProvider turnProvider) {
-		return MonsterBattleCharacterState.toBuilder(characterState).currentHp(characterState.monster.getMaxHp())
+		return MonsterBattleCharacterState.toBuilder(characterState).currentHp(characterState.getCurrentHp())
 				.turnProvider(turnProvider).usedWalkingSpeed(0).build();
 	}
 

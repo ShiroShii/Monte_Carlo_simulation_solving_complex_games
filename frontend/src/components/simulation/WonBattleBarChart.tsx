@@ -23,14 +23,13 @@ const CustomLine = ({
 const CustomShape = ({
     cx, cy
 }: any) => {
-    console.log(cx, cy)
     return (
         <rect x={cx - 25} y={cy - 5} width={50} height={10} opacity="0" />
     );
 }
 
 const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload) {
+    if (active && payload && payload[0]) {
         return (
             <div style={{
                 backgroundColor: "white",

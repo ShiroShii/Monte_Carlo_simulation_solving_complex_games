@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import com.diplomski.backend.contract.BattleOutcomeConvergence;
 import com.diplomski.backend.contract.CategoryContract;
+import com.diplomski.backend.contract.DownedPlayerContract;
 import com.diplomski.backend.contract.NameValueIntPair;
 import com.diplomski.backend.contract.PlayerBoxPlot;
 import com.diplomski.backend.contract.PlayerCharacterStateResponse;
@@ -21,16 +22,18 @@ public class SimulationTranslator {
 				.targetingStyle(input.getTargetingStyle()).playStyle(input.getPlayStyle())
 				.tileId(input.getNodeTile().getId()).build();
 	}
-	
-	public static List<CategoryContract> translate(StatReport input, String category){
+
+	public static List<CategoryContract> translate(StatReport input, String category) {
 		List<CategoryContract> output = new ArrayList<>();
-		
+
 		output.add(CategoryContract.builder().category(category).value(input.getMin()).label("Lower Extreme").build());
-		output.add(CategoryContract.builder().category(category).value(input.getLowerQuantile()).label("Lower Quartile").build());
+		output.add(CategoryContract.builder().category(category).value(input.getLowerQuantile()).label("Lower Quartile")
+				.build());
 		output.add(CategoryContract.builder().category(category).value(input.getMedian()).label("Median").build());
-		output.add(CategoryContract.builder().category(category).value(input.getUpperQuantile()).label("Upper Quartile").build());
+		output.add(CategoryContract.builder().category(category).value(input.getUpperQuantile()).label("Upper Quartile")
+				.build());
 		output.add(CategoryContract.builder().category(category).value(input.getMax()).label("Upper Extreme").build());
-		
+
 		return output;
 	}
 
@@ -43,6 +46,11 @@ public class SimulationTranslator {
 							.winRate(input.getWinRateConvergence().get(i)).build());
 		}
 
+		List<DownedPlayerContract> downedPlayers = input.getDownedPlayers().stream().sequential()
+				.map(x -> DownedPlayerContract.builder().downedCount(x.get_1()).simulationCount(x.get_2())
+						.downedPercentage(100f * (float) x.get_1() / (float) input.getInitialPlayerCount()).build())
+				.toList();
+
 		List<NameValueIntPair> outcomes = input.getOutcomes().stream().sequential()
 				.map(x -> NameValueIntPair.builder().name(x.get_1().toString()).value(x.get_2()).build()).toList();
 
@@ -50,15 +58,23 @@ public class SimulationTranslator {
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Wins").value(input.getWinCount()).build());
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Draws").value(input.getDrawCount()).build());
 		battleOutcomeSlices.add(NameValueIntPair.builder().name("Losses").value(input.getLossCount()).build());
-		
-		List<CategoryContract> health = translate(input.getPlayerWinStateReport().getHealth(), "Health");
-		List<CategoryContract> damageDelt = translate(input.getPlayerWinStateReport().getDamageDelt(), "Damage Delt");
-		List<CategoryContract> damageTaken = translate(input.getPlayerWinStateReport().getDamageTaken(), "Damage Taken");
-		PlayerBoxPlot playerBoxPlot = PlayerBoxPlot.builder().health(health).damageDelt(damageDelt).damageTaken(damageTaken).build();
+
+		List<CategoryContract> health = input.getPlayerWinStateReport().getHealth() != null
+				? translate(input.getPlayerWinStateReport().getHealth(), "Health")
+				: null;
+		List<CategoryContract> damageDelt = input.getPlayerWinStateReport().getDamageDelt() != null
+				? translate(input.getPlayerWinStateReport().getDamageDelt(), "Damage Delt")
+				: null;
+		List<CategoryContract> damageTaken = input.getPlayerWinStateReport().getDamageTaken() != null
+				? translate(input.getPlayerWinStateReport().getDamageTaken(), "Damage Taken")
+				: null;
+
+		PlayerBoxPlot playerBoxPlot = PlayerBoxPlot.builder().health(health).damageDelt(damageDelt)
+				.damageTaken(damageTaken).build();
 
 		return SimulationResponse.builder().battleId(battleId).roundCountLimit(input.getRoundCountLimit())
 				.simulationCount(input.getSimulationCount()).battleOutcomeConvergence(battleOutcomeConvergence)
-				.playerBoxPlot(playerBoxPlot)
-				.battleOutcomeBars(outcomes).battleOutcomeSlices(battleOutcomeSlices).build();
+				.playerBoxPlot(playerBoxPlot).downedPlayers(downedPlayers).battleOutcomeBars(outcomes)
+				.battleOutcomeSlices(battleOutcomeSlices).initialPlayerCount(input.getInitialPlayerCount()).build();
 	}
 }

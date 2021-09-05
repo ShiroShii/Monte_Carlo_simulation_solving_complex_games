@@ -6,8 +6,12 @@ import com.diplomski.common.targeting.TargetingStyle;
 
 public interface ICharacterState {
 	UUID getTileId();
+
 	int getDexterity();
+
 	int getWalkingSpeed();
+
+	int getCurrentHp();
 
 	Party getParty();
 

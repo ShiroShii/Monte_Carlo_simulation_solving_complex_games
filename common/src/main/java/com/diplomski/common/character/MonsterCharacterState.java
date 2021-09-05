@@ -18,6 +18,7 @@ public class MonsterCharacterState implements ICharacterState{
 	private UUID tileId;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
+	private int currentHp;
 
 	public abstract static class MonsterCharacterStateBuilder<C extends MonsterCharacterState, B extends MonsterCharacterState.MonsterCharacterStateBuilder<C, B>> {
 		protected B $fillValuesFromParent(MonsterCharacterState instance) {

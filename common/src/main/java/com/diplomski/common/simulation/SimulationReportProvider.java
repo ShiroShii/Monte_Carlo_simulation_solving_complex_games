@@ -6,6 +6,7 @@ import static com.diplomski.common.character.Party.PLAYER;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.diplomski.common.activity.AttackActionActivity;
@@ -18,6 +19,20 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		HashMap<Integer, Float> winRateConvergence = getWinConvergence(simulation);
 		HashMap<Integer, Float> drawRateConvergence = getDrawRateConvergence(simulation);
 		HashMap<Pair<Integer, Integer>, Integer> outcomes = new HashMap<>();
+		HashMap<Integer, Integer> downedPlayers = new HashMap<>();
+
+		int initialPlayerCount = (int) simulation.getInitialCharacterStates().stream()
+				.filter(x -> x.getParty().equals(PLAYER)).count();
+
+		for (Battle battle : simulation.getBattles()) {
+			Integer downedPlayerCount = initialPlayerCount - battle.getFinalBoardState().getPartyActiveCount(PLAYER);
+
+			int count = downedPlayers.containsKey(downedPlayerCount) ? downedPlayers.get(downedPlayerCount) : 0;
+			downedPlayers.put(downedPlayerCount, count + 1);
+		}
+
+		List<Pair<Integer, Integer>> orderedDownedPlayers = downedPlayers.entrySet().stream()
+				.sorted(Map.Entry.comparingByKey()).map(entry -> new Pair<>(entry.getKey(), entry.getValue())).toList();
 
 		for (Battle battle : simulation.getBattles()) {
 			Integer playerActiveCount = battle.getFinalBoardState().getPartyActiveCount(PLAYER);
@@ -50,7 +65,8 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		return SimulationReport.builder().winRateConvergence(winRateConvergence)
 				.drawRateConvergence(drawRateConvergence).simulationCount(simulation.getSimulationCount())
 				.roundCountLimit(simulation.getRoundCountLimit()).winCount(winCount).lossCount(lossCount)
-				.drawCount(drawCount).outcomes(orderedOutcomes).playerWinStateReport(playerWinStateReport).build();
+				.downedPlayers(orderedDownedPlayers).drawCount(drawCount).outcomes(orderedOutcomes)
+				.playerWinStateReport(playerWinStateReport).initialPlayerCount(initialPlayerCount).build();
 	}
 
 	private HashMap<Integer, Float> getDrawRateConvergence(Simulation simulation) {
@@ -97,6 +113,10 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.flatMap(x -> x.getCharacterStates().values().stream()).filter(x -> x.getParty().equals(PLAYER))
 				.map(x -> x.getCurrentHp()).filter(x -> x > 0).sorted().toList();
 
+		if (healthList.size() == 0) {
+			return null;
+		}
+
 		int min = healthList.get(0);
 		int max = healthList.get(healthList.size() - 1);
 
@@ -136,10 +156,11 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 								.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
 						.entrySet().stream())
 				.collect(Collectors.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
-				.entrySet().stream())
-				.map(entry -> entry.getValue())
-				.sorted()
-				.toList();
+				.entrySet().stream()).map(entry -> entry.getValue()).sorted().toList();
+
+		if (damageTakenList.size() == 0) {
+			return null;
+		}
 
 		int min = damageTakenList.get(0);
 		int max = damageTakenList.get(damageTakenList.size() - 1);
@@ -185,9 +206,11 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 						.collect(Collectors
 								.groupingBy(entry -> entry.getKey(), Collectors.summingInt(x -> x.getValue())))
 						.entrySet().stream())
-					.map(entry -> entry.getValue())
-					.sorted()
-					.toList();
+				.map(entry -> entry.getValue()).sorted().toList();
+
+		if (damageDeltList.size() == 0) {
+			return null;
+		}
 
 		int min = damageDeltList.get(0);
 		int max = damageDeltList.get(damageDeltList.size() - 1);

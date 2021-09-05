@@ -49,21 +49,18 @@ public class SimulationServiceComponent {
 		NodeBoard nodeBoard = NodeBoard.builder().tiles(nodeTiles).build();
 
 		List<ICharacterState> initialCharacterStates = new ArrayList<>();
-		battleDbModel.get().getPlayerCharacterStates()
-				.forEach(x -> initialCharacterStates.add(PlayerCharacterState.builder().party(x.getParty())
-						.id(x.getId())
-						.level(x.getPlayerCharacter().getCharacterLevel())
-						.armorClass(x.getPlayerCharacter().getArmorClass())
-						.dexterity(x.getPlayerCharacter().getDexterity())
-						.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
-						.characterClass(x.getPlayerCharacter().getCharacterClass()).currentHp(x.getCurrentHp())
-						.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
-						.strength(x.getPlayerCharacter().getStrength()).tileId(x.getNodeTile().getId())
-						.walkingSpeed(x.getPlayerCharacter().getWalkingSpeed()).build()));
+		battleDbModel.get().getPlayerCharacterStates().forEach(x -> initialCharacterStates.add(PlayerCharacterState
+				.builder().party(x.getParty()).id(x.getId()).level(x.getPlayerCharacter().getCharacterLevel())
+				.armorClass(x.getPlayerCharacter().getArmorClass()).dexterity(x.getPlayerCharacter().getDexterity())
+				.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
+				.characterClass(x.getPlayerCharacter().getCharacterClass()).currentHp(x.getCurrentHp())
+				.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
+				.strength(x.getPlayerCharacter().getStrength()).tileId(x.getNodeTile().getId())
+				.walkingSpeed(x.getPlayerCharacter().getWalkingSpeed()).build()));
 
 		battleDbModel.get().getMonsterStates().forEach(x -> initialCharacterStates.add(MonsterCharacterState.builder()
 				.targetingStyle(x.getTargetingStyle()).playStyle(x.getPlayStyle()).tileId(x.getNodeTile().getId())
-				.party(x.getParty()).monster(x.getMonster()).id(x.getId()).build()));
+				.currentHp(x.getCurrentHp()).party(x.getParty()).monster(x.getMonster()).id(x.getId()).build()));
 
 		return simulationService.getSimulation(initialCharacterStates, nodeBoard, simulationCount, roundCountLimit);
 	}
