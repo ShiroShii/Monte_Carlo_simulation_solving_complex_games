@@ -22,30 +22,39 @@ public enum Monster {
 	//TODO: HP roll
 	PANTHER(
 			12,
-			13,
 			10,
+			0,
 			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D6)).build()).damageType(PIERCING)
-					.meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty())
+					.meleeRange(Optional.of(1)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty())
 					.build(), MonsterAttack.builder().name("Claw").combatStyle(MELEE).attackRollModifier(4)
 							.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
-							.damageType(SLASHING).meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
+							.damageType(SLASHING).meleeRange(Optional.of(1)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
 			15),
 	GIANT_RAT(
 			12,
-			7,
 			6,
+			0,
+			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
+					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build()).damageType(PIERCING)
+					.meleeRange(Optional.of(1)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
+			15),
+	SWARM_OF_BATS(
+			12,
+			0,
+			30,
 			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build()).damageType(PIERCING)
 					.meleeRange(Optional.of(0)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty()).build()),
-			15);
+			15
+			);
 
 	@Getter
 	private int armorClass;
 	@Getter
-	private int maxHp;
-	@Getter
 	private int walkingSpeed;
+	@Getter
+	private int flayingSpeed;
 	@Getter
 	private List<IResource> attack;
 	@Getter

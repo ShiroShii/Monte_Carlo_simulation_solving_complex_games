@@ -25,17 +25,17 @@ public enum Weapon implements IResource {
 			BLUDGEONING,
 			EnumSet.of(LIGHT),
 			DamageRoll.builder().dice(Arrays.asList(D4)).build(),
-			Optional.of(0),
-			Optional.of(3),
-			Optional.of(11)),
+			Optional.of(1),
+			Optional.of(4),
+			Optional.of(12)),
 	DAGGER(
 			SIMPLE_MELEE,
 			PIERCING,
 			EnumSet.of(FINESSE, LIGHT, THROWN),
 			DamageRoll.builder().dice(Arrays.asList(D4)).build(),
-			Optional.of(0),
-			Optional.of(3),
-			Optional.of(11));
+			Optional.of(1),
+			Optional.of(4),
+			Optional.of(12));
 
 	@Getter
 	private final WeaponCategory weaponCategory;

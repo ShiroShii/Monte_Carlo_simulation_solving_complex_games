@@ -7,6 +7,6 @@ import lombok.Data;
 @Builder
 public class PlayerWinStateReport {
 	private StatReport health;
-	private StatReport damageDelt;
+	private StatReport damageDealt;
 	private StatReport damageTaken;
 }

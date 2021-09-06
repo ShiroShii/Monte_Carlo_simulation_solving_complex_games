@@ -36,6 +36,8 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 			case CRITICAL_HIT -> damageProvider.getDamage(resource, initiator, target) * 2;
 			default -> 0;
 		};
+		
+		// TODO: Immunity and Resistance
 
 		// TODO: remove thrown item
 

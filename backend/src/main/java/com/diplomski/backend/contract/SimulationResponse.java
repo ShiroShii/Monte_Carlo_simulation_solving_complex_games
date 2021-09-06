@@ -18,6 +18,7 @@ public class SimulationResponse {
 	private List<NameValueIntPair> battleOutcomeSlices;
 	private List<NameValueIntPair> battleOutcomeBars;
 	private List<DownedPlayerContract> downedPlayers;
+	private List<PlayerReportContract> playerReports;
 	private int initialPlayerCount;
 	private int simulationCount;
 	private int roundCountLimit;

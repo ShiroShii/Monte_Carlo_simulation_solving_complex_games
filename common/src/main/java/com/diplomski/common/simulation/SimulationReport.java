@@ -20,4 +20,5 @@ public class SimulationReport {
 	private int roundCountLimit;
 	private int initialPlayerCount;
 	private PlayerWinStateReport playerWinStateReport;
+	private List<PlayerReport> playerReports;
 }

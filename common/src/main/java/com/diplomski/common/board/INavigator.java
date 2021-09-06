@@ -14,13 +14,4 @@ public interface INavigator {
 	 * @return List of tiles between the initialTile and targetTile
 	 */
 	public Optional<List<ITile>> getCheapestUnobstructedPath(UUID initialTile, UUID targetTile, BoardState boardState);
-
-	/**
-	 * @param moveReferencingTarget Set to 0 to move to the target tile. <br/>
-	 *                              Set to action range as positive number to get
-	 *                              target into range. <br/>
-	 *                              Set to required distance as negative number to
-	 *                              move away. <br/>
-	 */
-	public ITile moveReferencingTarget(ITile initialTile, ITile targetTile, int distanceFromTarget);
 }

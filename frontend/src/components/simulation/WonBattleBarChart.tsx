@@ -51,11 +51,11 @@ const CustomTooltip = ({ active, payload }: any) => {
 type WonBattleBarChartProps = {
     healthData: [ICategoryData]
     damageTakenData: [ICategoryData]
-    damageDeltData: [ICategoryData]
+    damageDealtData: [ICategoryData]
 }
 
 function WonBattleBarChart(props: WonBattleBarChartProps) {
-    const { healthData, damageTakenData, damageDeltData } = props
+    const { healthData, damageTakenData, damageDealtData } = props
     return (
         <ScatterChart
             width={500}
@@ -73,7 +73,7 @@ function WonBattleBarChart(props: WonBattleBarChartProps) {
             <Tooltip content={<CustomTooltip />} />
             <Scatter data={healthData} shape={<CustomShape />} line={<CustomLine />} />
             <Scatter data={damageTakenData} shape={<CustomShape />} line={<CustomLine />} />
-            <Scatter data={damageDeltData} shape={<CustomShape />} line={<CustomLine />} />
+            <Scatter data={damageDealtData} shape={<CustomShape />} line={<CustomLine />} />
         </ScatterChart>
     )
 }

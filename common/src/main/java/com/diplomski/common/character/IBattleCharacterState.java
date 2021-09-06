@@ -20,6 +20,8 @@ public interface IBattleCharacterState {
 	public int getWalkingSpeed();
 	
 	public void setUsedWalkingSpeed(int i);
+	
+	public void setUsedFlyingSpeed(int i);
 
 	public int getArmorClass();
 

@@ -13,8 +13,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 @SuperBuilder(toBuilder = true)
 @NoArgsConstructor
-public class PlayerCharacterState implements ICharacterState{
+public class PlayerCharacterState implements ICharacterState {
 	private UUID id;
+	private String name;
 	private Party party;
 	private int maxHp;
 	private int currentHp;

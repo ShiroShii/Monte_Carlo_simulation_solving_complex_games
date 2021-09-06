@@ -22,7 +22,7 @@ public enum Cantrip implements IResource {
 			MELEE,
 			LIGHTNING,
 			DamageRoll.builder().dice(Arrays.asList(D8)).build(),
-			Optional.of(0),
+			Optional.of(1),
 			Optional.empty(),
 			Optional.empty()),
 	FIRE_BOLT(
@@ -30,7 +30,7 @@ public enum Cantrip implements IResource {
 			FIRE,
 			DamageRoll.builder().dice(Arrays.asList(D10)).build(),
 			Optional.empty(),
-			Optional.of(23),
+			Optional.of(24),
 			Optional.empty());
 
 	@Getter

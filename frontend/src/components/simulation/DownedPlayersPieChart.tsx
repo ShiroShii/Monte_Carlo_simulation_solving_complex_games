@@ -95,7 +95,7 @@ function renderCustomPieLegend(items: [IDownedPlayer], simulationCount: number, 
             </ul>
             <div style={{ width: "225px"}}>
                 <hr style={{ margin: 2 }} />
-                <p style={{ marginBottom: 2 }}>Simulations count: {simulationCount}</p>
+                <p style={{ marginBottom: 2 }}>Simulation count: {simulationCount}</p>
                 <p style={{ marginBottom: 2 }}>Initial player count: {initialPlayerCount}</p>
             </div>
         </div>

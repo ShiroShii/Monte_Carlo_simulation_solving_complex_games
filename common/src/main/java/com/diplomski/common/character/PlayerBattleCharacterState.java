@@ -12,7 +12,10 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 public class PlayerBattleCharacterState extends PlayerCharacterState implements IBattleCharacterState {
+	
 	private int usedWalkingSpeed;
+	
+	private int usedFlyingSpeed;
 
 	private ITurnProvider turnProvider;
 

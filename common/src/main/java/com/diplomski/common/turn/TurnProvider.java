@@ -54,7 +54,7 @@ public class TurnProvider implements ITurnProvider {
 					.getCheapestUnobstructedPath(initiator.getTileId(), target.getTileId(), currentBoardState);
 
 			if (optionalPath.isPresent()) {
-				int distance = optionalPath.get().size();
+				int distance = optionalPath.get().size() + 1;
 				double rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
 				if (rangeMultipier < 1D) {
 					Optional<Activity> movementActivity = movementProvider
@@ -64,7 +64,7 @@ public class TurnProvider implements ITurnProvider {
 						activities.add(movementActivity.get());
 						optionalPath = navigator.getCheapestUnobstructedPath(initiator.getTileId(), target
 								.getTileId(), currentBoardState);
-						distance = optionalPath.get().size();
+						distance = optionalPath.get().size() + 1;
 						rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
 					}
 				}

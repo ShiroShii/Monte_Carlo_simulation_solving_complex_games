@@ -159,6 +159,7 @@ public class PlayerVsMonsterWithTileBetweenSimulationReportFunctionalTest {
 
 		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID)
 				.tileId(ENEMY_TILE_ID).party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE)
+				.currentHp(20)
 				.build();
 
 		initialCharacterStates = Arrays.asList(playerCharacterState, enemyCharacterState);

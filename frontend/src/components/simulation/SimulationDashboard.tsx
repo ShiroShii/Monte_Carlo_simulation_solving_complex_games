@@ -36,7 +36,7 @@ function SimulationDashboard(props: SimulationDashboardProps) {
             <Switch checked={showPieChart} onChange={(event, checked: boolean) => { setShowPieChart(checked) }} />
             <DownedPlayersBarChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
             <DownedPlayersPieChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
-            <WonBattleBarChart healthData={playerBoxPlot.health} damageDeltData={playerBoxPlot.damageDelt} damageTakenData={playerBoxPlot.damageTaken} />
+            <WonBattleBarChart healthData={playerBoxPlot.health} damageDealtData={playerBoxPlot.damageDealt} damageTakenData={playerBoxPlot.damageTaken} />
         </>
     )
 }

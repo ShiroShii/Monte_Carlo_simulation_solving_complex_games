@@ -54,7 +54,7 @@ import lombok.NonNull;
 
 public class PlayerVsMonsterSimulationReportFunctionalTest {
 	private final int SIMULATION_COUNT = 10000;
-	private final int ROUND_COUNT_LIMIT = 5;
+	private final int ROUND_COUNT_LIMIT = 10;
 	private final UUID PLAYER_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID ENEMY_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
 	private final UUID PLAYER_ID = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
@@ -101,7 +101,7 @@ public class PlayerVsMonsterSimulationReportFunctionalTest {
 				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE)
 				.resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
 
-		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID)
+		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID).currentHp(20)
 				.tileId(ENEMY_TILE_ID).party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE)
 				.build();
 

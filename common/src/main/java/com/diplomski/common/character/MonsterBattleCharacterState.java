@@ -19,6 +19,8 @@ public class MonsterBattleCharacterState extends MonsterCharacterState implement
 
 	private int usedWalkingSpeed;
 
+	private int usedFlyingSpeed;
+	
 	private ITurnProvider turnProvider;
 
 	public static MonsterBattleCharacterState getBattleState(

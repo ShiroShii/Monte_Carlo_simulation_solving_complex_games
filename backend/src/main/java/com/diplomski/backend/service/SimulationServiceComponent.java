@@ -50,8 +50,9 @@ public class SimulationServiceComponent {
 
 		List<ICharacterState> initialCharacterStates = new ArrayList<>();
 		battleDbModel.get().getPlayerCharacterStates().forEach(x -> initialCharacterStates.add(PlayerCharacterState
-				.builder().party(x.getParty()).id(x.getId()).level(x.getPlayerCharacter().getCharacterLevel())
-				.armorClass(x.getPlayerCharacter().getArmorClass()).dexterity(x.getPlayerCharacter().getDexterity())
+				.builder().party(x.getParty()).id(x.getId()).name(x.getPlayerCharacter().getName())
+				.level(x.getPlayerCharacter().getCharacterLevel()).armorClass(x.getPlayerCharacter().getArmorClass())
+				.dexterity(x.getPlayerCharacter().getDexterity())
 				.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
 				.characterClass(x.getPlayerCharacter().getCharacterClass()).currentHp(x.getCurrentHp())
 				.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())

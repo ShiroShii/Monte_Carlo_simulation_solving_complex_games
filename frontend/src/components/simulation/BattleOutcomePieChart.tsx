@@ -39,7 +39,7 @@ const renderCustomPieLabel = (props: RenderCustomPieLabelProps) => {
                     textAnchor="middle"
                     dominantBaseline="middle"
                 >
-                    {`${(percent * 100).toFixed(0)}%`}
+                    {`${(percent * 100).toFixed(1)}%`}
                 </text>
             </>
         }

@@ -10,8 +10,10 @@ import com.diplomski.backend.contract.DownedPlayerContract;
 import com.diplomski.backend.contract.NameValueIntPair;
 import com.diplomski.backend.contract.PlayerBoxPlot;
 import com.diplomski.backend.contract.PlayerCharacterStateResponse;
+import com.diplomski.backend.contract.PlayerReportContract;
 import com.diplomski.backend.contract.SimulationResponse;
 import com.diplomski.backend.dal.PlayerCharacterStateDbModel;
+import com.diplomski.common.simulation.PlayerReport;
 import com.diplomski.common.simulation.SimulationReport;
 import com.diplomski.common.simulation.StatReport;
 
@@ -35,6 +37,22 @@ public class SimulationTranslator {
 		output.add(CategoryContract.builder().category(category).value(input.getMax()).label("Upper Extreme").build());
 
 		return output;
+	}
+
+	public static PlayerReportContract translate(PlayerReport input) {
+		return PlayerReportContract.builder().downCount(input.getDownCount()).id(input.getId()).name(input.getName())
+				.playerBoxPlot(PlayerBoxPlot.builder()
+						.health(input.getPlayerBoxPlot().getHealth() != null
+								? translate(input.getPlayerBoxPlot().getHealth(), "Health")
+								: null)
+						.damageDealt(input.getPlayerBoxPlot().getDamageDealt() != null
+								? translate(input.getPlayerBoxPlot().getDamageDealt(), "Damage Dealt")
+								: null)
+						.damageTaken(input.getPlayerBoxPlot().getDamageTaken() != null
+								? translate(input.getPlayerBoxPlot().getDamageDealt(), "Damage Taken")
+								: null)
+						.build())
+				.build();
 	}
 
 	public static SimulationResponse translate(SimulationReport input, UUID battleId) {
@@ -62,19 +80,22 @@ public class SimulationTranslator {
 		List<CategoryContract> health = input.getPlayerWinStateReport().getHealth() != null
 				? translate(input.getPlayerWinStateReport().getHealth(), "Health")
 				: null;
-		List<CategoryContract> damageDelt = input.getPlayerWinStateReport().getDamageDelt() != null
-				? translate(input.getPlayerWinStateReport().getDamageDelt(), "Damage Delt")
+		List<CategoryContract> damageDealt = input.getPlayerWinStateReport().getDamageDealt() != null
+				? translate(input.getPlayerWinStateReport().getDamageDealt(), "Damage Dealt")
 				: null;
 		List<CategoryContract> damageTaken = input.getPlayerWinStateReport().getDamageTaken() != null
 				? translate(input.getPlayerWinStateReport().getDamageTaken(), "Damage Taken")
 				: null;
 
-		PlayerBoxPlot playerBoxPlot = PlayerBoxPlot.builder().health(health).damageDelt(damageDelt)
+		PlayerBoxPlot playerBoxPlot = PlayerBoxPlot.builder().health(health).damageDealt(damageDealt)
 				.damageTaken(damageTaken).build();
+
+		List<PlayerReportContract> playerReports = input.getPlayerReports().stream().map(x -> translate(x)).toList();
 
 		return SimulationResponse.builder().battleId(battleId).roundCountLimit(input.getRoundCountLimit())
 				.simulationCount(input.getSimulationCount()).battleOutcomeConvergence(battleOutcomeConvergence)
 				.playerBoxPlot(playerBoxPlot).downedPlayers(downedPlayers).battleOutcomeBars(outcomes)
-				.battleOutcomeSlices(battleOutcomeSlices).initialPlayerCount(input.getInitialPlayerCount()).build();
+				.battleOutcomeSlices(battleOutcomeSlices).initialPlayerCount(input.getInitialPlayerCount())
+				.playerReports(playerReports).build();
 	}
 }

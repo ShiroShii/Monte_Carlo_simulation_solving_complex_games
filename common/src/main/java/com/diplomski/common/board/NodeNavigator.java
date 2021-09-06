@@ -27,12 +27,6 @@ public class NodeNavigator implements INavigator {
 		}).findFirst().get().values()));
 	}
 
-	@Override
-	public ITile moveReferencingTarget(ITile initialTile, ITile targetTile, int distanceFromTarget) {
-		// TODO: implement NodeNavigator moveTowardsTargetTile
-		return targetTile;
-	}
-
 	private int costOfPath(List<ITile> path) {
 		return path.stream().map(x -> x.getTerrainType().getMovementDificulty().getMovementCost())
 				.reduce(0, Integer::sum);

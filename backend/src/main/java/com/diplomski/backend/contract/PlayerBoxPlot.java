@@ -10,5 +10,5 @@ import lombok.Data;
 public class PlayerBoxPlot {
 	List<CategoryContract> health;
 	List<CategoryContract> damageTaken;
-	List<CategoryContract> damageDelt;
+	List<CategoryContract> damageDealt;
 }

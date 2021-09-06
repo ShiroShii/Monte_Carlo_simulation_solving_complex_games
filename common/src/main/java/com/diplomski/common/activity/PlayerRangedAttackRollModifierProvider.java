@@ -18,8 +18,8 @@ public class PlayerRangedAttackRollModifierProvider implements IAttackRollModifi
 		if (resource instanceof Weapon) {
 			Weapon weapon = (Weapon) resource;
 
-			if (weapon.getWeaponCategory().getStyle() == CombatStyle.RANGED
-					&& ((PlayerBattleCharacterState) initiator).getCharacterClass().getWeaponProficiencies().contains(weapon.getWeaponCategory())) {
+			if (weapon.getWeaponCategory().getStyle() == CombatStyle.RANGED && ((PlayerBattleCharacterState) initiator)
+					.getCharacterClass().getWeaponProficiencies().contains(weapon.getWeaponCategory())) {
 				modifier += ((PlayerBattleCharacterState) initiator).getLevel().getProficiencyBonus();
 			}
 
@@ -29,7 +29,7 @@ public class PlayerRangedAttackRollModifierProvider implements IAttackRollModifi
 			if (shouldUseDexterity) {
 				modifier += Math.floor((((PlayerBattleCharacterState) initiator).getDexterity() - 10) / 2.0d);
 			} else {
-				modifier += Math.floor((((PlayerBattleCharacterState) initiator).getStrength() -10) / 2.0d);
+				modifier += Math.floor((((PlayerBattleCharacterState) initiator).getStrength() - 10) / 2.0d);
 			}
 
 		}
