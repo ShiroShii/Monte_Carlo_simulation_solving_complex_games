@@ -18,29 +18,40 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 
 	@Override
 	public SimulationReport getSimulationReport(Simulation simulation) {
-		HashMap<Integer, Float> winRateConvergence = getWinConvergence(simulation);
-		HashMap<Integer, Float> drawRateConvergence = getDrawRateConvergence(simulation);
-
 		int initialPlayerCount = (int) simulation.getInitialCharacterStates().stream()
 				.filter(x -> x.getParty().equals(PLAYER)).count();
 
 		int winCount = (int) simulation.getBattles().stream()
-				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(PLAYER)).count();
+				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(PLAYER))
+				.count();
 		int lossCount = (int) simulation.getBattles().stream()
-				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY)).count();
-		int drawCount = (int) simulation.getBattles().stream().filter(x -> !x.isBattleComplete()).count();
+				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY))
+				.count();
+		int drawCount = (int) simulation.getBattles().stream()
+				.filter(x -> !x.isBattleComplete())
+				.count();
 
 		PlayerWinStateReport playerWinStateReport = PlayerWinStateReport.builder()
 				.health(getPlayerHealthStatReport(getWonBattles(simulation)))
-				.damageDealt(getPlayerDamageDealtReport(simulation)).damageTaken(getPlayerDamageTakenReport(simulation))
+				.damageDealt(getPlayerDamageDealtReport(simulation))
+				.damageTaken(getPlayerDamageTakenReport(simulation))
 				.build();
 
-		return SimulationReport.builder().winRateConvergence(winRateConvergence)
-				.drawRateConvergence(drawRateConvergence).simulationCount(simulation.getSimulationCount())
-				.roundCountLimit(simulation.getRoundCountLimit()).winCount(winCount).lossCount(lossCount)
-				.downedPlayers(getDownedPlayers(simulation, initialPlayerCount)).drawCount(drawCount)
-				.outcomes(getOutcomes(simulation)).playerWinStateReport(playerWinStateReport)
-				.initialPlayerCount(initialPlayerCount).playerReports(getPlayerReports(simulation)).build();
+		return SimulationReport.builder()
+				.winRateConvergence(getWinConvergence(simulation))
+				.drawRateConvergence(getDrawConvergence(simulation))
+				.lossRateConvergence(getLossConvergence(simulation))
+				.winCount(winCount)
+				.drawCount(drawCount)
+				.lossCount(lossCount)
+				.outcomes(getOutcomes(simulation))
+				.downedPlayers(getDownedPlayers(simulation, initialPlayerCount))
+				.playerWinStateReport(playerWinStateReport)
+				.playerReports(getPlayerReports(simulation))
+				.simulationCount(simulation.getSimulationCount())
+				.roundCountLimit(simulation.getRoundCountLimit())
+				.initialPlayerCount(initialPlayerCount)
+				.build();
 	}
 
 	private List<PlayerReport> getPlayerReports(Simulation simulation) {
@@ -91,7 +102,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.map(entry -> new Pair<>(entry.getKey(), entry.getValue())).toList();
 	}
 
-	private HashMap<Integer, Float> getDrawRateConvergence(Simulation simulation) {
+	private HashMap<Integer, Float> getDrawConvergence(Simulation simulation) {
 		HashMap<Integer, Float> drawRateConvergence = new HashMap<>();
 		int draws = 0;
 		for (int i = 0; i < simulation.getBattles().size(); i++) {
@@ -118,6 +129,21 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 		return winRateConvergence;
 	}
 
+	private HashMap<Integer, Float> getLossConvergence(Simulation simulation) {
+		HashMap<Integer, Float> lossConvergence = new HashMap<>();
+
+		int battlesLost = 0;
+		for (int i = 0; i < simulation.getBattles().size(); i++) {
+			Battle battle = simulation.getBattles().get(i);
+			if (battle.isBattleComplete() && battle.getWinningParty().get().equals(ENEMY)) {
+				battlesLost++;
+			}
+			lossConvergence.put(i + 1, (float) battlesLost / (i + 1));
+		}
+
+		return lossConvergence;
+	}
+
 	private List<Battle> getWonBattles(Simulation simulation) {
 		List<Battle> wonBattles = new ArrayList<>();
 
@@ -136,8 +162,10 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 
 	private StatReport getPlayerHealthStatReport(List<Battle> battles, UUID playerId) {
 		List<Integer> healthList = battles.stream().map(x -> x.getFinalBoardState())
-				.flatMap(x -> x.getCharacterStates().values().stream()).filter(x -> x.getParty().equals(PLAYER))
-				.filter(playerId != null ? x -> x.getId().equals(playerId) : x -> true).map(x -> x.getCurrentHp())
+				.flatMap(x -> x.getCharacterStates().values().stream())
+				.filter(x -> x.getParty().equals(PLAYER))
+				.filter(playerId != null ? x -> x.getId().equals(playerId) : x -> true)
+				.map(x -> x.getCurrentHp())
 				.filter(x -> x > 0).sorted().toList();
 
 		if (healthList.size() == 0) {

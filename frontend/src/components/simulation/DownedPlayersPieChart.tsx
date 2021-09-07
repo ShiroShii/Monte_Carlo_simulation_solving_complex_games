@@ -12,17 +12,14 @@ const RADIAN = Math.PI / 180
 const CustomTooltip = ({ active, payload, simulationCount }: any) => {
     if (active && payload && payload[0]) {
         return (
-            < div style={{
+            <div style={{
                 backgroundColor: "white",
-                border: "2px solid black",
-                padding: "10px 10px 1px 10px",
-                borderRadius: "10px",
-                lineHeight: "0.5",
-                textAlign: "center"
-            }
-            }>
-                <p><b>{payload[0].payload.simulationCount}</b> Simulations</p>
-                <p>out of <b>{simulationCount}</b></p>
+                border: "1px solid gray",
+                padding: "10px 10px 10px 10px",
+                borderRadius: "2px"
+            }}>
+                <p style={{ marginBottom: "0px" }}><b>{payload[0].payload.simulationCount}</b> Simulations</p>
+                <p style={{ marginBottom: "0px" }}>out of <b>{simulationCount}</b></p>
             </div >
         );
     }

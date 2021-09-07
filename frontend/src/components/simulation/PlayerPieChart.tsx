@@ -55,7 +55,6 @@ function renderCustomPieLegend(simulationCount: number, items: ChartData[]) {
                         <>{
                             item.value !== 0 &&
                             <li key={item.name} style={{
-                                color: "#333",
                                 listStyle: "none",
                                 display: "flex",
                                 flexDirection: "row",
@@ -74,7 +73,7 @@ function renderCustomPieLegend(simulationCount: number, items: ChartData[]) {
                     );
                 })}
             </ul>
-            <div style={{ width: "120px" }}><hr /></div>
+            <div><hr /></div>
             <p>Total: {simulationCount}</p>
         </div>
     );
@@ -93,23 +92,20 @@ type PlayerPieChartProps = {
 function PlayerPieChart(props: PlayerPieChartProps) {
     const { downCount, simulationCount } = props
     const data = [
-        { name: "Survivals", value: simulationCount - downCount } as ChartData,
+        { name: "Survives", value: simulationCount - downCount } as ChartData,
         { name: "Downs", value: downCount } as ChartData
     ]
 
     return (
-        <PieChart width={300} height={300}>
+        <PieChart width={350} height={400} margin={{ top: 70 }}>
             <Pie
                 data={data}
-                cx={110}
-                cy={200}
                 startAngle={180}
                 endAngle={0}
                 label={renderCustomPieLabel}
                 labelLine={false}
                 innerRadius={30}
                 outerRadius={100}
-                fill="#8884D8"
                 paddingAngle={1}
                 dataKey="value"
             >
@@ -117,7 +113,7 @@ function PlayerPieChart(props: PlayerPieChartProps) {
                     <Cell key={`cell-${index}`} fill={COLORS[index]} />
                 ))}
             </Pie>
-            <Legend layout="vertical" verticalAlign="top" align="right" content={renderCustomPieLegend(simulationCount, data)} />
+            <Legend layout="vertical" verticalAlign="bottom" align="center" content={renderCustomPieLegend(simulationCount, data)} />
         </PieChart>
     )
 }

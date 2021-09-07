@@ -54,16 +54,13 @@ const CustomLabel = ({
 const CustomTooltip = ({ active, payload, simulationCount }: any) => {
     if (active && payload && payload[0]) {
         return (
-            < div style={{
+            <div style={{
                 backgroundColor: "white",
-                border: "2px solid black",
-                padding: "10px 10px 1px 10px",
-                borderRadius: "10px",
-                lineHeight: "0.5",
-                textAlign: "center"
-            }
-            }>
-                <p><b>{100.0 * payload[0].payload.simulationCount / simulationCount}%</b> Simulations</p>
+                border: "1px solid gray",
+                padding: "10px 10px 10px 10px",
+                borderRadius: "2px"
+            }}>
+                <p style={{ marginBottom: "0px" }}><b>{100.0 * payload[0].payload.simulationCount / simulationCount}%</b> Simulations</p>
             </div >
         );
     }

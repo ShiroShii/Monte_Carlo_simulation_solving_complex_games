@@ -9,4 +9,5 @@ public class BattleOutcomeConvergence {
 	private int count;
 	private float winRate;
 	private float drawRate;
+	private float lossRate;
 }

@@ -88,7 +88,7 @@ function BattleOutcomePieChart(props: BattleOutcomePieChartProps) {
     const { battleOutcomeSlices, simulationCount } = props
 
     return (
-        <PieChart width={350} height={300}>
+        <PieChart width={350} height={250}  margin={{ top: 70 }}>
             <Pie
                 data={battleOutcomeSlices}
                 startAngle={180}
@@ -102,10 +102,10 @@ function BattleOutcomePieChart(props: BattleOutcomePieChartProps) {
                 dataKey="value"
             >
                 {battleOutcomeSlices.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
                 ))}
             </Pie>
-            <Legend layout="vertical" verticalAlign="top" align="right" content={renderCustomPieLegend(simulationCount, battleOutcomeSlices)} />
+            <Legend layout="vertical" verticalAlign="bottom" align="center" content={renderCustomPieLegend(simulationCount, battleOutcomeSlices)} />
         </PieChart>
     )
 }

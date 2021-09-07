@@ -7,6 +7,7 @@ const CustomLine = ({
     return (
         <>
             <rect x={points[3].x - 25} y={points[3].y} height={points[1].y - points[3].y} width={50} stroke="black" strokeWidth={4} />
+
             <rect x={points[3].x - 25} y={points[3].y} height={points[2].y - points[3].y} width={50} fill="#8884d8" />
             <rect x={points[2].x - 25} y={points[2].y} height={points[1].y - points[2].y} width={50} fill="#82ca9d" />
 
@@ -33,14 +34,12 @@ const CustomTooltip = ({ active, payload }: any) => {
         return (
             <div style={{
                 backgroundColor: "white",
-                border: "2px solid black",
-                padding: "10px 10px 1px 10px",
-                borderRadius: "10px",
-                lineHeight: "0.5",
-                textAlign: "center"
+                border: "1px solid gray",
+                padding: "10px 10px 10px 10px",
+                borderRadius: "2px"
             }}>
-                <p style={{ fontWeight: "bold" }}>{payload[0].payload.category}</p>
-                <p>{payload[0].payload.label}: {payload[0].payload.value}</p>
+                <p style={{ marginBottom: "0px", fontWeight: "bold" }}>{payload[0].payload.category}</p>
+                <p style={{ marginBottom: "0px" }}>{payload[0].payload.label}: {payload[0].payload.value}</p>
             </div>
         );
     }
@@ -75,6 +74,7 @@ type WonBattleBarChartProps = {
 
 function WonBattleBarChart(props: WonBattleBarChartProps) {
     const { healthData, damageTakenData, damageDealtData } = props
+
     return (
         <ScatterChart
             width={350}

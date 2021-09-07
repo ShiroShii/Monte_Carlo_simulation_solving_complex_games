@@ -23,20 +23,18 @@ function SimulationDashboard(props: SimulationDashboardProps) {
         playerReports
     } = props.simulationResult
 
-    const winRate = battleOutcomeConvergence[simulationCount - 1].winRate
-    const drawRate = battleOutcomeConvergence[simulationCount - 1].drawRate
-
     return (
-        <div style={{ width: 1150, margin: "0 auto" }}>
+        <div style={{ width: 1150, margin: "0px auto 150px" }}>
+            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
                 <div style={{ display: "inline-block" }}>
                     <BattleOutcomePieChart simulationCount={simulationCount} battleOutcomeSlices={battleOutcomeSlices} />
                 </div>
                 <div style={{ display: "inline-block" }}>
-                    <BattleOutcomeLineChart winRate={winRate} drawRate={drawRate} battleOutcomeConvergence={battleOutcomeConvergence} />
+                    <BattleOutcomeLineChart battleOutcomeConvergence={battleOutcomeConvergence} />
                 </div>
             </div>
-            <hr />
+            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
                 <div style={{ display: "inline-block" }}>
                     <DownedPlayersPieChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
@@ -45,7 +43,7 @@ function SimulationDashboard(props: SimulationDashboardProps) {
                     <DownedPlayersBarChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
                 </div>
             </div>
-            <hr />
+            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
             <div style={{ marginTop: "20px", marginBottom: "20px" }}>
                 <div style={{ display: "inline-block" }}>
                     <WonBattleBarChart healthData={playerBoxPlot.health} damageDealtData={playerBoxPlot.damageDealt} damageTakenData={playerBoxPlot.damageTaken} />
@@ -54,7 +52,9 @@ function SimulationDashboard(props: SimulationDashboardProps) {
                     <BattleOutcomeBarChart battleOutcomeBars={battleOutcomeBars} simulationCount={simulationCount} />
                 </div>
             </div>
+            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
             <PlayerReport simulationCount={simulationCount} playerReports={playerReports} />
+            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
         </div>
     )
 }
