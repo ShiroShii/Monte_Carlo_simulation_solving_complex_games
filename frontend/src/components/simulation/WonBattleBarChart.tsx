@@ -6,16 +6,16 @@ const CustomLine = ({
 }: any) => {
     return (
         <>
-            <rect x={points[3].x - 25} y={points[3].y} height={points[1].y - points[3].y} width={50} stroke="black" strokeWidth="3" />
+            <rect x={points[3].x - 25} y={points[3].y} height={points[1].y - points[3].y} width={50} stroke="black" strokeWidth={4} />
             <rect x={points[3].x - 25} y={points[3].y} height={points[2].y - points[3].y} width={50} fill="#8884d8" />
             <rect x={points[2].x - 25} y={points[2].y} height={points[1].y - points[2].y} width={50} fill="#82ca9d" />
 
             <line x1={points[0].x} x2={points[0].x} y1={points[0].y} y2={points[1].y} strokeWidth={2} stroke="black" />
             <line x1={points[0].x} x2={points[0].x} y1={points[3].y} y2={points[4].y} strokeWidth={2} stroke="black" />
 
-            <line x1={points[0].x - 25} x2={points[0].x + 25} y1={points[0].y} y2={points[0].y} strokeWidth={3} stroke="#82ca9d" />
-            <line x1={points[2].x - 25} x2={points[2].x + 25} y1={points[2].y} y2={points[2].y} strokeWidth={3} stroke="yellow" />
-            <line x1={points[4].x - 25} x2={points[4].x + 25} y1={points[4].y} y2={points[4].y} strokeWidth={3} stroke="#8884d8" />
+            <rect x={points[0].x - 25 - 1} y={points[0].y - 1} height={4} width={50 + 2} strokeWidth={2} fill="#82ca9d" stroke="black" />
+            <rect x={points[2].x - 25 - 1} y={points[2].y - 1} height={4} width={50 + 2} strokeWidth={2} fill="yellow" stroke="black" />
+            <rect x={points[4].x - 25 - 1} y={points[4].y - 1} height={4} width={50 + 2} strokeWidth={2} fill="#8884d8" stroke="black" />
         </>
     );
 }
@@ -48,27 +48,46 @@ const CustomTooltip = ({ active, payload }: any) => {
     return null;
 };
 
+const CustomTick = ({ x, y, payload }: any) => {
+    console.log(payload)
+    return (
+        <text x={x} y={y} stroke="grey" fontWeight="lighter" fontSize={16}>
+            {
+                payload.value
+                    .split(/(\s+)/)
+                    .filter((x: string) => { return (x.trim().length > 0) })
+                    .map(
+                        (item: number, index: number) => {
+                            return (
+                                <tspan textAnchor="middle" x={payload.coordinate} dy={20}>{item}</tspan>
+                            )
+                        })
+            }
+        </text>
+    )
+}
+
 type WonBattleBarChartProps = {
-    healthData: [ICategoryData]
-    damageTakenData: [ICategoryData]
-    damageDealtData: [ICategoryData]
+    healthData: ICategoryData[]
+    damageTakenData: ICategoryData[]
+    damageDealtData: ICategoryData[]
 }
 
 function WonBattleBarChart(props: WonBattleBarChartProps) {
     const { healthData, damageTakenData, damageDealtData } = props
     return (
         <ScatterChart
-            width={500}
+            width={350}
             height={400}
             margin={{
                 top: 20,
-                right: 20,
+                right: 5,
                 bottom: 20,
-                left: 20,
+                left: 0,
             }}
         >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis type="category" allowDuplicatedCategory={false} dataKey="category" />
+            <XAxis type="category" allowDuplicatedCategory={false} interval={0} dataKey="category" tick={<CustomTick />} />
             <YAxis type="number" dataKey="value" />
             <Tooltip content={<CustomTooltip />} />
             <Scatter data={healthData} shape={<CustomShape />} line={<CustomLine />} />

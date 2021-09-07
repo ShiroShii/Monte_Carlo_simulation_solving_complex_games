@@ -2,7 +2,8 @@ import { Bar, BarChart, CartesianGrid, LabelProps, Tooltip, XAxis, YAxis } from 
 import IBattleOutcomeSlice from "./IBattleOutcomeSlice";
 
 type BattleOutcomeBarChartProps = {
-    battleOutcomeBars: [IBattleOutcomeSlice]
+    battleOutcomeBars: IBattleOutcomeSlice[],
+    simulationCount: number
 }
 
 const CustomLabel = ({
@@ -45,12 +46,25 @@ const CustomLabel = ({
 }
 
 function BattleOutcomeBarChart(props: BattleOutcomeBarChartProps) {
-    const { battleOutcomeBars } = props
+    const { battleOutcomeBars, simulationCount } = props
     return (
-        <BarChart width={730} height={250} data={battleOutcomeBars} margin={{ top: 5, right: 150, left: 20, bottom: 50 }}>
+        <BarChart width={800} height={400} data={battleOutcomeBars} margin={{ top: 20, right: 5, left: 50, bottom: 20 }}>
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="name" label={{ position: 'bottom', value: "Players Left Standing : Enemies Left Standing", fill: "gray", fontSize: 14 }} />
-            <YAxis />
+            <XAxis dataKey="name" label={{ position: 'bottom', value: "Players Left Standing : Enemies Left Standing", fill: "gray", fontSize: 16 }} />
+            <YAxis
+                label={
+                    <text
+                        x={0}
+                        y={0}
+                        dx={-60}
+                        dy={50}
+                        offset={0}
+                        fill="gray"
+                        fontSize={16}
+                        transform="rotate(-90,100,100)"
+                    >Simulation count (out of {simulationCount})</text>
+                }
+            />
             <Tooltip />
             <Bar dataKey="value" fill="#8884d8" label={<CustomLabel />} />
         </BarChart>

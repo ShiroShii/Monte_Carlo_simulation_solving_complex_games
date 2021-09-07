@@ -3,7 +3,7 @@ import colorMixer from "./ColorMixer";
 import IDownedPlayer from "./IDownedPlayer";
 
 type DownedPlayersPieChartProps = {
-    downedPlayers: [IDownedPlayer]
+    downedPlayers: IDownedPlayer[]
     initialPlayerCount: number
     simulationCount: number
 }
@@ -11,7 +11,6 @@ const RADIAN = Math.PI / 180
 
 const CustomTooltip = ({ active, payload, simulationCount }: any) => {
     if (active && payload && payload[0]) {
-        console.log(payload)
         return (
             < div style={{
                 backgroundColor: "white",
@@ -65,16 +64,15 @@ const renderCustomPieLabel = (
     );
 };
 
-function renderCustomPieLegend(items: [IDownedPlayer], simulationCount: number, initialPlayerCount: number) {
+function renderCustomPieLegend(items: IDownedPlayer[], simulationCount: number, initialPlayerCount: number) {
     return (
-        <div style={{ width: "250px", textAlign: "left" }}>
+        <div style={{ textAlign: "left", color: "gray" }}>
             <ul style={{ padding: 0, margin: 2 }}>
                 {items.map((item, index) => {
                     const mixedColor = colorMixer([255, 70, 0], [90, 70, 255], index / items.length)
                     return (
                         <>
                             <li key={item.downedCount} style={{
-                                color: "#333",
                                 listStyle: "none",
                                 display: "flex",
                                 flexDirection: "row",
@@ -82,18 +80,19 @@ function renderCustomPieLegend(items: [IDownedPlayer], simulationCount: number, 
                                 <div
                                     style={{
                                         marginRight: "8px",
+                                        color: "#333",
                                         width: "20px",
                                         height: "20px",
                                         backgroundColor: mixedColor
                                     }}
                                 />
-                                {item.downedCount} downed ({item.downedPercentage}% of Party)
+                                <p style={{ marginBottom: 2 }}>{item.downedCount} downed ({item.downedPercentage}% of Party)</p>
                             </li>
                         </>
                     );
                 })}
             </ul>
-            <div style={{ width: "225px"}}>
+            <div>
                 <hr style={{ margin: 2 }} />
                 <p style={{ marginBottom: 2 }}>Simulation count: {simulationCount}</p>
                 <p style={{ marginBottom: 2 }}>Initial player count: {initialPlayerCount}</p>
@@ -105,14 +104,12 @@ function renderCustomPieLegend(items: [IDownedPlayer], simulationCount: number, 
 function DownedPlayersPieChart(props: DownedPlayersPieChartProps) {
     const { downedPlayers, initialPlayerCount, simulationCount } = props
     return (
-        <PieChart width={600} height={400}>
+        <PieChart width={350} height={400} margin={{ top: 40 }}>
             <Tooltip content={<CustomTooltip simulationCount={simulationCount} />} />
-            <Legend layout="vertical" verticalAlign="top" align="right" content={renderCustomPieLegend(downedPlayers, simulationCount, initialPlayerCount)} />
+            <Legend layout="vertical" verticalAlign="bottom" align="center" content={renderCustomPieLegend(downedPlayers, simulationCount, initialPlayerCount)} />
             <Pie
                 data={downedPlayers}
                 dataKey="simulationCount"
-                cx={200}
-                cy={200}
                 label={renderCustomPieLabel}
                 labelLine={false}
                 innerRadius={30}
@@ -124,7 +121,7 @@ function DownedPlayersPieChart(props: DownedPlayersPieChartProps) {
                     <Cell key={`cell-${index}`} fill={colorMixer([255, 70, 0], [90, 70, 255], index / downedPlayers.length)} />
                 ))}
             </Pie>
-        </PieChart>
+        </PieChart >
     )
 }
 

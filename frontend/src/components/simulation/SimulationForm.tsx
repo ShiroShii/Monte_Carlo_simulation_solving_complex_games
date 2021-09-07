@@ -18,7 +18,6 @@ function SimulationForm(props: SimulationFormProps) {
     }
 
     const onSubmit = async (values: Simulation) => {
-        console.log(values);
         axios.post('http://localhost:8080/simulation', values)
             .then((response) => {
                 props.setSimulationResult(response.data)

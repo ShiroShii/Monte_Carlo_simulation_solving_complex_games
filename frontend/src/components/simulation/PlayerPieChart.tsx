@@ -1,7 +1,6 @@
-import { Cell, Legend, Pie, PieChart } from "recharts"
-import IBattleOutcomeSlice from "./IBattleOutcomeSlice"
+import { Cell, Legend, Pie, PieChart } from "recharts";
 
-const COLORS = ["#8BC24A", "#E6AB09", "#C4261B"]
+const COLORS = ["#8BC24A", "#C4261B"]
 const RADIAN = Math.PI / 180
 
 type RenderCustomPieLabelProps = {
@@ -47,17 +46,19 @@ const renderCustomPieLabel = (props: RenderCustomPieLabelProps) => {
     );
 };
 
-function renderCustomPieLegend(simulationCount: number, items: IBattleOutcomeSlice[]) {
+function renderCustomPieLegend(simulationCount: number, items: ChartData[]) {
     return (
-        <div style={{ textAlign: "left", color: "gray" }}>
-            <ul style={{ padding: 0, margin: 2 }}>
+        <div>
+            <ul>
                 {items.map((item, index) => {
                     return (
                         <>{
                             item.value !== 0 &&
                             <li key={item.name} style={{
+                                color: "#333",
+                                listStyle: "none",
                                 display: "flex",
-                                flexDirection: "row"
+                                flexDirection: "row",
                             }}>
                                 <div
                                     style={{
@@ -67,30 +68,41 @@ function renderCustomPieLegend(simulationCount: number, items: IBattleOutcomeSli
                                         backgroundColor: COLORS[index]
                                     }}
                                 />
-                                <p style={{ marginBottom: 2 }}>{item.name} ({item.value})</p>
+                                {item.name} ({item.value})
                             </li>
                         }</>
                     );
                 })}
             </ul>
-            <hr style={{ margin: 2 }} />
-            <p style={{ marginBottom: 2 }}>Total: {simulationCount}</p>
+            <div style={{ width: "120px" }}><hr /></div>
+            <p>Total: {simulationCount}</p>
         </div>
     );
 }
 
-type BattleOutcomePieChartProps = {
-    battleOutcomeSlices: IBattleOutcomeSlice[]
+type ChartData = {
+    name: string
+    value: number
+}
+
+type PlayerPieChartProps = {
+    downCount: number
     simulationCount: number
 }
 
-function BattleOutcomePieChart(props: BattleOutcomePieChartProps) {
-    const { battleOutcomeSlices, simulationCount } = props
+function PlayerPieChart(props: PlayerPieChartProps) {
+    const { downCount, simulationCount } = props
+    const data = [
+        { name: "Survivals", value: simulationCount - downCount } as ChartData,
+        { name: "Downs", value: downCount } as ChartData
+    ]
 
     return (
-        <PieChart width={350} height={300}>
+        <PieChart width={300} height={300}>
             <Pie
-                data={battleOutcomeSlices}
+                data={data}
+                cx={110}
+                cy={200}
                 startAngle={180}
                 endAngle={0}
                 label={renderCustomPieLabel}
@@ -101,13 +113,13 @@ function BattleOutcomePieChart(props: BattleOutcomePieChartProps) {
                 paddingAngle={1}
                 dataKey="value"
             >
-                {battleOutcomeSlices.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {data.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
                 ))}
             </Pie>
-            <Legend layout="vertical" verticalAlign="top" align="right" content={renderCustomPieLegend(simulationCount, battleOutcomeSlices)} />
+            <Legend layout="vertical" verticalAlign="top" align="right" content={renderCustomPieLegend(simulationCount, data)} />
         </PieChart>
     )
 }
 
-export default BattleOutcomePieChart
+export default PlayerPieChart

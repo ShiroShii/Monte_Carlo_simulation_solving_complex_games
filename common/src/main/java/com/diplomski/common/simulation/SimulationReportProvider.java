@@ -48,7 +48,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.map(x -> PlayerReport.builder().id(x.getId()).name(((PlayerCharacterState) x).getName())
 						.downCount((int) simulation.getBattles().stream()
 								.filter(y -> y.getFinalBoardState().getCharacterStates().get(x.getId()).getCurrentHp()
-										> 0)
+										== 0)
 								.count())
 						.playerBoxPlot(PlayerWinStateReport.builder()
 								.health(getPlayerHealthStatReport(getWonBattles(simulation), x.getId()))

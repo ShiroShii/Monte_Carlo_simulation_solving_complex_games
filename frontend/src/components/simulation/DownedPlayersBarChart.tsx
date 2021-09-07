@@ -3,7 +3,7 @@ import colorMixer from "./ColorMixer";
 import IDownedPlayer from "./IDownedPlayer";
 
 type DownedPlayersBarChartProps = {
-    downedPlayers: [IDownedPlayer]
+    downedPlayers: IDownedPlayer[]
     initialPlayerCount: number
     simulationCount: number
 }
@@ -21,7 +21,6 @@ const CustomLabel = ({
     const valueLength = `${value}`.length
     const rectWidth = valueLength * fontSize / 2 + xPadding
 
-    console.log(index, itemCount)
     const mixedColor = colorMixer([120, 0, 0], [50, 0, 150], index / itemCount)
 
     return (
@@ -54,7 +53,6 @@ const CustomLabel = ({
 
 const CustomTooltip = ({ active, payload, simulationCount }: any) => {
     if (active && payload && payload[0]) {
-        console.log(payload)
         return (
             < div style={{
                 backgroundColor: "white",
@@ -76,7 +74,7 @@ const CustomTooltip = ({ active, payload, simulationCount }: any) => {
 function DownedPlayersBarChart(props: DownedPlayersBarChartProps) {
     const { downedPlayers, initialPlayerCount, simulationCount } = props
     return (
-        <BarChart width={700} height={350} data={downedPlayers} margin={{ top: 5, right: 150, left: 20, bottom: 50 }}>
+        <BarChart width={800} height={400} data={downedPlayers} margin={{ top: 20, right: 5, left: 50, bottom: 30 }}>
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis tickFormatter={(value, index) => `${downedPlayers[index].downedCount} (${downedPlayers[index].downedPercentage}% of Party)`} dataKey="downedCount" label={{ position: 'bottom', value: `Players downed (out of ${initialPlayerCount})`, fill: "gray", fontSize: 16 }} />
             <YAxis
@@ -85,7 +83,7 @@ function DownedPlayersBarChart(props: DownedPlayersBarChartProps) {
                         x={0}
                         y={0}
                         dx={-60}
-                        dy={30}
+                        dy={50}
                         offset={0}
                         fill="gray"
                         fontSize={16}
