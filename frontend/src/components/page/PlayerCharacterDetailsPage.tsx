@@ -2,7 +2,7 @@ import { CircularProgress } from "@material-ui/core";
 import arrayMutators from 'final-form-arrays';
 import { useState } from "react";
 import { Form } from "react-final-form";
-import NameField from "../forms/NameField";
+import NameField from "../common/NameField";
 import ArmorClassField from "../playerCharacter/ArmorClassField";
 import CharacterClassField from "../playerCharacter/CharacterClassField";
 import CharacterLevelField from "../playerCharacter/CharacterLevelField";

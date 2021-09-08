@@ -3,7 +3,7 @@ import { useState } from "react";
 import BattleDetailsForm from "../battle/BattleDetailsForm";
 import IBattle from "../battle/IBattle";
 import useBattle from '../battle/UseBattle';
-import SimulationComponent from "../simulation/SimulationComponent";
+import SimulationComponent from "../simulation";
 
 type BattleDetailsPageProps = {
     id: string

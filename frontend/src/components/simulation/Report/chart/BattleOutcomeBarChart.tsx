@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, LabelProps, Tooltip, XAxis, YAxis } from "recharts";
-import IBattleOutcomeSlice from "./IBattleOutcomeSlice";
+import { IBattleOutcomeSlice } from "../../interface";
 
 type BattleOutcomeBarChartProps = {
     battleOutcomeBars: IBattleOutcomeSlice[],

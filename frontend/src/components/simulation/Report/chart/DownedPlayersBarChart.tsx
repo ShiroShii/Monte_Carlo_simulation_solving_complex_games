@@ -1,6 +1,6 @@
 import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from "recharts";
-import colorMixer from "./ColorMixer";
-import IDownedPlayer from "./IDownedPlayer";
+import colorMixer from "../../../common/ColorMixer";
+import IDownedPlayer from "../../interface/IDownedPlayer";
 
 type DownedPlayersBarChartProps = {
     downedPlayers: IDownedPlayer[]

@@ -1,5 +1,5 @@
 import { CartesianGrid, Line, LineChart, ReferenceLine, Tooltip, XAxis, YAxis } from "recharts"
-import IBattleOutcomeConvergence from "./IBattleOutcomeConvergence"
+import { IBattleOutcomeConvergence } from "../../interface"
 
 const COLORS = ["#8BC24A", "#E6AB09", "#C4261B"]
 

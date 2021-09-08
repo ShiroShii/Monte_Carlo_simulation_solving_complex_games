@@ -1,7 +1,7 @@
 import axios from 'axios'
 import arrayMutators from 'final-form-arrays'
 import { Form } from "react-final-form"
-import NameField from '../forms/NameField'
+import NameField from '../common/NameField'
 import Tile from './Tile';
 import TileField from './TileField'
 function BoardCreationForm() {

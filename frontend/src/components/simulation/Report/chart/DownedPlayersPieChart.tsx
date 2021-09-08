@@ -1,6 +1,6 @@
 import { Cell, Legend, Pie, PieChart, Tooltip } from "recharts";
-import colorMixer from "./ColorMixer";
-import IDownedPlayer from "./IDownedPlayer";
+import colorMixer from "../../../common/ColorMixer";
+import IDownedPlayer from "../../interface/IDownedPlayer";
 
 type DownedPlayersPieChartProps = {
     downedPlayers: IDownedPlayer[]

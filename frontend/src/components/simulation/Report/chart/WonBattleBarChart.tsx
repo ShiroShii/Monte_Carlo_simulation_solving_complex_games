@@ -1,5 +1,5 @@
 import { CartesianGrid, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
-import ICategoryData from "./ICategoryData";
+import ICategoryData from "../../interface/ICategoryData";
 
 const CustomLine = ({
     points

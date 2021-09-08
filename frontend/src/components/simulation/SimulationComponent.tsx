@@ -1,7 +1,7 @@
 import { useState } from "react"
-import ISimulationResult from "./ISimulationResult"
-import SimulationDashboard from "./SimulationDashboard"
-import SimulationForm from "./SimulationForm"
+import SimulationForm from "./form"
+import { ISimulationResult } from "./interface"
+import SimulationDashboard from "./Report"
 
 type SimulationComponentProps = {
     battleId: String

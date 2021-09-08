@@ -1,5 +1,5 @@
 import { Cell, Legend, Pie, PieChart } from "recharts"
-import IBattleOutcomeSlice from "./IBattleOutcomeSlice"
+import { IBattleOutcomeSlice } from "../../interface"
 
 const COLORS = ["#8BC24A", "#E6AB09", "#C4261B"]
 const RADIAN = Math.PI / 180

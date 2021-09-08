@@ -1,9 +1,9 @@
 import { MenuItem, Select } from "@material-ui/core"
 import { useState } from "react"
+import IPlayerReport from "../../interface/IPlayerReport"
 import DisabledBoxChart from "./DisabledBoxChart"
 import DisabledPieChart from "./DisabledPieChart"
 import DisabledPlayerOveriew from "./DisabledPlayerOverview"
-import IPlayerReport from "./IPlayerReport"
 import PlayerPieChart from "./PlayerPieChart"
 import WonBattleBarChart from "./WonBattleBarChart"
 

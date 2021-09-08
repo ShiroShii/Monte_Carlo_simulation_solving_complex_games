@@ -1,9 +1,9 @@
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { Form } from "react-final-form";
-import ISimulationResult from "./ISimulationResult";
-import RoundCountLimitField from "./RoundCountLimitField";
-import SimulationCountField from "./SimulationCountField";
+import ISimulationResult from "../interface/ISimulationResult";
+import RoundCountLimitField from "./fields/RoundCountLimitField";
+import SimulationCountField from "./fields/SimulationCountField";
 
 type SimulationFormProps = {
     battleId: String

@@ -1,11 +1,11 @@
-import BattleOutcomeBarChart from "./BattleOutcomeBarChart"
-import BattleOutcomeLineChart from "./BattleOutcomeLineChart"
-import BattleOutcomePieChart from "./BattleOutcomePieChart"
-import DownedPlayersBarChart from "./DownedPlayersBarChart"
-import DownedPlayersPieChart from "./DownedPlayersPieChart"
-import ISimulationResult from "./ISimulationResult"
-import PlayerReport from "./PlayerReport"
-import WonBattleBarChart from "./WonBattleBarChart"
+import { ISimulationResult } from "../interface"
+import BattleOutcomeBarChart from "./chart/BattleOutcomeBarChart"
+import BattleOutcomeLineChart from "./chart/BattleOutcomeLineChart"
+import BattleOutcomePieChart from "./chart/BattleOutcomePieChart"
+import DownedPlayersBarChart from "./chart/DownedPlayersBarChart"
+import DownedPlayersPieChart from "./chart/DownedPlayersPieChart"
+import PlayerReport from "./chart/PlayerReport"
+import WonBattleBarChart from "./chart/WonBattleBarChart"
 
 type SimulationDashboardProps = {
     simulationResult: ISimulationResult
