@@ -1,4 +1,4 @@
-import PlayerCharacterCreationForm from "../playerCharacter/PlayerCharacterCreationForm"
+import PlayerCharacterCreationForm from "./PlayerCharacterCreationForm"
 
 function PlayerCharacterCreationPage() {
     return (

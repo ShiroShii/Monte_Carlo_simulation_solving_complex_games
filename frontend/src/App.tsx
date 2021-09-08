@@ -1,15 +1,9 @@
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import './App.css';
-import BattleCreationPage from './components/page/BattleCreationPage';
-import BattleDetailsPage from './components/page/BattleDetailsPage';
-import PlayerCharacterDetailsPage from './components/page/PlayerCharacterDetailsPage';
-import PlayerCharacterCreationPage from './components/page/PlayerCharacterCreationPage';
-import BoardCreationPage from './components/page/BoardCreationPage';
-import BoardDetailsPage from './components/page/BoardDetailsPage';
-import NavigationBar from './components/NavigationBar';
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-import PlayerCharacterListPage from './components/page/PlayerCharacterListPage';
-import BoardListPage from './components/page/BoardListPage';
-import BattleListPage from './components/page/BattleListPage';
+import { BattleCreationPage, BattleDetailsPage, BattleListPage } from './components/battle';
+import { BoardCreationPage, BoardDetailsPage, BoardListPage } from './components/board';
+import { PlayerCharacterCreationPage, PlayerCharacterDetailsPage, PlayerCharacterListPage } from './components/playerCharacter';
+import { NavigationBar } from './components/_common';
 
 function App() {
   return (

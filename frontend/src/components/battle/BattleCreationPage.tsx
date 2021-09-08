@@ -1,4 +1,4 @@
-import BattleCreationForm from "../battle/BattleCreationForm";
+import BattleCreationForm from "./BattleCreationForm";
 
 function BattleCreationPage() {
     return (

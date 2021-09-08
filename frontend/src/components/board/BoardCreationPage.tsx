@@ -1,4 +1,4 @@
-import BoardCreationForm from "../board/BoardCreationForm";
+import BoardCreationForm from "./BoardCreationForm";
 
 function BoardCreationPage() {
     return (

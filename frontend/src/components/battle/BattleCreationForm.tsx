@@ -1,7 +1,7 @@
 import axios from 'axios'
 import arrayMutators from 'final-form-arrays'
 import { Form } from "react-final-form"
-import NameField from '../common/NameField'
+import NameField from '../_common/NameField'
 import BoardField from './BoardField'
 function BattleCreationForm() {
 
