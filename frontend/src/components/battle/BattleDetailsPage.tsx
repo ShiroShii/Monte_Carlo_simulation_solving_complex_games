@@ -19,7 +19,7 @@ function BattleDetailsPage(props: BattleDetailsPageProps) {
                 loading ? <CircularProgress /> :
                     <>
                         <BattleDetailsForm battle={battle as IBattle} />
-                        <SimulationComponent battleId={(battle as IBattle).id} />
+                        <SimulationComponent battleId={(battle as IBattle).id} playerCharacterStates={(battle as IBattle).playerCharacterStates}/>
                     </>
             }
         </>

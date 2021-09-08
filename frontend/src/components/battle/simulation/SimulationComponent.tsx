@@ -1,20 +1,22 @@
 import { useState } from "react"
+import IPlayerCharacterState from "../IBattleCharacterState"
 import SimulationForm from "./form"
 import { ISimulationResult } from "./interface"
 import SimulationDashboard from "./Report"
 
 type SimulationComponentProps = {
     battleId: String
+    playerCharacterStates: IPlayerCharacterState[]
 }
 
-function SimulationComponent(props: SimulationComponentProps) {
+function SimulationComponent({ battleId, playerCharacterStates }: SimulationComponentProps) {
     const [simulationResult, setSimulationResult] = useState<ISimulationResult | null>()
 
     return (
         <>
-            <SimulationForm battleId={props.battleId} setSimulationResult={setSimulationResult} />
+            <SimulationForm battleId={battleId} setSimulationResult={setSimulationResult} />
             {
-                simulationResult && <SimulationDashboard simulationResult={simulationResult} />
+                simulationResult && <SimulationDashboard simulationResult={simulationResult} playerCharacterStates={playerCharacterStates} />
             }
         </>
     )

@@ -1,3 +1,4 @@
+import IPlayerCharacterState from "../../IBattleCharacterState"
 import { ISimulationResult } from "../interface"
 import BattleOutcomeBarChart from "./chart/BattleOutcomeBarChart"
 import BattleOutcomeLineChart from "./chart/BattleOutcomeLineChart"
@@ -8,10 +9,11 @@ import PlayerReport from "./chart/PlayerReport"
 import WonBattleBarChart from "./chart/WonBattleBarChart"
 
 type SimulationDashboardProps = {
-    simulationResult: ISimulationResult
+    simulationResult: ISimulationResult,
+    playerCharacterStates: IPlayerCharacterState[]
 }
 
-function SimulationDashboard(props: SimulationDashboardProps) {
+function SimulationDashboard({ simulationResult, playerCharacterStates }: SimulationDashboardProps) {
     const {
         battleOutcomeConvergence,
         battleOutcomeSlices,
@@ -21,7 +23,7 @@ function SimulationDashboard(props: SimulationDashboardProps) {
         playerBoxPlot,
         initialPlayerCount,
         playerReports
-    } = props.simulationResult
+    } = simulationResult
 
     return (
         <div style={{ width: 1150, margin: "0px auto 150px" }}>
@@ -53,7 +55,7 @@ function SimulationDashboard(props: SimulationDashboardProps) {
                 </div>
             </div>
             <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-            <PlayerReport simulationCount={simulationCount} playerReports={playerReports} />
+            <PlayerReport playerCharacterStates={playerCharacterStates} simulationCount={simulationCount} playerReports={playerReports} />
             <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
         </div>
     )

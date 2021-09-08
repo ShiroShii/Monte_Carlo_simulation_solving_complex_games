@@ -1,20 +1,22 @@
 import { MenuItem, Select } from "@material-ui/core"
 import { useState } from "react"
+import IPlayerCharacterState from "../../../IBattleCharacterState"
 import IPlayerReport from "../../interface/IPlayerReport"
 import DisabledBoxChart from "./DisabledBoxChart"
 import DisabledPieChart from "./DisabledPieChart"
 import DisabledPlayerOveriew from "./DisabledPlayerOverview"
+import PlayerOverview from "./PlayerOverview"
 import PlayerPieChart from "./PlayerPieChart"
 import WonBattleBarChart from "./WonBattleBarChart"
 
 type PlayerReportProps = {
     playerReports: IPlayerReport[]
     simulationCount: number
+    playerCharacterStates: IPlayerCharacterState[]
 }
-function PlayerReport(props: PlayerReportProps) {
+function PlayerReport({ playerReports, simulationCount, playerCharacterStates }: PlayerReportProps) {
     const [reportIndex, setReportIndex] = useState<number>(-1)
 
-    const { playerReports, simulationCount } = props
     return (
         <div style={{ marginTop: "20px", marginBottom: "20px" }}>
             <div style={{ paddingTop: "20px", verticalAlign: "top", width: "350px", height: "400px", display: "inline-block" }}>
@@ -38,8 +40,7 @@ function PlayerReport(props: PlayerReportProps) {
                     reportIndex === -1 ?
                         <DisabledPlayerOveriew />
                         :
-                        <>
-                        </>
+                        <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.id === playerReports[reportIndex].id) as IPlayerCharacterState} />
                 }
             </div>
             {
