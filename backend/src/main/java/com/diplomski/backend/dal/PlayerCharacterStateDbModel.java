@@ -2,6 +2,7 @@ package com.diplomski.backend.dal;
 
 import java.util.UUID;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -15,7 +16,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
-import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.TargetingStyle;
 
@@ -50,21 +50,13 @@ public class PlayerCharacterStateDbModel {
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
-	private Party party;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
 	private PlayStyle playStyle;
 	
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private TargetingStyle targetingStyle;
-
-	@ManyToOne
-	@JoinColumn(name = "BattleId", nullable = false)
-	private BattleDbModel battle;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "NodeTileId", nullable = false)
 	private NodeTileDbModel nodeTile;
 }

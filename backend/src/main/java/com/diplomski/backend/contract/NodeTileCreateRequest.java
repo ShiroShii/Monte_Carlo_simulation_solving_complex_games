@@ -14,6 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NodeTileCreateRequest {
+	private int x;
+	private int y;
+	
 	private List<Integer> reachableTiles;
+	private List<NodeTileCover> tileCover;
+	
 	private TerrainFeature terrainFeature;
+	
+	private List<PlayerCharacterStateCreateRequest> playerCharacterStates;
+	private List<MonsterStateCreateRequest> monsterStates;
 }

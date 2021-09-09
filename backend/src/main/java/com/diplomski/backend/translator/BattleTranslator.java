@@ -24,11 +24,13 @@ public class BattleTranslator {
 	}
 
 	public static BattleResponse translate(BattleDbModel input) {
-		return BattleResponse.builder().id(input.getId()).name(input.getName()).boardId(input.getNodeBoard().getId())
-				.playerCharacterStates(input.getPlayerCharacterStates().stream().map(x -> translate(x)).toList())
-				.monsterStates(input.getMonsterStates().stream().map(x -> translate(x)).toList()).build();
+		return BattleResponse.builder().id(input.getId()).name(input.getName())
+				//.playerCharacterStates(input.getPlayerCharacterStates().stream().map(x -> translate(x)).toList())
+				// .tiles
+				//.monsterStates(input.getMonsterStates().stream().map(x -> translate(x)).toList())
+				.build();
 	}
-	
+
 	public static List<BattleResponse> translate(List<BattleDbModel> input) {
 		return input.stream().map(x -> translate(x)).toList();
 	}

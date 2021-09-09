@@ -7,7 +7,6 @@ function NavigationBar() {
             <Nav className="mr-auto">
                 <Nav.Link as={Link} to="/character">Player Characters</Nav.Link>
                 <Nav.Link as={Link} to="/battle">Battles</Nav.Link>
-                <Nav.Link as={Link} to="/board">Boards</Nav.Link>
             </Nav>
         </Navbar >
     );

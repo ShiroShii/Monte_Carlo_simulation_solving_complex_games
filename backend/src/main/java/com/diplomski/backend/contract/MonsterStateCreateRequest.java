@@ -20,7 +20,6 @@ public class MonsterStateCreateRequest {
 	private Monster monster;
 	private int currentHp;
 	private UUID tileId;
-	private Party party;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 }

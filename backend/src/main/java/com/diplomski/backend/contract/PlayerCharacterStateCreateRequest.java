@@ -19,7 +19,6 @@ public class PlayerCharacterStateCreateRequest {
 	private UUID playerCharacterId;
 	private int currentHp;
 	private UUID tileId;
-	private Party party;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 }

@@ -45,6 +45,10 @@ public class NodeTileDbModel {
 	@Column(nullable = false)
 	private TerrainFeature terrainFeature;
 
+	private int x;
+
+	private int y;
+
 	@ManyToMany
 	@JoinTable(name = "NodeBranches", joinColumns = @JoinColumn(name = "InitialNodeId"), inverseJoinColumns = @JoinColumn(name = "TargetNodeId"))
 	private List<NodeTileDbModel> reachableNodes;
@@ -52,10 +56,13 @@ public class NodeTileDbModel {
 	@ManyToMany(mappedBy = "reachableNodes")
 	private List<NodeTileDbModel> reachableBy;
 
-	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name = "NodeBoardId", nullable = false)
-	private NodeBoardDbModel nodeBoard;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "BattleId", nullable = false)
+	private BattleDbModel battle;
 
-	@OneToMany(mappedBy = "nodeTile")
+	@OneToMany(mappedBy = "nodeTile", cascade=CascadeType.ALL)
 	private List<PlayerCharacterStateDbModel> characterStates;
+	
+	@OneToMany(mappedBy = "nodeTile", cascade=CascadeType.ALL)
+	private List<MonsterStateDbModel> monsterStates;
 }

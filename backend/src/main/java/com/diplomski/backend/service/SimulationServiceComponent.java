@@ -1,5 +1,8 @@
 package com.diplomski.backend.service;
 
+import static com.diplomski.common.character.Party.ENEMY;
+import static com.diplomski.common.character.Party.PLAYER;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,7 +42,7 @@ public class SimulationServiceComponent {
 		}
 		HashMap<UUID, NodeTile> nodeTiles = new HashMap<>();
 
-		battleDbModel.get().getNodeBoard().getNodeTiles().stream()
+		battleDbModel.get().getNodeTiles().stream()
 				.map(x -> NodeTile.builder().id(x.getId()).terrainType(x.getTerrainFeature())
 						.reachableTiles(x.getReachableNodes().stream().map(y -> y.getId())
 								.collect(Collectors.toCollection(HashSet::new)))
@@ -49,19 +52,34 @@ public class SimulationServiceComponent {
 		NodeBoard nodeBoard = NodeBoard.builder().tiles(nodeTiles).build();
 
 		List<ICharacterState> initialCharacterStates = new ArrayList<>();
-		battleDbModel.get().getPlayerCharacterStates().forEach(x -> initialCharacterStates.add(PlayerCharacterState
-				.builder().party(x.getParty()).id(x.getId()).name(x.getPlayerCharacter().getName())
-				.level(x.getPlayerCharacter().getCharacterLevel()).armorClass(x.getPlayerCharacter().getArmorClass())
-				.dexterity(x.getPlayerCharacter().getDexterity())
-				.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
-				.characterClass(x.getPlayerCharacter().getCharacterClass()).currentHp(x.getCurrentHp())
-				.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
-				.strength(x.getPlayerCharacter().getStrength()).tileId(x.getNodeTile().getId())
-				.walkingSpeed(x.getPlayerCharacter().getWalkingSpeed()).build()));
 
-		battleDbModel.get().getMonsterStates().forEach(x -> initialCharacterStates.add(MonsterCharacterState.builder()
-				.targetingStyle(x.getTargetingStyle()).playStyle(x.getPlayStyle()).tileId(x.getNodeTile().getId())
-				.currentHp(x.getCurrentHp()).party(x.getParty()).monster(x.getMonster()).id(x.getId()).build()));
+		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getCharacterStates().stream())
+				.forEach(x -> initialCharacterStates.add(PlayerCharacterState.builder()
+						.party(PLAYER)
+						.id(x.getId())
+						.name(x.getPlayerCharacter().getName())
+						.level(x.getPlayerCharacter().getCharacterLevel())
+						.armorClass(x.getPlayerCharacter().getArmorClass())
+						.dexterity(x.getPlayerCharacter().getDexterity())
+						.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
+						.characterClass(x.getPlayerCharacter().getCharacterClass())
+						.currentHp(x.getCurrentHp())
+						.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
+						.strength(x.getPlayerCharacter().getStrength())
+						.tileId(x.getNodeTile().getId())
+						.walkingSpeed(x.getPlayerCharacter().getWalkingSpeed())
+						.build()));
+
+		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getMonsterStates().stream())
+				.forEach(x -> initialCharacterStates.add(MonsterCharacterState.builder()
+						.targetingStyle(x.getTargetingStyle())
+						.playStyle(x.getPlayStyle())
+						.tileId(x.getNodeTile().getId())
+						.currentHp(x.getCurrentHp())
+						.party(ENEMY)
+						.monster(x.getMonster())
+						.id(x.getId())
+						.build()));
 
 		return simulationService.getSimulation(initialCharacterStates, nodeBoard, simulationCount, roundCountLimit);
 	}

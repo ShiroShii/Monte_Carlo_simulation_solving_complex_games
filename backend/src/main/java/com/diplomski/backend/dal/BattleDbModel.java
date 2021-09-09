@@ -8,8 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,13 +39,6 @@ public class BattleDbModel {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "battle", cascade = CascadeType.ALL)
-	private List<PlayerCharacterStateDbModel> playerCharacterStates;
-	
-	@OneToMany(mappedBy = "battle", cascade = CascadeType.ALL)
-	private List<MonsterStateDbModel> monsterStates;
-
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "NodeBoardId", nullable = false)
-	private NodeBoardDbModel nodeBoard;
+	@OneToMany(mappedBy = "battle", cascade=CascadeType.ALL)
+	private List<NodeTileDbModel> nodeTiles;
 }

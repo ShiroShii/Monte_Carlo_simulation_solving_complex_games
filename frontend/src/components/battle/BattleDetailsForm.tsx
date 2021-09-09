@@ -1,7 +1,6 @@
 import arrayMutators from 'final-form-arrays';
 import { Form } from "react-final-form";
 import NameField from "../_common/NameField";
-import BoardField from "./BoardField";
 import IBattle from "./IBattle";
 
 type BattleDetailsFormProps={
@@ -36,7 +35,6 @@ function BattleDetailsForm(props: BattleDetailsFormProps){
         }) => (
             <form onSubmit={handleSubmit}>
                 <NameField />
-                <BoardField />
                 <button type="submit">Update</button>
             </form>
         )}

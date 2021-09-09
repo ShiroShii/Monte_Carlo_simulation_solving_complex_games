@@ -1,7 +1,6 @@
 package com.diplomski.backend.contract;
 
 import java.util.List;
-import java.util.UUID;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,7 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BattleCreateRequest {
 	private String name;
-	private UUID boardId;
-	private List<PlayerCharacterStateCreateRequest> playerCharacterStates;
-	private List<MonsterStateCreateRequest> monsterStates;
+	private List<NodeTileCreateRequest> tiles;
 }
