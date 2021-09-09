@@ -2,7 +2,6 @@ package com.diplomski.backend.contract;
 
 import java.util.UUID;
 
-import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.TargetingStyle;
 
