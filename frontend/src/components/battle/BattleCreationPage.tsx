@@ -104,7 +104,7 @@ function BattleCreationPage() {
                 const nodeId1 = selectedNode
                 const nodeId2 = (event.target as Element).id
 
-                const existingPath = paths.filter(x => x.nodeIds.includes(nodeId1) && x.nodeIds.includes(nodeId2))
+                const existingPath = paths.find(x => x.nodeIds.includes(nodeId1) && x.nodeIds.includes(nodeId2))
                 if (!existingPath) {
                     setPaths([...paths, new Path(uuid(), nodeId1, nodeId2)])
                 }
@@ -135,9 +135,12 @@ function BattleCreationPage() {
                     <>
                         <p>Todo: Remove Node</p>
                         <p>Todo: Terrain Dropdown</p>
-                        <p>Todo: OccupierType DropDown</p>
-                        <p>Todo: Occupier: monster|player dropdown ; hp field; playStyle dropdown; targetingStyle dropdown</p>
                         <p>Paths with removal</p>
+                        <p>Todo: OccupierType DropDown</p>
+                        <p> Occupier:monster|player dropdown ;</p>
+                        <p> Occupier: hp field;</p>
+                        <p>  Occupier:playStyle dropdown;</p>
+                        <p>  Occupier:targetingStyle dropdown</p>
                     </>
                 }
             </ChartBlock>
