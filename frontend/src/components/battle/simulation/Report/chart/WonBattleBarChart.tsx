@@ -1,5 +1,7 @@
 import { CartesianGrid, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
+import { NoMarginParagraph } from "../../../../_common";
 import ICategoryData from "../../interface/ICategoryData";
+import CustomTooltip from "./CustomTooltip";
 
 const CustomLine = ({
     points
@@ -29,24 +31,6 @@ const CustomShape = ({
     );
 }
 
-const CustomTooltip = ({ active, payload }: any) => {
-    if (active && payload && payload[0]) {
-        return (
-            <div style={{
-                backgroundColor: "white",
-                border: "1px solid gray",
-                padding: "10px 10px 10px 10px",
-                borderRadius: "2px"
-            }}>
-                <p style={{ marginBottom: "0px", fontWeight: "bold" }}>{payload[0].payload.category}</p>
-                <p style={{ marginBottom: "0px" }}>{payload[0].payload.label}: {payload[0].payload.value}</p>
-            </div>
-        );
-    }
-
-    return null;
-};
-
 const CustomTick = ({ x, y, payload }: any) => {
     console.log(payload)
     return (
@@ -72,8 +56,16 @@ type WonBattleBarChartProps = {
     damageDealtData: ICategoryData[]
 }
 
-function WonBattleBarChart(props: WonBattleBarChartProps) {
-    const { healthData, damageTakenData, damageDealtData } = props
+function WonBattleBarChart({ healthData, damageTakenData, damageDealtData }: WonBattleBarChartProps) {
+
+    function formatPayload(payload: any) {
+        return (
+            <>
+                <NoMarginParagraph><b>{payload[0].payload.category}</b></NoMarginParagraph>
+                <NoMarginParagraph>{payload[0].payload.label}: {payload[0].payload.value}</NoMarginParagraph>
+            </>
+        )
+    }
 
     return (
         <ScatterChart
@@ -89,7 +81,7 @@ function WonBattleBarChart(props: WonBattleBarChartProps) {
             <CartesianGrid strokeDasharray="3 3" />
             <XAxis type="category" allowDuplicatedCategory={false} interval={0} dataKey="category" tick={<CustomTick />} />
             <YAxis type="number" dataKey="value" />
-            <Tooltip content={<CustomTooltip />} />
+            <Tooltip content={<CustomTooltip formatPayload={formatPayload} />} />
             <Scatter data={healthData} shape={<CustomShape />} line={<CustomLine />} />
             <Scatter data={damageTakenData} shape={<CustomShape />} line={<CustomLine />} />
             <Scatter data={damageDealtData} shape={<CustomShape />} line={<CustomLine />} />

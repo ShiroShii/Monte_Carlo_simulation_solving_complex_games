@@ -1,6 +1,9 @@
 import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from "recharts";
+import { NoMarginParagraph } from "../../../../_common";
 import colorMixer from "../../../../_common/ColorMixer";
 import IDownedPlayer from "../../interface/IDownedPlayer";
+import CustomTooltip from "./CustomTooltip";
+import { color1, color2, darkColor1, darkColor2 } from "./DownedPlayersColors";
 
 type DownedPlayersBarChartProps = {
     downedPlayers: IDownedPlayer[]
@@ -21,7 +24,7 @@ const CustomLabel = ({
     const valueLength = `${value}`.length
     const rectWidth = valueLength * fontSize / 2 + xPadding
 
-    const mixedColor = colorMixer([120, 0, 0], [50, 0, 150], index / itemCount)
+    const mixedColor = colorMixer(darkColor1, darkColor2, index / itemCount)
 
     return (
         <>
@@ -50,26 +53,15 @@ const CustomLabel = ({
     );
 }
 
-
-const CustomTooltip = ({ active, payload, simulationCount }: any) => {
-    if (active && payload && payload[0]) {
+function DownedPlayersBarChart({ downedPlayers, initialPlayerCount, simulationCount }: DownedPlayersBarChartProps) {
+    function formatPayload(payload: any) {
         return (
-            <div style={{
-                backgroundColor: "white",
-                border: "1px solid gray",
-                padding: "10px 10px 10px 10px",
-                borderRadius: "2px"
-            }}>
-                <p style={{ marginBottom: "0px" }}><b>{100.0 * payload[0].payload.simulationCount / simulationCount}%</b> Simulations</p>
-            </div >
-        );
+            <>
+                <NoMarginParagraph><b>{100.0 * payload[0].payload.simulationCount / simulationCount}%</b> Simulations</NoMarginParagraph>
+            </>
+        )
     }
 
-    return null;
-};
-
-function DownedPlayersBarChart(props: DownedPlayersBarChartProps) {
-    const { downedPlayers, initialPlayerCount, simulationCount } = props
     return (
         <BarChart width={800} height={400} data={downedPlayers} margin={{ top: 20, right: 5, left: 50, bottom: 30 }}>
             <CartesianGrid strokeDasharray="3 3" />
@@ -88,10 +80,10 @@ function DownedPlayersBarChart(props: DownedPlayersBarChartProps) {
                     >Simulation count (out of {simulationCount})</text>
                 }
             />
-            <Tooltip content={<CustomTooltip simulationCount={simulationCount} />} />
+            <Tooltip content={<CustomTooltip formatPayload={formatPayload} />} />
             <Bar dataKey="simulationCount" label={<CustomLabel itemCount={downedPlayers.length} />}>
                 {downedPlayers.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={colorMixer([255, 70, 0], [90, 70, 255], index / downedPlayers.length)} />
+                    <Cell key={`cell-${index}`} fill={colorMixer(color1, color2, index / downedPlayers.length)} />
                 ))}
             </Bar>
         </BarChart>

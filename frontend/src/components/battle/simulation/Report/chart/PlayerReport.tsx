@@ -1,6 +1,8 @@
 import { MenuItem, Select } from "@material-ui/core"
 import { useState } from "react"
+import styled from 'styled-components'
 import IPlayerCharacterState from "../../../IBattleCharacterState"
+import ChartBlock from "../../ChartBlock"
 import IPlayerReport from "../../interface/IPlayerReport"
 import DisabledBoxChart from "./DisabledBoxChart"
 import DisabledPieChart from "./DisabledPieChart"
@@ -14,12 +16,19 @@ type PlayerReportProps = {
     simulationCount: number
     playerCharacterStates: IPlayerCharacterState[]
 }
+
+const SelectionBlock = styled(ChartBlock)`
+    padding-top: 20px; 
+    width: 350px;
+    height: 400px;
+`
+
 function PlayerReport({ playerReports, simulationCount, playerCharacterStates }: PlayerReportProps) {
     const [reportIndex, setReportIndex] = useState<number>(-1)
 
     return (
-        <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-            <div style={{ paddingTop: "20px", verticalAlign: "top", width: "350px", height: "400px", display: "inline-block" }}>
+        <>
+            <SelectionBlock>
                 <Select
                     value={reportIndex}
                     onChange={(event) => { setReportIndex(event.target.value as number) }}
@@ -42,28 +51,28 @@ function PlayerReport({ playerReports, simulationCount, playerCharacterStates }:
                         :
                         <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.id === playerReports[reportIndex].id) as IPlayerCharacterState} />
                 }
-            </div>
+            </SelectionBlock>
             {
                 reportIndex === -1 ?
                     <>
-                        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+                        <ChartBlock>
                             <DisabledBoxChart />
-                        </div>
-                        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+                        </ChartBlock>
+                        <ChartBlock>
                             <DisabledPieChart />
-                        </div>
+                        </ChartBlock>
                     </>
                     :
                     <>
-                        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+                        <ChartBlock>
                             <WonBattleBarChart healthData={playerReports[reportIndex].playerBoxPlot.health} damageDealtData={playerReports[reportIndex].playerBoxPlot.damageDealt} damageTakenData={playerReports[reportIndex].playerBoxPlot.damageTaken} />
-                        </div>
-                        <div style={{ display: "inline-block", verticalAlign: "top" }}>
+                        </ChartBlock>
+                        <ChartBlock>
                             <PlayerPieChart simulationCount={simulationCount} downCount={playerReports[reportIndex].downCount} />
-                        </div>
+                        </ChartBlock>
                     </>
             }
-        </div>
+        </>
     )
 }
 

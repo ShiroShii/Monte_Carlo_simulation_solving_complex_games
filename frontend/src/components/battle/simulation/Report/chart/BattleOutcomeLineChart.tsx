@@ -6,6 +6,7 @@ const COLORS = ["#8BC24A", "#E6AB09", "#C4261B"]
 type BattleOutcomeLineChartProps = {
     battleOutcomeConvergence: IBattleOutcomeConvergence[]
 }
+
 function BattleOutcomeLineChart(props: BattleOutcomeLineChartProps) {
     const { battleOutcomeConvergence } = props
 

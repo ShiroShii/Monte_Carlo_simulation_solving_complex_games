@@ -1,4 +1,6 @@
+import styled from 'styled-components'
 import IPlayerCharacterState from "../../IBattleCharacterState"
+import ChartBlock from "../ChartBlock"
 import { ISimulationResult } from "../interface"
 import BattleOutcomeBarChart from "./chart/BattleOutcomeBarChart"
 import BattleOutcomeLineChart from "./chart/BattleOutcomeLineChart"
@@ -13,6 +15,20 @@ type SimulationDashboardProps = {
     playerCharacterStates: IPlayerCharacterState[]
 }
 
+const DashboardRow = styled.div`
+    margin-top: 20px;
+    margin-bottom: 20px;
+`
+const DashboardBlock = styled.div`
+    width: 1150px;
+    margin: 0px auto 150px;
+`
+
+const HR = styled.hr`
+    border-top: dashed 2px;
+    color: lightgray;
+`
+
 function SimulationDashboard({ simulationResult, playerCharacterStates }: SimulationDashboardProps) {
     const {
         battleOutcomeConvergence,
@@ -26,38 +42,40 @@ function SimulationDashboard({ simulationResult, playerCharacterStates }: Simula
     } = simulationResult
 
     return (
-        <div style={{ width: 1150, margin: "0px auto 150px" }}>
-            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-                <div style={{ display: "inline-block" }}>
+        <DashboardBlock>
+            <HR />
+            <DashboardRow>
+                <ChartBlock>
                     <BattleOutcomePieChart simulationCount={simulationCount} battleOutcomeSlices={battleOutcomeSlices} />
-                </div>
-                <div style={{ display: "inline-block" }}>
+                </ChartBlock>
+                <ChartBlock>
                     <BattleOutcomeLineChart battleOutcomeConvergence={battleOutcomeConvergence} />
-                </div>
-            </div>
-            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-                <div style={{ display: "inline-block" }}>
+                </ChartBlock>
+            </DashboardRow>
+            <HR />
+            <DashboardRow>
+                <ChartBlock>
                     <DownedPlayersPieChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
-                </div>
-                <div style={{ display: "inline-block" }}>
+                </ChartBlock>
+                <ChartBlock>
                     <DownedPlayersBarChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
-                </div>
-            </div>
-            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-            <div style={{ marginTop: "20px", marginBottom: "20px" }}>
-                <div style={{ display: "inline-block" }}>
+                </ChartBlock>
+            </DashboardRow>
+            <HR />
+            <DashboardRow>
+                <ChartBlock>
                     <WonBattleBarChart healthData={playerBoxPlot.health} damageDealtData={playerBoxPlot.damageDealt} damageTakenData={playerBoxPlot.damageTaken} />
-                </div>
-                <div style={{ display: "inline-block" }}>
+                </ChartBlock>
+                <ChartBlock>
                     <BattleOutcomeBarChart battleOutcomeBars={battleOutcomeBars} simulationCount={simulationCount} />
-                </div>
-            </div>
-            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-            <PlayerReport playerCharacterStates={playerCharacterStates} simulationCount={simulationCount} playerReports={playerReports} />
-            <hr style={{ borderTop: "dashed 2px", color: "lightgray" }} />
-        </div>
+                </ChartBlock>
+            </DashboardRow>
+            <HR />
+            <DashboardRow>
+                <PlayerReport playerCharacterStates={playerCharacterStates} simulationCount={simulationCount} playerReports={playerReports} />
+            </DashboardRow>
+            <HR />
+        </DashboardBlock>
     )
 }
 

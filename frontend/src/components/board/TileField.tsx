@@ -22,7 +22,6 @@ function TileField(props: TileFieldProps) {
                             <ReachableTileField nodeFieldLength={fields.length as number} nodeIndex={nodeIndex} push={props.push} />
                             <span
                                 onClick={() => fields.remove(nodeIndex)}
-                                style={{ cursor: 'pointer' }}
                             >
                                 ❌
                             </span>

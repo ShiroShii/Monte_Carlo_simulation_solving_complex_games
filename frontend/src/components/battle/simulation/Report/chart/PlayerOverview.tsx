@@ -1,5 +1,6 @@
 import { CircularProgress } from "@material-ui/core"
 import { useState } from "react"
+import styled from 'styled-components'
 import { usePlayerCharacter } from "../../../../playerCharacter"
 import IPlayerCharacterState from "../../../IBattleCharacterState"
 
@@ -7,52 +8,68 @@ type PlayerOverviewProps = {
     playerCharacterState: IPlayerCharacterState
 }
 
+const TableHeader = styled.th`
+    color: gray; 
+    text-align: left;
+    padding-right: 10px;
+    border-right: 1px solid lightgray;
+`
+
+const TableData = styled.td`
+    text-align: left;
+    padding-left: 10px;
+`
+
+const Table = styled.table`
+    margin: 60px 5px 5px 5px;
+`
+
 function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
     const [loading, setLoading] = useState(true)
     const playerCharacter = usePlayerCharacter(playerCharacterState.playerCharacterId, setLoading)
 
     return (
         <>{loading ? <CircularProgress /> :
-            <table style={{ margin: "20px 5px 5px 5px" }}>
+            <Table>
                 <tbody>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Initial HP:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacterState.currentHp}</td>
+                        <TableHeader>Initial HP:</TableHeader>
+                        <TableData>{playerCharacterState.currentHp}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Strength:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.strength}</td>
+                        <TableHeader>Strength:</TableHeader>
+                        <TableData>{playerCharacter?.strength}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Dexterity:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.dexterity}</td>
+                        <TableHeader>Dexterity:</TableHeader>
+                        <TableData>{playerCharacter?.dexterity}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Armor Class:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.armorClass}</td>
+                        <TableHeader>Armor Class:</TableHeader>
+                        <TableData>{playerCharacter?.armorClass}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Walking Speed:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.walkingSpeed}</td>
+                        <TableHeader>Walking Speed:</TableHeader>
+                        <TableData>{playerCharacter?.walkingSpeed}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Level:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.characterLevel}</td>
+                        <TableHeader>Level:</TableHeader>
+                        <TableData>{playerCharacter?.characterLevel}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Level:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacter?.characterClass}</td>
+                        <TableHeader>Class:</TableHeader>
+                        <TableData>{playerCharacter?.characterClass}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Play Style:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacterState.playStyle}</td>
+                        <TableHeader>Play Style:</TableHeader>
+                        <TableData>{playerCharacterState.playStyle}</TableData>
                     </tr>
                     <tr>
-                        <th style={{ color: "gray", textAlign: "left", paddingRight: "10px", borderRight: " 1px solid lightgray" }}>Targeting Style:</th>
-                        <td style={{ textAlign: "left", paddingLeft: "10px" }}>{playerCharacterState.targetingStyle}</td>
+                        <TableHeader>Targeting Style:</TableHeader>
+                        <TableData>{playerCharacterState.targetingStyle}</TableData>
                     </tr>
                 </tbody>
-            </table>
+            </Table>
         }
         </>)
 }

@@ -1,82 +1,15 @@
 import { Cell, Legend, Pie, PieChart } from "recharts"
+import { Paragraph } from "../../../../_common"
 import { IBattleOutcomeSlice } from "../../interface"
+import CustomPieLabel from "./CustomPieLabel"
+import { CustomPieLegend } from "./CustomPieLegend"
 
 const COLORS = ["#8BC24A", "#E6AB09", "#C4261B"]
-const RADIAN = Math.PI / 180
 
-type RenderCustomPieLabelProps = {
-    cx: number
-    cy: number
-    midAngle: number
-    innerRadius: number
-    outerRadius: number
-    percent: number
-}
-
-const renderCustomPieLabel = (props: RenderCustomPieLabelProps) => {
-    const { cx, cy, midAngle, innerRadius, outerRadius, percent } = props
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5
-    const x = cx + radius * Math.cos(-midAngle * RADIAN)
-    const y = cy + radius * Math.sin(-midAngle * RADIAN)
-
+function formatLegendItem(item: IBattleOutcomeSlice) {
     return (
-        <>{percent !== 0 &&
-            <>
-                <rect
-                    x={x - 25}
-                    y={y - 11}
-                    width="50"
-                    height="20"
-                    rx="3"
-                    fill="black"
-                    opacity="0.4"
-                />
-                <text
-                    style={{ fontWeight: 'bold' }}
-                    x={x}
-                    y={y}
-                    fill="white"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                >
-                    {`${(percent * 100).toFixed(1)}%`}
-                </text>
-            </>
-        }
-        </>
-    );
-};
-
-function renderCustomPieLegend(simulationCount: number, items: IBattleOutcomeSlice[]) {
-    return (
-        <div style={{ textAlign: "left", color: "gray" }}>
-            <ul style={{ padding: 0, margin: 2 }}>
-                {items.map((item, index) => {
-                    return (
-                        <>{
-                            item.value !== 0 &&
-                            <li key={item.name} style={{
-                                display: "flex",
-                                flexDirection: "row"
-                            }}>
-                                <div
-                                    style={{
-                                        marginRight: "8px",
-                                        width: "20px",
-                                        height: "20px",
-                                        backgroundColor: COLORS[index]
-                                    }}
-                                />
-                                <p style={{ marginBottom: 2 }}>{item.name} ({item.value})</p>
-                            </li>
-                        }</>
-                    );
-                })}
-            </ul>
-            <hr style={{ margin: 2 }} />
-            <p style={{ marginBottom: 2 }}>Total: {simulationCount}</p>
-        </div>
-    );
+        `${item.name} (${item.value})`
+    )
 }
 
 type BattleOutcomePieChartProps = {
@@ -84,28 +17,35 @@ type BattleOutcomePieChartProps = {
     simulationCount: number
 }
 
-function BattleOutcomePieChart(props: BattleOutcomePieChartProps) {
-    const { battleOutcomeSlices, simulationCount } = props
+function BattleOutcomePieChart({ battleOutcomeSlices, simulationCount }: BattleOutcomePieChartProps) {
+    const items = [
+        { color: COLORS[0], value: formatLegendItem(battleOutcomeSlices[0]) },
+        { color: COLORS[1], value: formatLegendItem(battleOutcomeSlices[1]) },
+        { color: COLORS[2], value: formatLegendItem(battleOutcomeSlices[2]) }
+    ]
 
     return (
-        <PieChart width={350} height={250}  margin={{ top: 70 }}>
+        <PieChart width={350} height={300} margin={{ top: 70 }}>
             <Pie
                 data={battleOutcomeSlices}
                 startAngle={180}
                 endAngle={0}
-                label={renderCustomPieLabel}
+                label={CustomPieLabel}
                 labelLine={false}
                 innerRadius={30}
                 outerRadius={100}
-                fill="#8884D8"
-                paddingAngle={1}
+                paddingAngle={4}
                 dataKey="value"
             >
-                {battleOutcomeSlices.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
+                {items.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.color} />
                 ))}
             </Pie>
-            <Legend layout="vertical" verticalAlign="bottom" align="center" content={renderCustomPieLegend(simulationCount, battleOutcomeSlices)} />
+            <Legend layout="vertical" verticalAlign="bottom" align="center" content={
+                <CustomPieLegend items={items}>
+                    <Paragraph>Total: {simulationCount}</Paragraph>
+                </CustomPieLegend>
+            } />
         </PieChart>
     )
 }

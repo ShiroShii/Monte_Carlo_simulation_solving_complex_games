@@ -42,7 +42,6 @@ function ReachableTileField(props: ReachableTileFieldProp) {
                             </Field>
                             <span
                                 onClick={() => fields.remove(index)}
-                                style={{ cursor: 'pointer' }}
                             >
                                 ❌
                             </span>

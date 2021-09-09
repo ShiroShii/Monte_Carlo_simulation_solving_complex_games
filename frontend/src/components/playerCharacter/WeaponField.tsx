@@ -50,7 +50,6 @@ function WeaponField(props: WeaponFieldProps) {
                             </Field>
                             <span
                                 onClick={() => fields.remove(index)}
-                                style={{ cursor: 'pointer' }}
                             >
                                 ❌
                             </span>
