@@ -1,12 +1,13 @@
-import { CircularProgress } from "@material-ui/core";
+import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import axios from "axios";
 import { useState } from "react";
 import styled from 'styled-components';
 import usePlayerCharacterList from "../playerCharacter/UsePlayerCharacterList";
 import { InlineBlock } from "../_common";
-import BattleCreationForm from "./BattleCreationForm";
 import BattleCreationSVG from "./BattleCreationSVG";
 import HPField from "./HPField";
+import Monster from "./Monster";
 import { AddOccupierButton, DeleteOccupierButton, OccupierSelect } from "./OccupierSelect";
 import Path from "./Path";
 import PlayStyleSelect from "./PlayStyleSelect";
@@ -18,13 +19,8 @@ import { Tool, ToolButton } from "./Tool";
 const width = 1000;
 const height = 800;
 
-makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
-        selectEmpty: {
-            marginTop: theme.spacing(2),
-            textAlign: "left"
-
-        },
         button: {
             margin: "10px 5px 10px 5px"
         }
@@ -38,16 +34,65 @@ const SelectionBlock = styled(InlineBlock)`
 `
 
 function BattleCreationPage() {
+    const classes = useStyles()
     const [currentTool, setCurrentTool] = useState<keyof typeof Tool | undefined>()
 
     const [selectedTile, setSelectedTile] = useState<string | undefined>()
 
     const [loading, setLoading] = useState(true)
 
+    const [name, setName] = useState<string>()
+
     const playerList = usePlayerCharacterList(setLoading)
 
     const [tiles, setTiles] = useState<Map<string, Tile>>(new Map())
     const [paths, setPaths] = useState<Path[]>([])
+
+    const onSubmit = () => {
+        const tileArray = Array.from(tiles, ([key, value]) => ({ key, value }))
+        const tileData = tileArray.map((tile, index) => {
+            return ({
+                x: tile.value.x,
+                y: tile.value.y,
+                terrainFeature: tile.value.terrain,
+                reachableTiles: paths.filter(path => path.tileIds.includes(tile.key)).map((value, index) => {
+                    const reachableTileId = value.tileIds.find(id => id !== tile.key)
+                    return (tileArray.findIndex(x => x.key === reachableTileId))
+                }),
+                playerCharacterStates: (tile.value.occupier === undefined || Object.keys(Monster).includes(tile.value.occupier.id as Monster)) ?
+                    [] :
+                    [{
+                        playerCharacterId: tile.value.occupier.id,
+                        currentHp: tile.value.occupier.hp,
+                        playStyle: tile.value.occupier.playStyle,
+                        targetingStyle: tile.value.occupier.targetingStyle
+                    }]
+                ,
+                monsterStates: (tile.value.occupier === undefined || !Object.keys(Monster).includes(tile.value.occupier.id as Monster)) ?
+                    [] :
+                    [{
+                        monster: tile.value.occupier.id,
+                        currentHp: tile.value.occupier.hp,
+                        playStyle: tile.value.occupier.playStyle,
+                        targetingStyle: tile.value.occupier.targetingStyle
+                    }]
+            })
+        })
+
+        const values = {
+            name: name,
+            tiles: tileData
+        }
+
+        axios.post('http://localhost:8080/battle', values)
+            .then((response) => {
+                console.log(response);
+                //TODO: redirect to details
+            }).catch(response => {
+                console.log(response);
+                //TODO: toster error
+            });
+    }
 
     return (
         <>
@@ -60,11 +105,18 @@ function BattleCreationPage() {
                             <ToolButton tool="ADD_PATH" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                             <ToolButton tool="DELETE_PATH" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                             <ToolButton tool="MOVE" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
-                            <BattleCreationForm />
+                            <TextField
+                                value={name}
+                                onChange={(event) => { setName(event.target.value) }}
+                                label="Name"
+                                required
+                            />
+                            <Button variant="contained" className={classes.button} onClick={onSubmit}>Create Battle</Button>
+                            <hr />
                             {(selectedTile === undefined || currentTool !== undefined) ? <></> :
                                 <>
-                                    <DeleteTileButton tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                                     <TerrainSelect tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} />
+                                    <DeleteTileButton tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
                                     {(tiles.get(selectedTile) as Tile).occupier === undefined ?
                                         <AddOccupierButton tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} />
                                         :

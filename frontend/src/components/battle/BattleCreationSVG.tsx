@@ -80,7 +80,6 @@ function BattleCreationSVG({ width, height, paths, setPaths, currentTool, setCur
 
                 const existingPath = paths.find(x => x.tileIds.includes(tileId1) && x.tileIds.includes(tileId2))
                 if (existingPath) {
-                    const temp = paths;
                     setPaths(paths.filter(x => x.id !== existingPath.id))
                 }
             }
