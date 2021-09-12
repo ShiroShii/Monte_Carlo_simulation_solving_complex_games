@@ -348,11 +348,14 @@ function BattleCreationPage() {
                                 stroke="black" />
                         )
                     })}
-                    {nodes.map((item, index) => {
+                    {(Array.from(occupiers, ([key, value]) => ({ key, value }))).map((entry) => {
+                        const node = nodes.find(x => x.id === entry.key) as Node
+                        const fill = entry.value.id === undefined ?
+                            "gray" : Object.keys(Monster).includes(entry.value.id as Monster) ? "red" : "green"
                         return (
-                            <g transform={`translate(${item.x - 37.5},${item.y - 75})`}>
-                                <path id={item.id} d="M75,75 a37.5,37.5 0 1,0 -75,0 L75,75" fill="red" />
-                                <circle id={item.id} cx="37.5" cy="25" r="23" fill="red" />
+                            <g transform={`translate(${node.x - 37.5},${node.y - 75})`}>
+                                <path id={entry.key} d="M75,75 a37.5,37.5 0 1,0 -75,0 L75,75" fill={fill} />
+                                <circle id={entry.key} cx="37.5" cy="25" r="23" fill={fill} />
                             </g>
                         )
                     })}
