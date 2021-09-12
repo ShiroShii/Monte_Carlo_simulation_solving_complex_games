@@ -11,6 +11,7 @@ import { AddOccupierButton, DeleteOccupierButton, OccupierSelect } from "./Occup
 import Path from "./Path";
 import PlayStyleSelect from "./PlayStyleSelect";
 import TargetingStyleSelect from "./TargetingStyleSelect";
+import TerrainSelect from "./TerrainSelect";
 import { DeleteTileButton, Tile } from "./Tile";
 import { Tool, ToolButton } from "./Tool";
 
@@ -62,6 +63,7 @@ function BattleCreationPage() {
                             {(selectedTile === undefined || currentTool !== undefined) ? <></> :
                                 <>
                                     <DeleteTileButton tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} setSelectedTile={setSelectedTile} />
+                                    <TerrainSelect tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} />
                                     {(tiles.get(selectedTile) as Tile).occupier === undefined ?
                                         <AddOccupierButton tiles={tiles} setTiles={setTiles} selectedTile={selectedTile} />
                                         :

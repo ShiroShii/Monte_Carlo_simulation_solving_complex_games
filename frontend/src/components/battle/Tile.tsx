@@ -1,10 +1,12 @@
 import { Button, createStyles, makeStyles, Theme } from "@material-ui/core"
 import Occupier from "./Occupier"
+import Terrain from "./Terrain"
 
 class Tile {
     x: number
     y: number
     occupier: Occupier | undefined
+    terrain: keyof typeof Terrain | undefined
 
     constructor(x: number, y: number) {
         this.x = x
