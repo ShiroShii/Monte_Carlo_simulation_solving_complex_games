@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import IPlayerCharacterState from "../../IBattleCharacterState"
-import ChartBlock from "../ChartBlock"
+import { InlineBlock } from "../../../_common"
 import { ISimulationResult } from "../interface"
 import BattleOutcomeBarChart from "./chart/BattleOutcomeBarChart"
 import BattleOutcomeLineChart from "./chart/BattleOutcomeLineChart"
@@ -45,30 +45,30 @@ function SimulationDashboard({ simulationResult, playerCharacterStates }: Simula
         <DashboardBlock>
             <HR />
             <DashboardRow>
-                <ChartBlock>
+                <InlineBlock>
                     <BattleOutcomePieChart simulationCount={simulationCount} battleOutcomeSlices={battleOutcomeSlices} />
-                </ChartBlock>
-                <ChartBlock>
+                </InlineBlock>
+                <InlineBlock>
                     <BattleOutcomeLineChart battleOutcomeConvergence={battleOutcomeConvergence} />
-                </ChartBlock>
+                </InlineBlock>
             </DashboardRow>
             <HR />
             <DashboardRow>
-                <ChartBlock>
+                <InlineBlock>
                     <DownedPlayersPieChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
-                </ChartBlock>
-                <ChartBlock>
+                </InlineBlock>
+                <InlineBlock>
                     <DownedPlayersBarChart downedPlayers={downedPlayers} initialPlayerCount={initialPlayerCount} simulationCount={simulationCount} />
-                </ChartBlock>
+                </InlineBlock>
             </DashboardRow>
             <HR />
             <DashboardRow>
-                <ChartBlock>
+                <InlineBlock>
                     <WonBattleBarChart healthData={playerBoxPlot.health} damageDealtData={playerBoxPlot.damageDealt} damageTakenData={playerBoxPlot.damageTaken} />
-                </ChartBlock>
-                <ChartBlock>
+                </InlineBlock>
+                <InlineBlock>
                     <BattleOutcomeBarChart battleOutcomeBars={battleOutcomeBars} simulationCount={simulationCount} />
-                </ChartBlock>
+                </InlineBlock>
             </DashboardRow>
             <HR />
             <DashboardRow>

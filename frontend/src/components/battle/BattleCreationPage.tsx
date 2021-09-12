@@ -1,8 +1,11 @@
-import { Button } from "@material-ui/core";
+import { Button, CircularProgress, MenuItem, Select, TextField } from "@material-ui/core";
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { useState } from "react";
+import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
+import usePlayerCharacterList from "../playerCharacter/UsePlayerCharacterList";
+import { InlineBlock } from "../_common";
 import BattleCreationForm from "./BattleCreationForm";
-import ChartBlock from "./simulation/ChartBlock";
 
 const width = 1000;
 const height = 800;
@@ -22,6 +25,28 @@ enum Tool {
     MOVE = "Move"
 }
 
+enum Monster {
+    GIANT_RAT = "Giant Rat",
+    PANTER = "Panther"
+}
+
+enum PlayStyle {
+    MELEE_WEAPON_DAMAGE = "Weapon Melee Damage",
+    RANGED_WEAPON_DAMAGE = "Weapon Ranged Damage",
+    SPELL_MELEE_DAMAGE = "Spell Melee Damage",
+    SPELL_RANGED_DAMAGE = "Spell Ranged Damage",
+    SUPPORT = "Support",
+    BATTLEFIELD_CONTROL = "Battlefield Control",
+    EVADE = "Evasive"
+}
+
+enum TargetingStyle {
+    CLOSEST = "Closest",
+    LEAST_REMAINING_HP = "Least Remaingin HP",
+    MOST_REMAINING_HP = "Monst Remaingin HP",
+    CLOSEST_RANGED = "Closest "
+}
+
 type ToolButtonProps = {
     tool: keyof typeof Tool
     currentTool: keyof typeof Tool | undefined
@@ -33,6 +58,17 @@ function ToolButton({ tool, currentTool, tuggleTool }: ToolButtonProps) {
         <Button variant="contained" onClick={() => tuggleTool(tool)} color={currentTool === tool ? "primary" : "default"}>{Tool[tool]}</Button>
     )
 }
+
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        selectEmpty: {
+            marginTop: theme.spacing(2),
+            textAlign: "left"
+
+        },
+    }),
+);
 
 class Node {
     id: string
@@ -46,6 +82,20 @@ class Node {
     }
 }
 
+class Occupier {
+    id: keyof typeof Monster | string | undefined
+    hp: number | undefined
+    playStyle: keyof typeof PlayStyle | undefined
+    targetingStyle: keyof typeof TargetingStyle | undefined
+
+    constructor() {
+        this.id = undefined
+        this.hp = undefined
+        this.playStyle = undefined
+        this.targetingStyle = undefined
+    }
+}
+
 class Path {
     id: string
     nodeIds: [string, string]
@@ -56,13 +106,26 @@ class Path {
     }
 }
 
+const SelectionBlock = styled(InlineBlock)`
+    padding: 20px 25px 20px 25px; 
+    width: 350px;
+    height: 400px;
+`
+
 function BattleCreationPage() {
+    const classes = useStyles();
     const [currentTool, setCurrentTool] = useState<keyof typeof Tool | undefined>()
 
     const [selectedNode, setSeletedNode] = useState<string | undefined>()
 
+    const [loading, setLoading] = useState(true)
+
+    const playerList = usePlayerCharacterList(setLoading)
+
     const [nodes, setNodes] = useState<Node[]>([])
     const [paths, setPaths] = useState<Path[]>([])
+
+    const [occupiers, setOccupiers] = useState<Map<string, Occupier>>(new Map())
 
     const onMouseDown = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
         if (currentTool === "ADD_NODE") {
@@ -126,24 +189,136 @@ function BattleCreationPage() {
     return (
         <>
             <p>Battle Creation Page</p>
-            <ChartBlock>
-                <ToolButton tool="ADD_NODE" tuggleTool={tuggleTool} currentTool={currentTool} />
-                <ToolButton tool="ADD_PATH" tuggleTool={tuggleTool} currentTool={currentTool} />
-                <ToolButton tool="MOVE" tuggleTool={tuggleTool} currentTool={currentTool} />
-                <BattleCreationForm />
-                {selectedNode === undefined ? <></> :
-                    <>
-                        <p>Todo: Remove Node</p>
-                        <p>Todo: Terrain Dropdown</p>
-                        <p>Paths with removal</p>
-                        <p>Todo: OccupierType DropDown</p>
-                        <p> Occupier:monster|player dropdown ;</p>
-                        <p> Occupier: hp field;</p>
-                        <p>  Occupier:playStyle dropdown;</p>
-                        <p>  Occupier:targetingStyle dropdown</p>
-                    </>
+            <SelectionBlock>
+                {
+                    loading ? <CircularProgress /> :
+                        <>
+                            <ToolButton tool="ADD_NODE" tuggleTool={tuggleTool} currentTool={currentTool} />
+                            <ToolButton tool="ADD_PATH" tuggleTool={tuggleTool} currentTool={currentTool} />
+                            <ToolButton tool="MOVE" tuggleTool={tuggleTool} currentTool={currentTool} />
+                            <BattleCreationForm />
+                            {selectedNode === undefined ? <></> :
+                                <>
+                                    {occupiers.has(selectedNode) ?
+                                        <>
+                                            <Button onClick={() => {
+                                                const temp = new Map(occupiers)
+                                                temp.delete(selectedNode)
+                                                setOccupiers(temp);
+                                            }}>Remove Occupier</Button>
+                                            <Select
+                                                value={
+                                                    occupiers.get(selectedNode)?.id !== undefined ?
+                                                        (occupiers.get(selectedNode) as Occupier).id
+                                                        : "unselected"
+                                                }
+                                                onChange={(event) => {
+                                                    const temp = new Map(occupiers);
+
+                                                    const occupier = occupiers.get(selectedNode) as Occupier
+                                                    occupier.id = event.target.value as keyof typeof Monster | string
+
+                                                    temp.set(selectedNode, occupier);
+
+                                                    setOccupiers(temp);
+                                                }}
+                                                fullWidth
+                                                className={classes.selectEmpty}
+                                            >
+                                                <MenuItem key="unselected" value={"unselected"} disabled>Select Occupier</MenuItem>
+                                                <MenuItem key="player-placeholder" value={undefined} disabled>Players:</MenuItem>
+                                                {playerList.map((value) => (
+                                                    <MenuItem key={value.id} value={value.id}>
+                                                        {value.name}
+                                                    </MenuItem>
+                                                ))}
+                                                <MenuItem key="monster-placeholder" value={undefined} disabled>Monsters:</MenuItem>
+                                                {(Object.keys(Monster) as Array<keyof typeof Monster>).map((option) => (
+                                                    <MenuItem key={option} value={option}>
+                                                        {Monster[option]}
+                                                    </MenuItem>
+                                                ))}
+
+                                            </Select>
+                                            <TextField
+                                                type="number"
+                                                value={(occupiers.get(selectedNode) as Occupier).hp}
+                                                onChange={(event) => {
+                                                    const temp = new Map(occupiers);
+                                                    const occupier = occupiers.get(selectedNode) as Occupier
+                                                    occupier.hp = +event.target.value
+                                                    temp.set(selectedNode, occupier);
+                                                    setOccupiers(temp);
+                                                }}
+                                                label="HP:"
+                                                margin="dense"
+                                                fullWidth
+                                            />
+                                            <Select
+                                                value={
+                                                    occupiers.get(selectedNode)?.playStyle !== undefined ?
+                                                        (occupiers.get(selectedNode) as Occupier).playStyle
+                                                        : "unselected"
+                                                }
+                                                onChange={(event) => {
+                                                    const temp = new Map(occupiers);
+
+                                                    const occupier = occupiers.get(selectedNode) as Occupier
+                                                    occupier.playStyle = event.target.value as keyof typeof PlayStyle
+
+                                                    temp.set(selectedNode, occupier);
+
+                                                    setOccupiers(temp);
+                                                }}
+                                                fullWidth
+                                                className={classes.selectEmpty}
+                                            >
+                                                <MenuItem key="unselected" value={"unselected"} disabled>Select Play Style</MenuItem>
+                                                {(Object.keys(PlayStyle) as Array<keyof typeof PlayStyle>).map((option) => (
+                                                    <MenuItem key={option} value={option}>
+                                                        {PlayStyle[option]}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                            <Select
+                                                value={
+                                                    occupiers.get(selectedNode)?.targetingStyle !== undefined ?
+                                                        (occupiers.get(selectedNode) as Occupier).targetingStyle
+                                                        : "unselected"
+                                                }
+                                                onChange={(event) => {
+                                                    const temp = new Map(occupiers);
+
+                                                    const occupier = occupiers.get(selectedNode) as Occupier
+                                                    occupier.targetingStyle = event.target.value as keyof typeof TargetingStyle
+
+                                                    temp.set(selectedNode, occupier);
+
+                                                    setOccupiers(temp);
+                                                }}
+                                                fullWidth
+                                                className={classes.selectEmpty}
+                                            >
+                                                <MenuItem key="unselected" value={"unselected"} disabled>Select Targeting Style</MenuItem>
+                                                {(Object.keys(TargetingStyle) as Array<keyof typeof TargetingStyle>).map((option) => (
+                                                    <MenuItem key={option} value={option}>
+                                                        {TargetingStyle[option]}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </>
+                                        :
+                                        <Button onClick={() => {
+                                            const temp = new Map(occupiers)
+                                            temp.set(selectedNode, new Occupier())
+                                            setOccupiers(temp);
+                                        }}>Add Occupier</Button>
+                                    }
+                                </>
+                            }
+                        </>
                 }
-            </ChartBlock>
+            </SelectionBlock>
 
             <div style={{ border: "solid", display: "inline-block" }}>
                 <svg id="node_svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={pointerMove} stroke="black">
@@ -171,6 +346,14 @@ function BattleCreationPage() {
                                 r={50}
                                 fill={selectedNode === item.id ? "gray" : "white"}
                                 stroke="black" />
+                        )
+                    })}
+                    {nodes.map((item, index) => {
+                        return (
+                            <g transform={`translate(${item.x - 37.5},${item.y - 75})`}>
+                                <path id={item.id} d="M75,75 a37.5,37.5 0 1,0 -75,0 L75,75" fill="red" />
+                                <circle id={item.id} cx="37.5" cy="25" r="23" fill="red" />
+                            </g>
                         )
                     })}
                 </svg>

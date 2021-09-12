@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-const ChartBlock = styled.div`
+const InlineBlock = styled.div`
     display: inline-block;
     vertical-align: top;
 `
 
-export default ChartBlock
+export default InlineBlock

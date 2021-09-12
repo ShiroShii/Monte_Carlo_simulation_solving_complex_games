@@ -4,7 +4,7 @@ import colorMixer from "../../../../_common/ColorMixer";
 import IDownedPlayer from "../../interface/IDownedPlayer";
 import CustomPieLabel from "./CustomPieLabel";
 import { CustomPieLegend } from "./CustomPieLegend";
-import CustomTooltip from "./CustomTooltip";
+import CustomTooltip from "../../../../_common/CustomTooltip";
 import { color1, color2 } from "./DownedPlayersColors";
 
 function formatLegendItem(item: IDownedPlayer) {

@@ -16,14 +16,6 @@ public enum TargetingStyle {
 	 */
 	MOST_REMAINING_HP,
 	/**
-	 * Target closest character of specific party, prioritising ranged characters.
-	 */
-	CLOSEST_RANGED,
-	/**
-	 * Target closest character of specific party, prioritising melee characters.
-	 */
-	CLOSEST_MELEE,
-	/**
 	 * Target first character of specific party in the character list.
 	 */
 	ROUND_ROBIN

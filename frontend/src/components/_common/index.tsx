@@ -1,7 +1,8 @@
 import colorMixer from "./ColorMixer"
+import InlineBlock from "./InlineBlock"
 import NameField from "./NameField"
-import Paragraph from "./Paragraph"
 import NoMarginParagraph from "./NoMarginParagraph"
+import Paragraph from "./Paragraph"
 
-export { colorMixer, NameField, Paragraph, NoMarginParagraph }
+export { colorMixer, InlineBlock, NameField, NoMarginParagraph, Paragraph }
 

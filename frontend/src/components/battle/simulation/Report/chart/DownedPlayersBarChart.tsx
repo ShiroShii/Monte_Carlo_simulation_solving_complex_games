@@ -2,7 +2,7 @@ import { Bar, BarChart, CartesianGrid, Cell, Tooltip, XAxis, YAxis } from "recha
 import { NoMarginParagraph } from "../../../../_common";
 import colorMixer from "../../../../_common/ColorMixer";
 import IDownedPlayer from "../../interface/IDownedPlayer";
-import CustomTooltip from "./CustomTooltip";
+import CustomTooltip from "../../../../_common/CustomTooltip";
 import { color1, color2, darkColor1, darkColor2 } from "./DownedPlayersColors";
 
 type DownedPlayersBarChartProps = {

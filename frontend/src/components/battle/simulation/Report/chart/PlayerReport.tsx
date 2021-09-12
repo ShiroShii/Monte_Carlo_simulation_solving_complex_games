@@ -2,7 +2,7 @@ import { MenuItem, Select } from "@material-ui/core"
 import { useState } from "react"
 import styled from 'styled-components'
 import IPlayerCharacterState from "../../../IBattleCharacterState"
-import ChartBlock from "../../ChartBlock"
+import { InlineBlock } from "../../../../_common"
 import IPlayerReport from "../../interface/IPlayerReport"
 import DisabledBoxChart from "./DisabledBoxChart"
 import DisabledPieChart from "./DisabledPieChart"
@@ -17,7 +17,7 @@ type PlayerReportProps = {
     playerCharacterStates: IPlayerCharacterState[]
 }
 
-const SelectionBlock = styled(ChartBlock)`
+const SelectionBlock = styled(InlineBlock)`
     padding-top: 20px; 
     width: 350px;
     height: 400px;
@@ -33,10 +33,6 @@ function PlayerReport({ playerReports, simulationCount, playerCharacterStates }:
                     value={reportIndex}
                     onChange={(event) => { setReportIndex(event.target.value as number) }}
                     fullWidth={true}
-                    inputProps={{
-                        name: "agent",
-                        id: "age-simple"
-                    }}
                 >
                     <MenuItem value={-1} disabled>
                         <em>Select a Player</em>
@@ -55,21 +51,21 @@ function PlayerReport({ playerReports, simulationCount, playerCharacterStates }:
             {
                 reportIndex === -1 ?
                     <>
-                        <ChartBlock>
+                        <InlineBlock>
                             <DisabledBoxChart />
-                        </ChartBlock>
-                        <ChartBlock>
+                        </InlineBlock>
+                        <InlineBlock>
                             <DisabledPieChart />
-                        </ChartBlock>
+                        </InlineBlock>
                     </>
                     :
                     <>
-                        <ChartBlock>
+                        <InlineBlock>
                             <WonBattleBarChart healthData={playerReports[reportIndex].playerBoxPlot.health} damageDealtData={playerReports[reportIndex].playerBoxPlot.damageDealt} damageTakenData={playerReports[reportIndex].playerBoxPlot.damageTaken} />
-                        </ChartBlock>
-                        <ChartBlock>
+                        </InlineBlock>
+                        <InlineBlock>
                             <PlayerPieChart simulationCount={simulationCount} downCount={playerReports[reportIndex].downCount} />
-                        </ChartBlock>
+                        </InlineBlock>
                     </>
             }
         </>
