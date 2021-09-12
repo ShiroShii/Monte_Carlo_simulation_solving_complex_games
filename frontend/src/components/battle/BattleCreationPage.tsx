@@ -58,6 +58,7 @@ function BattleCreationPage() {
                         <>
                             <ToolButton tool="ADD_NODE" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                             <ToolButton tool="ADD_PATH" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
+                            <ToolButton tool="DELETE_PATH" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                             <ToolButton tool="MOVE" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                             <BattleCreationForm />
                             {(selectedTile === undefined || currentTool !== undefined) ? <></> :

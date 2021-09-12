@@ -72,6 +72,20 @@ function BattleCreationSVG({ width, height, paths, setPaths, currentTool, setCur
             }
             setSelectedTile(undefined)
         }
+
+        else if (currentTool === "DELETE_PATH" && selectedTile !== undefined) {
+            if (event.target !== event.currentTarget) {
+                const tileId1 = selectedTile
+                const tileId2 = (event.target as Element).id
+
+                const existingPath = paths.find(x => x.tileIds.includes(tileId1) && x.tileIds.includes(tileId2))
+                if (existingPath) {
+                    const temp = paths;
+                    setPaths(paths.filter(x => x.id !== existingPath.id))
+                }
+            }
+            setSelectedTile(undefined)
+        }
     }
 
     return (

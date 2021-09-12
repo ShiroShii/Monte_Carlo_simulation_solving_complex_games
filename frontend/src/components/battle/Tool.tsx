@@ -3,14 +3,15 @@ import { Button, createStyles, makeStyles, Theme } from "@material-ui/core"
 enum Tool {
     ADD_NODE = "Add Tile",
     ADD_PATH = "Add Path",
-    MOVE = "Move"
+    DELETE_PATH = "Delete Path",
+    MOVE = "Move",
 }
 
 type ToolButtonProps = {
     tool: keyof typeof Tool
     currentTool: keyof typeof Tool | undefined
     setSelectedTile: React.Dispatch<React.SetStateAction<string | undefined>>
-    setCurrentTool: React.Dispatch<React.SetStateAction<"ADD_NODE" | "ADD_PATH" | "MOVE" | undefined>>
+    setCurrentTool: React.Dispatch<React.SetStateAction<"ADD_NODE" | "ADD_PATH" | "DELETE_PATH" | "MOVE" | undefined>>
 }
 
 const useStyles = makeStyles((theme: Theme) =>
