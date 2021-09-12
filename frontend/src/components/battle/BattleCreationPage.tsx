@@ -42,8 +42,8 @@ enum PlayStyle {
 
 enum TargetingStyle {
     CLOSEST = "Closest",
-    LEAST_REMAINING_HP = "Least Remaingin HP",
-    MOST_REMAINING_HP = "Monst Remaingin HP",
+    LEAST_REMAINING_HP = "Least Remaining HP",
+    MOST_REMAINING_HP = "Monst Remaining HP",
     CLOSEST_RANGED = "Closest "
 }
 
@@ -71,12 +71,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 class Node {
-    id: string
     x: number
     y: number
+    occupier: Occupier | undefined
 
-    constructor(id: string, x: number, y: number) {
-        this.id = id
+    constructor(x: number, y: number) {
         this.x = x
         this.y = y
     }
@@ -122,16 +121,17 @@ function BattleCreationPage() {
 
     const playerList = usePlayerCharacterList(setLoading)
 
-    const [nodes, setNodes] = useState<Node[]>([])
+    const [nodes, setNodes] = useState<Map<string, Node>>(new Map())
     const [paths, setPaths] = useState<Path[]>([])
-
-    const [occupiers, setOccupiers] = useState<Map<string, Occupier>>(new Map())
 
     const onMouseDown = (event: React.MouseEvent<SVGElement, MouseEvent>) => {
         if (currentTool === "ADD_NODE") {
             const mouse = getMouse(event)
             if (event.target === event.currentTarget) {
-                setNodes([...nodes, new Node(uuid(), mouse.x, mouse.y)]);
+                const temp = new Map(nodes)
+                temp.set(uuid(), new Node(mouse.x, mouse.y))
+                setNodes(temp);
+
                 setCurrentTool(undefined)
             }
         }
@@ -149,10 +149,13 @@ function BattleCreationPage() {
         if (currentTool === "MOVE") {
             if (selectedNode !== undefined) {
                 const mouse = getMouse(event)
-                setNodes([
-                    ...nodes.filter((value) => { return (value.id !== selectedNode) }),
-                    new Node(selectedNode, mouse.x, mouse.y)
-                ]);
+
+                const temp = new Map(nodes)
+                const node = nodes.get(selectedNode) as Node
+                node.x = mouse.x
+                node.y = mouse.y
+                temp.set(selectedNode, node)
+                setNodes(temp)
             }
         }
     };
@@ -199,28 +202,36 @@ function BattleCreationPage() {
                             <BattleCreationForm />
                             {selectedNode === undefined ? <></> :
                                 <>
-                                    {occupiers.has(selectedNode) ?
+                                    {(nodes.get(selectedNode) as Node).occupier === undefined ?
+                                        <Button onClick={() => {
+                                            const temp = new Map(nodes)
+                                            const node = nodes.get(selectedNode) as Node
+                                            node.occupier = new Occupier()
+                                            temp.set(selectedNode, node)
+                                            setNodes(temp)
+                                        }}>Add Occupier</Button>
+                                        :
                                         <>
                                             <Button onClick={() => {
-                                                const temp = new Map(occupiers)
+                                                const temp = new Map(nodes)
                                                 temp.delete(selectedNode)
-                                                setOccupiers(temp);
+                                                setNodes(temp)
                                             }}>Remove Occupier</Button>
                                             <Select
                                                 value={
-                                                    occupiers.get(selectedNode)?.id !== undefined ?
-                                                        (occupiers.get(selectedNode) as Occupier).id
+                                                    ((nodes.get(selectedNode) as Node).occupier as Occupier).id !== undefined ?
+                                                        ((nodes.get(selectedNode) as Node).occupier as Occupier).id
                                                         : "unselected"
                                                 }
                                                 onChange={(event) => {
-                                                    const temp = new Map(occupiers);
+                                                    const temp = new Map(nodes);
 
-                                                    const occupier = occupiers.get(selectedNode) as Occupier
-                                                    occupier.id = event.target.value as keyof typeof Monster | string
+                                                    const node = nodes.get(selectedNode) as Node
+                                                    (node.occupier as Occupier).id = event.target.value as keyof typeof Monster | string
 
-                                                    temp.set(selectedNode, occupier);
+                                                    temp.set(selectedNode, node);
 
-                                                    setOccupiers(temp);
+                                                    setNodes(temp);
                                                 }}
                                                 fullWidth
                                                 className={classes.selectEmpty}
@@ -242,13 +253,20 @@ function BattleCreationPage() {
                                             </Select>
                                             <TextField
                                                 type="number"
-                                                value={(occupiers.get(selectedNode) as Occupier).hp}
+                                                value={
+                                                    ((nodes.get(selectedNode) as Node).occupier as Occupier).hp !== undefined ?
+                                                        ((nodes.get(selectedNode) as Node).occupier as Occupier).hp
+                                                        : "unselected"
+                                                }
                                                 onChange={(event) => {
-                                                    const temp = new Map(occupiers);
-                                                    const occupier = occupiers.get(selectedNode) as Occupier
-                                                    occupier.hp = +event.target.value
-                                                    temp.set(selectedNode, occupier);
-                                                    setOccupiers(temp);
+                                                    const temp = new Map(nodes);
+
+                                                    const node = nodes.get(selectedNode) as Node
+                                                    (node.occupier as Occupier).hp = +event.target.value
+
+                                                    temp.set(selectedNode, node);
+
+                                                    setNodes(temp);
                                                 }}
                                                 label="HP:"
                                                 margin="dense"
@@ -256,19 +274,19 @@ function BattleCreationPage() {
                                             />
                                             <Select
                                                 value={
-                                                    occupiers.get(selectedNode)?.playStyle !== undefined ?
-                                                        (occupiers.get(selectedNode) as Occupier).playStyle
+                                                    ((nodes.get(selectedNode) as Node).occupier as Occupier).playStyle !== undefined ?
+                                                        ((nodes.get(selectedNode) as Node).occupier as Occupier).playStyle
                                                         : "unselected"
                                                 }
                                                 onChange={(event) => {
-                                                    const temp = new Map(occupiers);
+                                                    const temp = new Map(nodes);
 
-                                                    const occupier = occupiers.get(selectedNode) as Occupier
-                                                    occupier.playStyle = event.target.value as keyof typeof PlayStyle
+                                                    const node = nodes.get(selectedNode) as Node
+                                                    (node.occupier as Occupier).playStyle = event.target.value as keyof typeof PlayStyle
 
-                                                    temp.set(selectedNode, occupier);
+                                                    temp.set(selectedNode, node);
 
-                                                    setOccupiers(temp);
+                                                    setNodes(temp);
                                                 }}
                                                 fullWidth
                                                 className={classes.selectEmpty}
@@ -282,19 +300,19 @@ function BattleCreationPage() {
                                             </Select>
                                             <Select
                                                 value={
-                                                    occupiers.get(selectedNode)?.targetingStyle !== undefined ?
-                                                        (occupiers.get(selectedNode) as Occupier).targetingStyle
+                                                    ((nodes.get(selectedNode) as Node).occupier as Occupier).targetingStyle !== undefined ?
+                                                        ((nodes.get(selectedNode) as Node).occupier as Occupier).targetingStyle
                                                         : "unselected"
                                                 }
                                                 onChange={(event) => {
-                                                    const temp = new Map(occupiers);
+                                                    const temp = new Map(nodes);
 
-                                                    const occupier = occupiers.get(selectedNode) as Occupier
-                                                    occupier.targetingStyle = event.target.value as keyof typeof TargetingStyle
+                                                    const node = nodes.get(selectedNode) as Node
+                                                    (node.occupier as Occupier).targetingStyle = event.target.value as keyof typeof TargetingStyle
 
-                                                    temp.set(selectedNode, occupier);
+                                                    temp.set(selectedNode, node);
 
-                                                    setOccupiers(temp);
+                                                    setNodes(temp);
                                                 }}
                                                 fullWidth
                                                 className={classes.selectEmpty}
@@ -307,12 +325,6 @@ function BattleCreationPage() {
                                                 ))}
                                             </Select>
                                         </>
-                                        :
-                                        <Button onClick={() => {
-                                            const temp = new Map(occupiers)
-                                            temp.set(selectedNode, new Occupier())
-                                            setOccupiers(temp);
-                                        }}>Add Occupier</Button>
                                     }
                                 </>
                             }
@@ -322,9 +334,9 @@ function BattleCreationPage() {
 
             <div style={{ border: "solid", display: "inline-block" }}>
                 <svg id="node_svg" width={width} height={height} viewBox={`0 0 ${width} ${height}`} onMouseDown={onMouseDown} onMouseUp={onMouseUp} onMouseMove={pointerMove} stroke="black">
-                    {paths.map((item, index) => {
-                        const node1 = nodes.find(x => x.id === item.nodeIds[0]) as Node
-                        const node2 = nodes.find(x => x.id === item.nodeIds[1]) as Node
+                    {paths.map((item) => {
+                        const node1 = nodes.get(item.nodeIds[0]) as Node
+                        const node2 = nodes.get(item.nodeIds[1]) as Node
                         return (
                             <line
 
@@ -336,28 +348,32 @@ function BattleCreationPage() {
                                 stroke="black" />
                         )
                     })}
-                    {nodes.map((item, index) => {
+                    {(Array.from(nodes, ([key, value]) => ({ key, value }))).map((entry) => {
                         return (
                             <circle
                                 transform="scale(1 0.5)"
-                                id={item.id}
-                                cx={item.x}
-                                cy={item.y * 2}
+                                id={entry.key}
+                                cx={entry.value.x}
+                                cy={entry.value.y * 2}
                                 r={50}
-                                fill={selectedNode === item.id ? "gray" : "white"}
+                                fill={selectedNode === entry.key ? "gray" : "white"}
                                 stroke="black" />
                         )
                     })}
-                    {(Array.from(occupiers, ([key, value]) => ({ key, value }))).map((entry) => {
-                        const node = nodes.find(x => x.id === entry.key) as Node
-                        const fill = entry.value.id === undefined ?
-                            "gray" : Object.keys(Monster).includes(entry.value.id as Monster) ? "red" : "green"
-                        return (
-                            <g transform={`translate(${node.x - 37.5},${node.y - 75})`}>
-                                <path id={entry.key} d="M75,75 a37.5,37.5 0 1,0 -75,0 L75,75" fill={fill} />
-                                <circle id={entry.key} cx="37.5" cy="25" r="23" fill={fill} />
-                            </g>
-                        )
+                    {(Array.from(nodes, ([key, value]) => ({ key, value }))).map((entry) => {
+                        if (entry.value.occupier !== undefined) {
+                            const fill = entry.value.occupier.id === undefined ?
+                                "gray" : Object.keys(Monster).includes(entry.value.occupier.id as Monster) ? "red" : "green"
+                            return (
+                                <g transform={`translate(${entry.value.x - 37.5},${entry.value.y - 75})`}>
+                                    <path id={entry.key} d="M75,75 a37.5,37.5 0 1,0 -75,0 L75,75" fill={fill} />
+                                    <circle id={entry.key} cx="37.5" cy="25" r="23" fill={fill} />
+                                </g>
+                            )
+                        }
+                        else {
+                            return (<></>)
+                        }
                     })}
                 </svg>
             </div>
