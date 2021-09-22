@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 public class BattleResponse {
 	private UUID id;
 	private String name;
-	private UUID boardId;
-	private List<PlayerCharacterStateResponse> playerCharacterStates; 
+	private List<PlayerCharacterStateResponse> playerCharacterStates;
 	private List<MonsterStateResponse> monsterStates;
+	private List<NodeTileResponse> tiles;
 }

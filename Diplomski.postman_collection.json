@@ -12,7 +12,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"simulationCount\":1000,\r\n    \"roundCountLimit\": 10\r\n}",
+					"raw": "{\r\n    \"battleId\": \"4f073c80-c8e3-4458-bae3-a264e130cbd3\",\r\n    \"simulationCount\": 10000,\r\n    \"roundCountLimit\": 20\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -20,15 +20,13 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/simulation/a75fe602-0345-4900-9999-1cc87c21f1c0/simulate",
+					"raw": "localhost:8080/simulation",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"simulation",
-						"a75fe602-0345-4900-9999-1cc87c21f1c0",
-						"simulate"
+						"simulation"
 					]
 				}
 			},
@@ -60,7 +58,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"BasicBoard\",\r\n    \"nodes\": [\r\n        {\r\n            \"reachableTiles\": [\r\n                1\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        },\r\n        {\r\n            \"reachableTiles\": [\r\n                0\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"name\": \"2 player 1v1\",\r\n    \"nodes\": [\r\n        {\r\n            \"reachableTiles\": [\r\n                1\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        },\r\n        {\r\n            \"reachableTiles\": [\r\n                0\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        },\r\n                {\r\n            \"reachableTiles\": [\r\n                3\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        },\r\n        {\r\n            \"reachableTiles\": [\r\n                2\r\n            ],\r\n            \"terrainFeature\": \"LOW_GRASS\"\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -133,7 +131,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Battle_1\",\r\n    \"boardId\": \"4abd16d3-5e93-408b-b6c4-a7aafe44d562\",\r\n    \"playerCharacterStates\": [\r\n        {\r\n            \"playerCharacterId\": \"882ee319-064e-41da-8282-3af465e98263\",\r\n            \"currentHp\": 12,\r\n            \"tileId\": \"27c2a556-6449-4a35-b166-5a9c2a6e5721\",\r\n            \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n            \"targetingStyle\": \"CLOSEST\",\r\n            \"party\": \"PLAYER\"\r\n        }\r\n    ],\r\n    \"monsterStates\": [\r\n        {\r\n            \"monster\": \"GIANT_RAT\",\r\n            \"currentHp\": 45,\r\n            \"tileId\": \"1775efc5-38f0-4749-9617-08b4b19954d3\",\r\n            \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n            \"targetingStyle\": \"CLOSEST\",\r\n            \"party\": \"ENEMY\"\r\n        }\r\n    ]\r\n}",
+					"raw": "{\r\n    \"name\": \"1V1\",\r\n    \"tiles\": [\r\n        {\r\n            \"x\": 20,\r\n            \"y\": 20,\r\n            \"terrainFeature\": \"LOW_GRASS\",\r\n            \"reachableTiles\": [\r\n                1\r\n            ],\r\n            \"playerCharacterStates\": [\r\n                {\r\n                    \"playerCharacterId\": \"23462c49-7913-4a6f-a119-2f4fdd102af1\",\r\n                    \"currentHp\": 10,\r\n                    \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n                    \"targetingStyle\": \"CLOSEST\"\r\n                }\r\n            ],\r\n            \"monsterStates\": []\r\n        },\r\n        {\r\n            \"x\": 20,\r\n            \"y\": 300,\r\n            \"terrainFeature\": \"LOW_GRASS\",\r\n            \"reachableTiles\": [\r\n                0\r\n            ],\r\n            \"playerCharacterStates\": [],\r\n            \"monsterStates\": [\r\n                {\r\n                    \"monster\": \"GIANT_RAT\",\r\n                    \"currentHp\": 10,\r\n                    \"playStyle\": \"MELEE_WEAPON_DAMAGE\",\r\n                    \"targetingStyle\": \"CLOSEST\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -159,14 +157,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "localhost:8080/battle/f411b183-35eb-43b5-86d9-a73b86857099",
+					"raw": "localhost:8080/battle/4f073c80-c8e3-4458-bae3-a264e130cbd3",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
 						"battle",
-						"f411b183-35eb-43b5-86d9-a73b86857099"
+						"4f073c80-c8e3-4458-bae3-a264e130cbd3"
 					]
 				}
 			},

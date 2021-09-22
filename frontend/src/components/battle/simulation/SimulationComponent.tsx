@@ -4,19 +4,23 @@ import SimulationForm from "./form"
 import { ISimulationResult } from "./interface"
 import SimulationDashboard from "./Report"
 
-type SimulationComponentProps = {
+interface ISimulationComponentProps {
     battleId: String
     playerCharacterStates: IPlayerCharacterState[]
 }
 
-function SimulationComponent({ battleId, playerCharacterStates }: SimulationComponentProps) {
+function SimulationComponent({ battleId, playerCharacterStates }: ISimulationComponentProps) {
     const [simulationResult, setSimulationResult] = useState<ISimulationResult | null>()
 
     return (
         <>
             <SimulationForm battleId={battleId} setSimulationResult={setSimulationResult} />
             {
-                simulationResult && <SimulationDashboard simulationResult={simulationResult} playerCharacterStates={playerCharacterStates} />
+                simulationResult &&
+                <SimulationDashboard
+                    simulationResult={simulationResult}
+                    playerCharacterStates={playerCharacterStates}
+                />
             }
         </>
     )
