@@ -16,7 +16,6 @@ public class AttackRollOutcomeProviderFactory implements IAttackRollOutcomeProvi
 		return switch (characterType) {
 			case PLAYER -> switch (playStyle) {
 					case MELEE_WEAPON_DAMAGE -> new AttackRollOutcomeProvider(new PlayerMeleeAttackRollModifierProvider(), diceFactory);
-					case RANGED_WEAPON_DAMAGE -> new AttackRollOutcomeProvider(new PlayerRangedAttackRollModifierProvider(), diceFactory);
 					default -> throw new IllegalArgumentException("PlayStyle not implemented.");
 				};
 			case MONSTER -> new AttackRollOutcomeProvider(new MonsterAttackRollModifierProvider(), diceFactory);

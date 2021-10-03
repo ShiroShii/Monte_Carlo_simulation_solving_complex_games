@@ -9,7 +9,7 @@ import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.resource.IResource;
 
-public class FlyMovemementActivityProvider extends AbstractActivityProvider {
+public class MovemementActivityProvider extends AbstractActivityProvider {
 	@Override
 	public Optional<Activity> getActivity(
 			UUID initiatorId,
@@ -21,29 +21,27 @@ public class FlyMovemementActivityProvider extends AbstractActivityProvider {
 			IResource resource) {
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
-		int usedFlyingSpeed = 0;
+		int usedWalkingSpeed = 0;
 		int nextTileCost = path.get(0).getTerrainType().getMovementDificulty().getMovementCost();
 		UUID finalTileId = null;
 
-		while (!path.isEmpty() && usedFlyingSpeed + nextTileCost < initiator.getWalkingSpeed()) {
+		while (!path.isEmpty() && usedWalkingSpeed + nextTileCost < initiator.getWalkingSpeed()) {
 			finalTileId = path.get(0).getId();
-			usedFlyingSpeed += nextTileCost;
+			usedWalkingSpeed += nextTileCost;
 			path.remove(0);
 			if (!path.isEmpty()) {
 				nextTileCost = path.get(0).getTerrainType().getMovementDificulty().getMovementCost();
 			}
 		}
-		
-		if (usedFlyingSpeed > 0 && finalTileId != null) {
+		if (usedWalkingSpeed > 0 && finalTileId != null) {
 			BoardState finalBoardState = initialBoardState.toBuilder().build();
 			finalBoardState.getCharacterStates().get(initiatorId).setTileId(finalTileId);
-			finalBoardState.getCharacterStates().get(initiatorId).setUsedFlyingSpeed(usedFlyingSpeed);
+			finalBoardState.getCharacterStates().get(initiatorId).setUsedWalkingSpeed(usedWalkingSpeed);
 
-			return Optional.of(WalkMovementActivity.builder().initiatorId(initiatorId)
+			return Optional.of(MovementActivity.builder().initiatorId(initiatorId)
 					.initialBoardState(initialBoardState).finalBoardState(finalBoardState)
 					.initialTileId(initiator.getTileId()).finalTileId(finalTileId).build());
 		}
-		
 		return Optional.empty();
 	}
 }

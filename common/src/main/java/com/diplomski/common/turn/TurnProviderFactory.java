@@ -5,7 +5,7 @@ import java.util.UUID;
 import com.diplomski.common.activity.AttackActionActivityProvider;
 import com.diplomski.common.activity.IActivityProvider;
 import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
-import com.diplomski.common.activity.WalkMovemementActivityProvider;
+import com.diplomski.common.activity.MovemementActivityProvider;
 import com.diplomski.common.board.INavigator;
 import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.Party;
@@ -30,7 +30,7 @@ public class TurnProviderFactory implements ITurnProviderFactory {
 		};
 
 		IActivityProvider movementProvider = switch (playStyle) {
-			default -> new WalkMovemementActivityProvider();
+			default -> new MovemementActivityProvider();
 		};
 
 		IActivityProvider actionProvider =  new AttackActionActivityProvider(attackRollOutcomeProviderFactory.getAttackRollOutcomeProvider(characterType, playStyle), damageProvider);
