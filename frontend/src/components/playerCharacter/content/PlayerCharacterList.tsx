@@ -1,7 +1,7 @@
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import usePlayerCharacterList from './UsePlayerCharacterList'
+import { usePlayerCharacterList } from './hook'
 function PlayerCharacterList() {
     const [loading, setLoading] = useState(true)
     const playerCharacter = usePlayerCharacterList(setLoading)

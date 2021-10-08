@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.diplomski.backend.contract.PlayerCharacterCreateRequest;
@@ -29,6 +30,14 @@ public class PlayerCharacterController {
 	public ResponseEntity<PlayerCharacterResponse> create(
 			@RequestBody PlayerCharacterCreateRequest request) {
 		PlayerCharacterResponse response = PlayerCharacterTranslator.translate(playerCharacterService.save(request));
+		return new ResponseEntity<>(response, HttpStatus.OK);
+	}
+	
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PutMapping(path = "/player-character/{id}")
+	public ResponseEntity<PlayerCharacterResponse> update(
+			@PathVariable("id") UUID id, @RequestBody PlayerCharacterCreateRequest request) {
+		PlayerCharacterResponse response = PlayerCharacterTranslator.translate(playerCharacterService.save(id, request));
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 	

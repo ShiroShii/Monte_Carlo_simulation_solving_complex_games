@@ -3,7 +3,7 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import axios from "axios";
 import { useState } from "react";
 import styled from 'styled-components';
-import usePlayerCharacterList from "../playerCharacter/UsePlayerCharacterList";
+import {usePlayerCharacterList} from "../playerCharacter";
 import { InlineBlock } from "../_common";
 import BattleCreationSVG from "./BattleCreationSVG";
 import HPField from "./HPField";

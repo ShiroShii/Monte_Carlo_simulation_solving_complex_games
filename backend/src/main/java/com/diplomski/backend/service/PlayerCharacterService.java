@@ -18,6 +18,20 @@ import lombok.AllArgsConstructor;
 @Transactional
 public class PlayerCharacterService {
 	private PlayerCharacterRepository playerCharacterRepository;
+	
+	public PlayerCharacterDbModel save(UUID id, PlayerCharacterCreateRequest request) {
+		Optional<PlayerCharacterDbModel> playerCharacter = playerCharacterRepository.findById(id);
+		playerCharacter.get().setArmorClass(request.getArmorClass());
+		playerCharacter.get().setCharacterClass(request.getCharacterClass());
+		playerCharacter.get().setCharacterLevel(request.getCharacterLevel());
+		playerCharacter.get().setDexterity(request.getDexterity());
+		playerCharacter.get().setName(request.getName());
+		playerCharacter.get().setStrength(request.getStrength());
+		playerCharacter.get().setWalkingSpeed(request.getWalkingSpeed());
+		playerCharacter.get().setWeapons(request.getWeapons());
+		
+		return playerCharacterRepository.save(playerCharacter.get());
+	}
 
 	public PlayerCharacterDbModel save(PlayerCharacterCreateRequest request) {
 		PlayerCharacterDbModel playerCharacter = PlayerCharacterDbModel.builder().name(request.getName())

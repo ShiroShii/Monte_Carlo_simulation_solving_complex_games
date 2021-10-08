@@ -1,6 +1,6 @@
 
-import { Link } from "react-router-dom"
-import PlayerCharacterList from "../playerCharacter/PlayerCharacterList"
+import { Link } from "react-router-dom";
+import { PlayerCharacterList } from "./content";
 
 function PlayerCharacterListPage() {
     return (
