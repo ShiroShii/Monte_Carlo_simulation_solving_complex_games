@@ -7,7 +7,7 @@ import {
 } from '../playerCharacter'
 import NavigationBar from './NavigationBar'
 
-function MainComponent() {
+export function MainComponent() {
     return (
         <Router>
             <NavigationBar />
@@ -28,5 +28,3 @@ function MainComponent() {
         </Router>
     )
 }
-
-export default MainComponent

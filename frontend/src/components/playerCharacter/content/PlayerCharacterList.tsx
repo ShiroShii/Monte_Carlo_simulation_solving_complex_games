@@ -1,7 +1,9 @@
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
+import { Button } from '@material-ui/core'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { usePlayerCharacterList } from './hook'
+
 function PlayerCharacterList() {
     const [loading, setLoading] = useState(true)
     const playerCharacter = usePlayerCharacterList(setLoading)
@@ -13,11 +15,51 @@ function PlayerCharacterList() {
             width: 200
         },
         {
+            field: 'dexterity',
+            headerName: 'DEX',
+            width: 120
+        },
+        {
+            field: 'strength',
+            headerName: 'STR',
+            width: 120
+        },
+        {
+            field: 'walkingSpeed',
+            headerName: 'SPD',
+            width: 120
+        },
+        {
+            field: 'armorClass',
+            headerName: 'AC',
+            width: 120
+        },
+        {
+            field: 'characterLevel',
+            headerName: 'LVL',
+            width: 120
+        },
+        {
+            field: 'characterClass',
+            headerName: 'Class',
+            width: 120
+        },
+        {
+            field: 'armorClass',
+            headerName: 'AC',
+            width: 120
+        },
+        {
+            field: 'weapons',
+            headerName: 'Weapons',
+            width: 200
+        },
+        {
             field: 'id',
             headerName: 'Details',
-            width: 150,
+            width: 120,
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/character/${params.id}`}>Details</Link>;
+                return <Button component={Link} variant="contained" to={`/character/${params.id}`}>Details</Button>;
             },
         },
     ];

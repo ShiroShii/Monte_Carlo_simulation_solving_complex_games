@@ -1,6 +1,17 @@
 import { CircularProgress } from "@material-ui/core";
+import axios from "axios";
 import { useState } from "react";
-import { PlayerCharacterForm, PlayerCharacterFormValues, usePlayerCharacter } from './content';
+import styled from "styled-components";
+import {
+    PlayerCharacterForm,
+    PlayerCharacterFormValues,
+    usePlayerCharacter
+} from './content';
+
+const FormBlock = styled.div`
+    width: 600px;
+    margin: 10px auto 150px;
+`
 
 type PlayerCharacterDetailsPageProps = {
     id: string;
@@ -11,27 +22,16 @@ function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
     const playerCharacter = usePlayerCharacter(props.id, setLoading)
 
     const onSubmit = async (values: PlayerCharacterFormValues) => {
-        console.log(values);
-        console.log(playerCharacter?.id)
-        /*
-        axios.put('http://localhost:8080/player-character', values)
-            .then((response) => {
-                console.log(response);
-                //TODO: redirect to details
-            }).catch(response => {
-                console.log(response);
-                //TODO: toster error
-            });
-        */
+        axios.put(`http://localhost:8080/player-character/${playerCharacter?.id}`, values);
     };
 
     return (
-        <>
+        <FormBlock>
             {
                 loading ? <CircularProgress /> :
                     <PlayerCharacterForm onSubmit={onSubmit} initialValues={playerCharacter} />
             }
-        </>
+        </FormBlock>
     );
 }
 

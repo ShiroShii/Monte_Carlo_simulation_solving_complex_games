@@ -40,7 +40,7 @@ function DisabledPlayerOveriew() {
                 <TableData/>
             </tr>
             <tr>
-                <TableHeader>Walking Speed:</TableHeader>
+                <TableHeader>Speed:</TableHeader>
                 <TableData/>
             </tr>
             <tr>

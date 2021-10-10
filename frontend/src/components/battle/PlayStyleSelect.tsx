@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, TextField } from "@material-ui/core";
 import Occupier from "./Occupier";
 import PlayStyle from "./PlayStyle";
 import { Tile } from "./Tile";
@@ -11,12 +11,11 @@ type PlayStyleSelectProps = {
 
 function PlayStyleSelect({ tiles, setTiles, selectedTile }: PlayStyleSelectProps) {
     return (
-        <Select
-            value={
-                ((tiles.get(selectedTile) as Tile).occupier as Occupier).playStyle !== undefined ?
-                    ((tiles.get(selectedTile) as Tile).occupier as Occupier).playStyle
-                    : "unselected"
-            }
+        <TextField
+            select
+            required
+            label="Select Play Style"
+            value={tiles.get(selectedTile)?.occupier?.playStyle}
             onChange={(event) => {
                 const temp = new Map(tiles);
 
@@ -28,15 +27,13 @@ function PlayStyleSelect({ tiles, setTiles, selectedTile }: PlayStyleSelectProps
                 setTiles(temp);
             }}
             fullWidth
-            className="selectEmpty"
         >
-            <MenuItem key="unselected" value={"unselected"} disabled>Select Play Style</MenuItem>
             {(Object.keys(PlayStyle) as Array<keyof typeof PlayStyle>).map((option) => (
                 <MenuItem key={option} value={option}>
                     {PlayStyle[option]}
                 </MenuItem>
             ))}
-        </Select>
+        </TextField>
     )
 }
 

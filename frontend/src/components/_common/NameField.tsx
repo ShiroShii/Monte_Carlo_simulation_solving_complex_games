@@ -12,6 +12,7 @@ function NameField() {
                         onChange={props.input.onChange}
                         label="Name"
                         required
+                        fullWidth
                     />
                 </div>
             )}

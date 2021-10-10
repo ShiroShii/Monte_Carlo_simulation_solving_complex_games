@@ -13,6 +13,7 @@ function DexterityField() {
                         type="number"
                         label="Dexterity"
                         required
+                        fullWidth
                     />
                 </div>
             )}

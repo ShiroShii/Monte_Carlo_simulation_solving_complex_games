@@ -13,6 +13,7 @@ function ArmorClassField() {
                         type="number"
                         label="Armor Class"
                         required
+                        fullWidth
                     />
                 </div>
             )}

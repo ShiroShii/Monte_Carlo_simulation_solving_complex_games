@@ -13,6 +13,7 @@ function StrenghField() {
                         type="number"
                         label="Strength"
                         required
+                        fullWidth
                     />
                 </div>
             )}

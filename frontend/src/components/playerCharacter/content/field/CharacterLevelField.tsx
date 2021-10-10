@@ -95,6 +95,7 @@ function CharacterLevelField() {
                     select
                     label="Level"
                     required
+                    fullWidth
                 >
                     {levels.map((option) => (
                         <MenuItem key={option.value} value={option.value}>

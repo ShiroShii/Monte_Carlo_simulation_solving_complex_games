@@ -1,4 +1,4 @@
-import { Button, createStyles, makeStyles, MenuItem, Select, Theme } from "@material-ui/core";
+import { Button, createStyles, makeStyles, MenuItem, TextField, Theme } from "@material-ui/core";
 import { GridRowData } from "@material-ui/data-grid";
 import Monster from "./Monster";
 import Occupier from "./Occupier";
@@ -65,12 +65,11 @@ function DeleteOccupierButton({ tiles, setTiles, selectedTile }: DeleteOccupierB
 
 function OccupierSelect({ selectedTile, playerList, tiles, setTiles }: OccupierSelectProps) {
     return (
-        <Select
-            value={
-                ((tiles.get(selectedTile) as Tile).occupier as Occupier).id !== undefined ?
-                    ((tiles.get(selectedTile) as Tile).occupier as Occupier).id
-                    : "unselected"
-            }
+        <TextField
+            select
+            required
+            label="Select Occupier"
+            value={tiles.get(selectedTile)?.occupier?.id}
             onChange={(event) => {
                 const temp = new Map(tiles);
 
@@ -84,7 +83,6 @@ function OccupierSelect({ selectedTile, playerList, tiles, setTiles }: OccupierS
             fullWidth
             className={useStyles().button}
         >
-            <MenuItem key="unselected" value={"unselected"} disabled>Select Occupier</MenuItem>
             <MenuItem key="player-placeholder" value={undefined} disabled>Players:</MenuItem>
             {playerList.map((value) => (
                 <MenuItem key={value.id} value={value.id}>
@@ -98,8 +96,8 @@ function OccupierSelect({ selectedTile, playerList, tiles, setTiles }: OccupierS
                 </MenuItem>
             ))}
 
-        </Select>
+        </TextField>
     )
 }
 
-export { OccupierSelect, AddOccupierButton, DeleteOccupierButton }
+export { OccupierSelect, AddOccupierButton, DeleteOccupierButton };

@@ -1,8 +1,8 @@
-import { MenuItem, Select } from "@material-ui/core"
+import { MenuItem, TextField } from "@material-ui/core"
 import { useState } from "react"
 import styled from 'styled-components'
-import IPlayerCharacterState from "../../../IBattleCharacterState"
 import { InlineBlock } from "../../../../_common"
+import IPlayerCharacterState from "../../../IBattleCharacterState"
 import IPlayerReport from "../../interface/IPlayerReport"
 import DisabledBoxChart from "./DisabledBoxChart"
 import DisabledPieChart from "./DisabledPieChart"
@@ -24,32 +24,32 @@ const SelectionBlock = styled(InlineBlock)`
 `
 
 function PlayerReport({ playerReports, simulationCount, playerCharacterStates }: PlayerReportProps) {
-    const [reportIndex, setReportIndex] = useState<number>(-1)
+    const [playerId, setPlayerId] = useState<string | undefined>(undefined)
 
     return (
         <>
             <SelectionBlock>
-                <Select
-                    value={reportIndex}
-                    onChange={(event) => { setReportIndex(event.target.value as number) }}
+                <TextField
+                    select
+                    required
+                    label="Select Player"
+                    value={playerId}
+                    onChange={(event) => { setPlayerId(event.target.value) }}
                     fullWidth={true}
                 >
-                    <MenuItem value={-1} disabled>
-                        <em>Select a Player</em>
-                    </MenuItem>
                     {playerReports.map((value, index) => {
-                        return <MenuItem value={index}>{value.name}</MenuItem>;
+                        return <MenuItem value={value.id}>{value.name}</MenuItem>;
                     })}
-                </Select>
+                </TextField>
                 {
-                    reportIndex === -1 ?
+                    playerId === undefined ?
                         <DisabledPlayerOveriew />
                         :
-                        <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.id === playerReports[reportIndex].id) as IPlayerCharacterState} />
+                        <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.id === playerId) as IPlayerCharacterState} />
                 }
             </SelectionBlock>
             {
-                reportIndex === -1 ?
+                playerId === undefined ?
                     <>
                         <InlineBlock>
                             <DisabledBoxChart />
@@ -61,10 +61,15 @@ function PlayerReport({ playerReports, simulationCount, playerCharacterStates }:
                     :
                     <>
                         <InlineBlock>
-                            <WonBattleBarChart healthData={playerReports[reportIndex].playerBoxPlot.health} damageDealtData={playerReports[reportIndex].playerBoxPlot.damageDealt} damageTakenData={playerReports[reportIndex].playerBoxPlot.damageTaken} />
+                            <WonBattleBarChart
+                                healthData={(playerReports.find(x => x.id === playerId) as IPlayerReport).playerBoxPlot.health}
+                                damageDealtData={(playerReports.find(x => x.id === playerId) as IPlayerReport).playerBoxPlot.damageDealt}
+                                damageTakenData={(playerReports.find(x => x.id === playerId) as IPlayerReport).playerBoxPlot.damageTaken} />
                         </InlineBlock>
                         <InlineBlock>
-                            <PlayerPieChart simulationCount={simulationCount} downCount={playerReports[reportIndex].downCount} />
+                            <PlayerPieChart
+                                simulationCount={simulationCount}
+                                downCount={(playerReports.find(x => x.id === playerId) as IPlayerReport).downCount} />
                         </InlineBlock>
                     </>
             }

@@ -11,8 +11,9 @@ function WalkingSpeedField() {
                         value={props.input.value}
                         onChange={props.input.onChange}
                         type="number"
-                        label="Walking Speed"
+                        label="Speed"
                         required
+                        fullWidth
                     />
                 </div>
             )}

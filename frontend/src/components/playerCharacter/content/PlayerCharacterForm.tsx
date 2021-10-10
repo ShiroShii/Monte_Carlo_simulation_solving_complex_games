@@ -1,4 +1,5 @@
 import arrayMutators from 'final-form-arrays'
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core"
 import { Form } from "react-final-form"
 import { NameField } from '../../_common'
 import {
@@ -10,6 +11,14 @@ import {
     WalkingSpeedField,
     WeaponField
 } from "./field"
+
+const useStyles = makeStyles((theme: Theme) =>
+    createStyles({
+        button: {
+            margin: "10px 5px 10px 5px"
+        }
+    }),
+);
 
 export type PlayerCharacterFormValues = {
     name: String,
@@ -28,6 +37,7 @@ type PlayerCharacterFormProps = {
 }
 
 export function PlayerCharacterForm({ onSubmit, initialValues }: PlayerCharacterFormProps) {
+    const button = useStyles().button
     return (
         <Form
             onSubmit={onSubmit}
@@ -40,7 +50,6 @@ export function PlayerCharacterForm({ onSubmit, initialValues }: PlayerCharacter
                 },
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <WeaponField push={push} />
                     <NameField />
                     <DexterityField />
                     <StrengthField />
@@ -48,8 +57,13 @@ export function PlayerCharacterForm({ onSubmit, initialValues }: PlayerCharacter
                     <ArmorClassField />
                     <CharacterLevelField />
                     <CharacterClassField />
-
-                    <button type="submit">Submit</button>
+                    <WeaponField push={push} />
+                    <Button
+                        type="submit"
+                        className={button}
+                        variant="contained">
+                        Submit
+                    </Button>
                 </form>
             )}
         />

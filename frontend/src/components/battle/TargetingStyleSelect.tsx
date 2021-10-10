@@ -1,4 +1,4 @@
-import { MenuItem, Select } from "@material-ui/core";
+import { MenuItem, TextField } from "@material-ui/core";
 import Occupier from "./Occupier";
 import TargetingStyle from "./TargetingStyle";
 import { Tile } from "./Tile";
@@ -11,12 +11,11 @@ type TargetingStyleSelectProps = {
 
 function TargetingStyleSelect({ tiles, setTiles, selectedTile }: TargetingStyleSelectProps) {
     return (
-        <Select
-            value={
-                ((tiles.get(selectedTile) as Tile).occupier as Occupier).targetingStyle !== undefined ?
-                    ((tiles.get(selectedTile) as Tile).occupier as Occupier).targetingStyle
-                    : "unselected"
-            }
+        <TextField
+            select
+            required
+            label="Select Targeting Style"
+            value={tiles.get(selectedTile)?.occupier?.targetingStyle}
             onChange={(event) => {
                 const temp = new Map(tiles);
 
@@ -28,15 +27,13 @@ function TargetingStyleSelect({ tiles, setTiles, selectedTile }: TargetingStyleS
                 setTiles(temp);
             }}
             fullWidth
-            className="selectEmpty"
         >
-            <MenuItem key="unselected" value={"unselected"} disabled>Select Targeting Style</MenuItem>
             {(Object.keys(TargetingStyle) as Array<keyof typeof TargetingStyle>).map((option) => (
                 <MenuItem key={option} value={option}>
                     {TargetingStyle[option]}
                 </MenuItem>
             ))}
-        </Select>
+        </TextField>
     )
 }
 

@@ -64,6 +64,7 @@ function CharacterClassField() {
                         select
                         label="Class"
                         required
+                        fullWidth
                     >
                         {classes.map((option) => (
                             <MenuItem key={option.value} value={option.value}>
