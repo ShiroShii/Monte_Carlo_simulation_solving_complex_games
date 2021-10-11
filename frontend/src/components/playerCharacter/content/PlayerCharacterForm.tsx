@@ -8,7 +8,7 @@ import {
     CharacterLevelField,
     DexterityField,
     StrengthField,
-    WalkingSpeedField,
+    SpeedField,
     WeaponField
 } from "./field"
 
@@ -24,7 +24,7 @@ export type PlayerCharacterFormValues = {
     name: String,
     dexterity: Number,
     strength: Number,
-    walkingSpeed: Number,
+    speed: Number,
     armorClass: Number,
     characterLevel: String,
     characterClass: String,
@@ -53,7 +53,7 @@ export function PlayerCharacterForm({ onSubmit, initialValues }: PlayerCharacter
                     <NameField />
                     <DexterityField />
                     <StrengthField />
-                    <WalkingSpeedField />
+                    <SpeedField />
                     <ArmorClassField />
                     <CharacterLevelField />
                     <CharacterClassField />

@@ -16,8 +16,8 @@ import TerrainSelect from "./TerrainSelect";
 import { DeleteTileButton, Tile } from "./Tile";
 import { Tool, ToolButton } from "./Tool";
 
-const width = 1000;
-const height = 800;
+const width = 600;
+const height = 600;
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -96,7 +96,7 @@ function BattleCreationPage() {
 
     return (
         <>
-            <p>Battle Creation Page</p>
+            <h2>Battle Creation Page</h2>
             <SelectionBlock>
                 {
                     loading ? <CircularProgress /> :

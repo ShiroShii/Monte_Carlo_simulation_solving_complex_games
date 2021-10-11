@@ -33,7 +33,7 @@ public class PlayerCharacterState implements ICharacterState {
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 
-	private int walkingSpeed;
+	private int speed;
 
 	public void takeDamage(int damage) {
 		currentHp -= damage;

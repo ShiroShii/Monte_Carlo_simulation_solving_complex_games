@@ -25,7 +25,7 @@ function PlayerCharacterList() {
             width: 120
         },
         {
-            field: 'walkingSpeed',
+            field: 'speed',
             headerName: 'SPD',
             width: 120
         },

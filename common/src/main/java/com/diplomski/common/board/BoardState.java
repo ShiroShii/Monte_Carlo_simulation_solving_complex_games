@@ -22,7 +22,7 @@ public class BoardState {
 
 	public void resetSpeed() {
 		for (IBattleCharacterState characterState : characterStates.values()) {
-			characterState.setUsedWalkingSpeed(0);
+			characterState.setUsedSpeed(0);
 		}
 	}
 

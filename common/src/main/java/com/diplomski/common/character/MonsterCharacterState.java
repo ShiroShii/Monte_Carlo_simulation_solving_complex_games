@@ -33,7 +33,7 @@ public class MonsterCharacterState implements ICharacterState{
 	}
 
 	@Override
-	public int getWalkingSpeed() {
-		return this.monster.getWalkingSpeed();
+	public int getSpeed() {
+		return this.monster.getSpeed();
 	}
 }

@@ -1,6 +1,6 @@
 enum PlayStyle {
-    MELEE_WEAPON_DAMAGE = "Weapon Melee Damage",
-    RANGED_WEAPON_DAMAGE = "Weapon Ranged Damage",
+    MELEE_WEAPON_DAMAGE = "Melee Damage",
+    RANGED_WEAPON_DAMAGE = "Ranged Damage",
     SPELL_MELEE_DAMAGE = "Spell Melee Damage",
     SPELL_RANGED_DAMAGE = "Spell Ranged Damage",
     SUPPORT = "Support",

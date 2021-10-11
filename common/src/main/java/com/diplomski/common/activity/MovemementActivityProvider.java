@@ -21,22 +21,22 @@ public class MovemementActivityProvider extends AbstractActivityProvider {
 			IResource resource) {
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
-		int usedWalkingSpeed = 0;
-		int nextTileCost = path.get(0).getTerrainType().getMovementDificulty().getMovementCost();
+		int usedSpeed = 0;
+		int nextTileCost = path.get(0).getTerrainType().getMovementDifficulty().getMovementCost();
 		UUID finalTileId = null;
 
-		while (!path.isEmpty() && usedWalkingSpeed + nextTileCost < initiator.getWalkingSpeed()) {
+		while (!path.isEmpty() && usedSpeed + nextTileCost < initiator.getSpeed()) {
 			finalTileId = path.get(0).getId();
-			usedWalkingSpeed += nextTileCost;
+			usedSpeed += nextTileCost;
 			path.remove(0);
 			if (!path.isEmpty()) {
-				nextTileCost = path.get(0).getTerrainType().getMovementDificulty().getMovementCost();
+				nextTileCost = path.get(0).getTerrainType().getMovementDifficulty().getMovementCost();
 			}
 		}
-		if (usedWalkingSpeed > 0 && finalTileId != null) {
+		if (usedSpeed > 0 && finalTileId != null) {
 			BoardState finalBoardState = initialBoardState.toBuilder().build();
 			finalBoardState.getCharacterStates().get(initiatorId).setTileId(finalTileId);
-			finalBoardState.getCharacterStates().get(initiatorId).setUsedWalkingSpeed(usedWalkingSpeed);
+			finalBoardState.getCharacterStates().get(initiatorId).setUsedSpeed(usedSpeed);
 
 			return Optional.of(MovementActivity.builder().initiatorId(initiatorId)
 					.initialBoardState(initialBoardState).finalBoardState(finalBoardState)

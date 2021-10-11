@@ -17,7 +17,7 @@ import lombok.experimental.SuperBuilder;
 public class MonsterBattleCharacterState extends MonsterCharacterState implements IBattleCharacterState {
 	private int currentHp;
 
-	private int usedWalkingSpeed;
+	private int usedSpeed;
 
 	private int usedFlyingSpeed;
 	
@@ -27,7 +27,7 @@ public class MonsterBattleCharacterState extends MonsterCharacterState implement
 			MonsterCharacterState characterState,
 			ITurnProvider turnProvider) {
 		return MonsterBattleCharacterState.toBuilder(characterState).currentHp(characterState.getCurrentHp())
-				.turnProvider(turnProvider).usedWalkingSpeed(0).build();
+				.turnProvider(turnProvider).usedSpeed(0).build();
 	}
 
 	public static MonsterBattleCharacterStateBuilder<?, ?> toBuilder(MonsterCharacterState characterState) {

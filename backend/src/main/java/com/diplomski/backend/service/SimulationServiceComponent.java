@@ -67,7 +67,7 @@ public class SimulationServiceComponent {
 						.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
 						.strength(x.getPlayerCharacter().getStrength())
 						.tileId(x.getNodeTile().getId())
-						.walkingSpeed(x.getPlayerCharacter().getWalkingSpeed())
+						.speed(x.getPlayerCharacter().getSpeed())
 						.build()));
 
 		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getMonsterStates().stream())

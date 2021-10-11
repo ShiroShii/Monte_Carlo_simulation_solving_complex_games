@@ -27,7 +27,7 @@ public class PlayerCharacterService {
 		playerCharacter.get().setDexterity(request.getDexterity());
 		playerCharacter.get().setName(request.getName());
 		playerCharacter.get().setStrength(request.getStrength());
-		playerCharacter.get().setWalkingSpeed(request.getWalkingSpeed());
+		playerCharacter.get().setSpeed(request.getSpeed());
 		playerCharacter.get().setWeapons(request.getWeapons());
 		
 		return playerCharacterRepository.save(playerCharacter.get());
@@ -37,7 +37,7 @@ public class PlayerCharacterService {
 		PlayerCharacterDbModel playerCharacter = PlayerCharacterDbModel.builder().name(request.getName())
 				.dexterity(request.getDexterity()).strength(request.getStrength())
 				.weapons(request.getWeapons())
-				.armorClass(request.getArmorClass()).walkingSpeed(request.getWalkingSpeed()).characterClass(request.getCharacterClass())
+				.armorClass(request.getArmorClass()).speed(request.getSpeed()).characterClass(request.getCharacterClass())
 				.characterLevel(request.getCharacterLevel()).build();
 		return playerCharacterRepository.save(playerCharacter);
 	}

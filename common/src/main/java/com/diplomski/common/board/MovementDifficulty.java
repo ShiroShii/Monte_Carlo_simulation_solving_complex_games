@@ -4,9 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
-public enum MovementDificulty {
+public enum MovementDifficulty {
 	REGULAR_MOVEMENT(5),
-	DIFICULT_MOVEMENT(10);
+	DIFFICULT_MOVEMENT(10);
 
 	@Getter
 	private final Integer movementCost;

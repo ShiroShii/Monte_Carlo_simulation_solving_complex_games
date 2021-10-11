@@ -28,7 +28,7 @@ public class NodeNavigator implements INavigator {
 	}
 
 	private int costOfPath(List<ITile> path) {
-		return path.stream().map(x -> x.getTerrainType().getMovementDificulty().getMovementCost())
+		return path.stream().map(x -> x.getTerrainType().getMovementDifficulty().getMovementCost())
 				.reduce(0, Integer::sum);
 	}
 

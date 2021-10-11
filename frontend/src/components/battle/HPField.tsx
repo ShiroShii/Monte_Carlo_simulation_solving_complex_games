@@ -30,6 +30,7 @@ function HPField({ tiles, setTiles, selectedTile }: HPFieldProps) {
             label="HP:"
             margin="dense"
             fullWidth
+            required
         />
     )
 }

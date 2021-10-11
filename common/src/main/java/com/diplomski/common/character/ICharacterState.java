@@ -9,7 +9,7 @@ public interface ICharacterState {
 
 	int getDexterity();
 
-	int getWalkingSpeed();
+	int getSpeed();
 
 	int getCurrentHp();
 

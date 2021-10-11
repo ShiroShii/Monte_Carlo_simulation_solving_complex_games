@@ -2,8 +2,8 @@ package com.diplomski.common.resource;
 
 import static com.diplomski.common.resource.CombatStyle.MELEE;
 import static com.diplomski.common.resource.CombatStyle.RANGED;
-import static com.diplomski.common.resource.WeaponDificulty.MARTIAL;
-import static com.diplomski.common.resource.WeaponDificulty.SIMPLE;
+import static com.diplomski.common.resource.WeaponDifficulty.MARTIAL;
+import static com.diplomski.common.resource.WeaponDifficulty.SIMPLE;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,7 +16,7 @@ public enum WeaponCategory {
 	MARTIAL_RANGED(MARTIAL, RANGED);
 
 	@Getter
-	private WeaponDificulty dificulty;
+	private WeaponDifficulty difficulty;
 	@Getter
 	private CombatStyle style;
 }

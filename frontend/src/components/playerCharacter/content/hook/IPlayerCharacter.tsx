@@ -3,7 +3,7 @@ interface IPlayerCharacter {
     name: String
     dexterity: Number
     strength: Number
-    walkingSpeed: Number
+    speed: Number
     armorClass: Number
     characterLevel: String
     characterClass: String

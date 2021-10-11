@@ -32,35 +32,32 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PlayerCharacterDbModel {
-    @Id
-    @Type(type="uuid-char")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+	@Id
+	@Type(type = "uuid-char")
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "id", updatable = false, nullable = false)
+	private UUID id;
 
 	@Column(nullable = false)
 	private String name;
-	
+
 	@Column(nullable = false)
 	private int dexterity;
-	
+
 	@Column(nullable = false)
 	private int strength;
-	
+
 	@Column(nullable = false)
-	private int walkingSpeed;
-	
+	private int speed;
+
 	@Column(nullable = false)
 	private int armorClass;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private CharacterClass characterClass;
-	
+
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	@ElementCollection(targetClass = Weapon.class)

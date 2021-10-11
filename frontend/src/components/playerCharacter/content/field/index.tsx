@@ -3,7 +3,7 @@ import CharacterClassField from "./CharacterClassField";
 import CharacterLevelField from "./CharacterLevelField";
 import DexterityField from "./DexterityField";
 import StrengthField from "./StrengthField";
-import WalkingSpeedField from "./WalkingSpeedField";
+import SpeedField from "./SpeedField";
 import WeaponField from "./WeaponField";
 
 export {
@@ -12,6 +12,6 @@ export {
     CharacterLevelField,
     DexterityField,
     StrengthField,
-    WalkingSpeedField,
+    SpeedField,
     WeaponField
 };

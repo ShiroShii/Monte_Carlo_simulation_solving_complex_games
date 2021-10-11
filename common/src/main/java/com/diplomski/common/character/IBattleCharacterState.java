@@ -17,9 +17,9 @@ public interface IBattleCharacterState {
 	
 	public void takeDamage(int damage);
 	
-	public int getWalkingSpeed();
+	public int getSpeed();
 	
-	public void setUsedWalkingSpeed(int i);
+	public void setUsedSpeed(int i);
 	
 	public void setUsedFlyingSpeed(int i);
 

@@ -13,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @EqualsAndHashCode(callSuper = true)
 public class PlayerBattleCharacterState extends PlayerCharacterState implements IBattleCharacterState {
 	
-	private int usedWalkingSpeed;
+	private int usedSpeed;
 	
 	private int usedFlyingSpeed;
 
@@ -22,7 +22,7 @@ public class PlayerBattleCharacterState extends PlayerCharacterState implements 
 	public static PlayerBattleCharacterState getBattleState(
 			PlayerCharacterState characterState,
 			ITurnProvider turnProvider) {
-		return PlayerBattleCharacterState.toBuilder(characterState).turnProvider(turnProvider).usedWalkingSpeed(0)
+		return PlayerBattleCharacterState.toBuilder(characterState).turnProvider(turnProvider).usedSpeed(0)
 				.build();
 	}
 

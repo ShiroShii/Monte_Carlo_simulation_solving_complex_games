@@ -50,7 +50,7 @@ function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
                     </tr>
                     <tr>
                         <TableHeader>Speed:</TableHeader>
-                        <TableData>{playerCharacter?.walkingSpeed}</TableData>
+                        <TableData>{playerCharacter?.speed}</TableData>
                     </tr>
                     <tr>
                         <TableHeader>Level:</TableHeader>

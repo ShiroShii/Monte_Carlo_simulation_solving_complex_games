@@ -1,6 +1,6 @@
 package com.diplomski.common.resource;
 
-public enum WeaponDificulty {
+public enum WeaponDifficulty {
 	SIMPLE,
 	MARTIAL;
 }

@@ -21,7 +21,7 @@ public class PlayerCharacterResponse {
 	private String name;
 	private int dexterity;
 	private int strength;
-	private int walkingSpeed;
+	private int speed;
 	private int armorClass;
 	private List<Weapon> weapons;
 	private CharacterClass characterClass;

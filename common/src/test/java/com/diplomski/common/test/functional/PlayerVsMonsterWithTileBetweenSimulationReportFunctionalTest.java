@@ -135,7 +135,7 @@ public class PlayerVsMonsterWithTileBetweenSimulationReportFunctionalTest {
 		distanceTile7.setReachableTiles(new HashSet<>(Arrays.asList(DISTANCE_TILE_6_ID, DISTANCE_TILE_8_ID)));
 		distanceTile8.setReachableTiles(new HashSet<>(Arrays.asList(DISTANCE_TILE_7_ID, ENEMY_TILE_ID)));
 		enemyTile.setReachableTiles(new HashSet<>(Arrays.asList(DISTANCE_TILE_8_ID)));
-		
+
 		HashMap<UUID, NodeTile> tiles = new HashMap<>();
 		tiles.put(DISTANCE_TILE_1_ID, distanceTile1);
 		tiles.put(DISTANCE_TILE_2_ID, distanceTile2);
@@ -152,13 +152,28 @@ public class PlayerVsMonsterWithTileBetweenSimulationReportFunctionalTest {
 
 		board = NodeBoard.builder().tiles(tiles).build();
 
-		playerCharacterState = PlayerCharacterState.builder().id(PLAYER_ID).tileId(PLAYER_TILE_ID)
-				.dexterity(PLAYER_DEXTERITY).currentHp(PLAYER_INITIAL_HP).party(PLAYER).strength(PLAYER_STRENGTH)
-				.playStyle(PLAYER_PLAY_STYLE).targetingStyle(PLAYER_TARGETING_STYLE).walkingSpeed(PLAYER_SPEED)
-				.resources(Arrays.asList(Weapon.CLUB)).level(PLAYER_LEVEL).characterClass(PLAYER_CLASS).build();
+		playerCharacterState = PlayerCharacterState.builder()
+				.id(PLAYER_ID)
+				.tileId(PLAYER_TILE_ID)
+				.dexterity(PLAYER_DEXTERITY)
+				.currentHp(PLAYER_INITIAL_HP)
+				.party(PLAYER)
+				.strength(PLAYER_STRENGTH)
+				.playStyle(PLAYER_PLAY_STYLE)
+				.targetingStyle(PLAYER_TARGETING_STYLE)
+				.speed(PLAYER_SPEED)
+				.resources(Arrays.asList(Weapon.CLUB))
+				.level(PLAYER_LEVEL)
+				.characterClass(PLAYER_CLASS)
+				.build();
 
-		enemyCharacterState = MonsterCharacterState.builder().monster(Monster.GIANT_RAT).id(ENEMY_ID)
-				.tileId(ENEMY_TILE_ID).party(ENEMY).playStyle(ENEMY_PLAY_STYLE).targetingStyle(ENEMY_TARGETING_STYLE)
+		enemyCharacterState = MonsterCharacterState.builder()
+				.monster(Monster.GIANT_RAT)
+				.id(ENEMY_ID)
+				.tileId(ENEMY_TILE_ID)
+				.party(ENEMY)
+				.playStyle(ENEMY_PLAY_STYLE)
+				.targetingStyle(ENEMY_TARGETING_STYLE)
 				.currentHp(20)
 				.build();
 
@@ -204,6 +219,5 @@ public class PlayerVsMonsterWithTileBetweenSimulationReportFunctionalTest {
 		assertNotEquals("Player always wins", playerWins, SIMULATION_COUNT);
 		assertNotEquals("Enemy always wins", enemyWins, SIMULATION_COUNT);
 		assertNotEquals("All battles are a draw", draws, SIMULATION_COUNT);
-		// System.out.println((double) playerWins / SIMULATION_COUNT);
 	}
 }

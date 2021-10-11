@@ -1,9 +1,9 @@
 import { TextField } from '@material-ui/core'
 import { Field } from 'react-final-form'
 
-function WalkingSpeedField() {
+function SpeedField() {
     return (
-        <Field name="walkingSpeed">
+        <Field name="speed">
             {props => (
                 <div>
                     <TextField
@@ -21,4 +21,4 @@ function WalkingSpeedField() {
     )
 }
 
-export default WalkingSpeedField
+export default SpeedField
