@@ -1,3 +1,5 @@
+import { Weapon } from "../../../_common";
+
 interface IPlayerCharacter {
     id: String
     name: String
@@ -7,7 +9,7 @@ interface IPlayerCharacter {
     armorClass: Number
     characterLevel: String
     characterClass: String
-    weapons: [String]
+    weapons: [keyof typeof Weapon]
 }
 
 export default IPlayerCharacter

@@ -1,12 +1,7 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import styled from "styled-components";
+import { FormBlock } from "../_common";
 import { PlayerCharacterForm, PlayerCharacterFormValues } from "./content";
-
-const FormBlock = styled.div`
-    width: 600px;
-    margin: 10px auto 150px;
-`
 
 function PlayerCharacterCreationPage() {
     const history = useHistory()

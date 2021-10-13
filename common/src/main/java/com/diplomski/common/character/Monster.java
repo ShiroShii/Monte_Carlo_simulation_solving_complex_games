@@ -22,20 +22,35 @@ public enum Monster {
 	PANTHER(
 			12,
 			50,
-			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
-					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D6)).build()).damageType(PIERCING)
-					.meleeRange(Optional.of(1)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty())
-					.build(), MonsterAttack.builder().name("Claw").combatStyle(MELEE).attackRollModifier(4)
+			Arrays.asList(MonsterAttack.builder()
+					.name("Bite")
+					.combatStyle(MELEE)
+					.attackRollModifier(4)
+					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D6)).build())
+					.damageType(PIERCING)
+					.range(5)
+					.longRange(Optional.empty())
+					.build(), MonsterAttack.builder()
+							.name("Claw")
+							.combatStyle(MELEE)
+							.attackRollModifier(4)
 							.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
-							.damageType(SLASHING).meleeRange(Optional.of(1)).normalRangedRange(Optional.empty())
-							.longRangedRange(Optional.empty()).build()),
+							.damageType(SLASHING)
+							.range(5)
+							.longRange(Optional.empty())
+							.build()),
 			15),
 	GIANT_RAT(
 			12,
 			30,
-			Arrays.asList(MonsterAttack.builder().name("Bite").combatStyle(MELEE).attackRollModifier(4)
-					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build()).damageType(PIERCING)
-					.meleeRange(Optional.of(1)).normalRangedRange(Optional.empty()).longRangedRange(Optional.empty())
+			Arrays.asList(MonsterAttack.builder()
+					.name("Bite")
+					.combatStyle(MELEE)
+					.attackRollModifier(4)
+					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
+					.damageType(PIERCING)
+					.range(5)
+					.longRange(Optional.empty())
 					.build()),
 			15);
 

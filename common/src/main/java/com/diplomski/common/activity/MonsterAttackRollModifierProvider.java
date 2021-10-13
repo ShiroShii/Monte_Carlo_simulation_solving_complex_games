@@ -10,7 +10,6 @@ import lombok.AllArgsConstructor;
 public class MonsterAttackRollModifierProvider implements IAttackRollModifierProvider {
 	@Override
 	public int getAttackRollModifier(IResource resource, IBattleCharacterState initiator) {
-		// TODO: Check for disadvantage
 		return ((MonsterAttack) resource).getAttackRollModifier();
 	}
 }

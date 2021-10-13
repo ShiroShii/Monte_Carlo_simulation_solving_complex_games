@@ -54,24 +54,27 @@ public class TurnProvider implements ITurnProvider {
 					.getCheapestUnobstructedPath(initiator.getTileId(), target.getTileId(), currentBoardState);
 
 			if (optionalPath.isPresent()) {
-				int distance = optionalPath.get().size() + 1;
-				double rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
+				int distance = (optionalPath.get().size() + 1) * 5;
+				double rangeMultipier = resource.rangeMultiplier(distance);
 				if (rangeMultipier < 1D) {
 					Optional<Activity> movementActivity = movementProvider
-							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath.get(), distance, rangeMultipier);
+							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath
+									.get(), distance, rangeMultipier);
 					if (movementActivity.isPresent()) {
 						currentBoardState = movementActivity.get().getFinalBoardState();
 						activities.add(movementActivity.get());
 						optionalPath = navigator.getCheapestUnobstructedPath(initiator.getTileId(), target
 								.getTileId(), currentBoardState);
-						distance = optionalPath.get().size() + 1;
-						rangeMultipier = resource.rangeMultiplier(distance, playStyle.getCombatStyle());
+
+						distance = (optionalPath.get().size() + 1) * 5;
+						rangeMultipier = resource.rangeMultiplier(distance);
 					}
 				}
 
 				if (rangeMultipier > 0D) {
 					Optional<Activity> actionActivity = actionProvider
-							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath.get(), distance, rangeMultipier, resource);
+							.getActivity(initiatorId, targetIdOptional.get(), currentBoardState, optionalPath
+									.get(), distance, rangeMultipier, resource);
 					if (actionActivity.isPresent()) {
 						currentBoardState = actionActivity.get().getFinalBoardState();
 						activities.add(actionActivity.get());

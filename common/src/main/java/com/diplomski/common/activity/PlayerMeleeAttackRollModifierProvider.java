@@ -1,8 +1,7 @@
 package com.diplomski.common.activity;
 
-import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.character.IBattleCharacterState;
-import com.diplomski.common.resource.CombatStyle;
+import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.resource.IResource;
 import com.diplomski.common.resource.Weapon;
 import com.diplomski.common.resource.WeaponProperty;
@@ -14,19 +13,28 @@ public class PlayerMeleeAttackRollModifierProvider implements IAttackRollModifie
 	@Override
 	public int getAttackRollModifier(IResource resource, IBattleCharacterState initiator) {
 		int modifier = 0;
-		// TODO: Check for disadvantage
+		PlayerBattleCharacterState player = (PlayerBattleCharacterState) initiator;
 		if (resource instanceof Weapon) {
 			Weapon weapon = (Weapon) resource;
 
-			if (weapon.getWeaponCategory().getStyle() == CombatStyle.MELEE
-					&& ((PlayerBattleCharacterState) initiator).getCharacterClass().getWeaponProficiencies().contains(weapon.getWeaponCategory())) {
-				modifier += ((PlayerBattleCharacterState) initiator).getLevel().getProficiencyBonus();
+			if (player.getCharacterClass().getWeaponProficiencies().contains(weapon.getWeaponCategory())) {
+				modifier += player.getLevel().getProficiencyBonus();
 			}
-
-			if (shouldUseDexterityForMeleeWeapon(weapon, (PlayerBattleCharacterState) initiator)) {
-				modifier += Math.floor((((PlayerBattleCharacterState) initiator).getDexterity() - 10) / 2.0d);
-			} else {
-				modifier += Math.floor((((PlayerBattleCharacterState) initiator).getStrength() -10) / 2.0d);
+			
+			switch(weapon.getCombatStyle()) {
+				case MELEE:{
+					if (shouldUseDexterityForMeleeWeapon(weapon, player)) {
+						modifier += Math.floor((player.getDexterity() - 10) / 2.0d);
+					} else {
+						modifier += Math.floor((player.getStrength() -10) / 2.0d);
+					}
+					
+					break;
+				}
+				case RANGED:{
+					modifier += Math.floor((player.getDexterity() - 10) / 2.0d);
+					break;
+				}
 			}
 		}
 

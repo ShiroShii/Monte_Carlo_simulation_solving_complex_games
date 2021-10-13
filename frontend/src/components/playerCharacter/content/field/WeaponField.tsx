@@ -2,6 +2,7 @@ import { Button, createStyles, makeStyles, MenuItem, TextField, Theme } from "@m
 import { Field } from "react-final-form";
 import { FieldArray } from 'react-final-form-arrays';
 import styled from "styled-components";
+import { Weapon } from "../../../_common";
 
 type WeaponFieldProps = {
     push: (...args: any[]) => any
@@ -23,16 +24,6 @@ const InlineWeaponBlock = styled.div`
 
 function WeaponField(props: WeaponFieldProps) {
     const buttonStyle = useStyles().button
-    const weapons = [
-        {
-            value: 'CLUB',
-            label: 'Club',
-        },
-        {
-            value: 'DAGGER',
-            label: 'Dagger',
-        }
-    ]
 
     return (
         <>
@@ -58,9 +49,9 @@ function WeaponField(props: WeaponFieldProps) {
                                             required
                                             fullWidth
                                         >
-                                            {weapons.map((option) => (
-                                                <MenuItem key={option.value} value={option.value}>
-                                                    {option.label}
+                                            {(Object.keys(Weapon) as Array<keyof typeof Weapon>).map((option) => (
+                                                <MenuItem key={option} value={option}>
+                                                    {Weapon[option]}
                                                 </MenuItem>
                                             ))}
                                         </TextField>
