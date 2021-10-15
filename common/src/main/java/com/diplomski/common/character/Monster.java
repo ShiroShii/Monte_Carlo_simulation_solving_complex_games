@@ -1,7 +1,5 @@
 package com.diplomski.common.character;
 
-import static com.diplomski.common.damage.DamageType.PIERCING;
-import static com.diplomski.common.damage.DamageType.SLASHING;
 import static com.diplomski.common.dice.DiceType.D4;
 import static com.diplomski.common.dice.DiceType.D6;
 import static com.diplomski.common.resource.CombatStyle.MELEE;
@@ -27,7 +25,6 @@ public enum Monster {
 					.combatStyle(MELEE)
 					.attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D6)).build())
-					.damageType(PIERCING)
 					.range(5)
 					.longRange(Optional.empty())
 					.build(), MonsterAttack.builder()
@@ -35,7 +32,6 @@ public enum Monster {
 							.combatStyle(MELEE)
 							.attackRollModifier(4)
 							.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
-							.damageType(SLASHING)
 							.range(5)
 							.longRange(Optional.empty())
 							.build()),
@@ -48,7 +44,6 @@ public enum Monster {
 					.combatStyle(MELEE)
 					.attackRollModifier(4)
 					.damageRoll(DamageRoll.builder().rollAddend(2).dice(Arrays.asList(D4)).build())
-					.damageType(PIERCING)
 					.range(5)
 					.longRange(Optional.empty())
 					.build()),

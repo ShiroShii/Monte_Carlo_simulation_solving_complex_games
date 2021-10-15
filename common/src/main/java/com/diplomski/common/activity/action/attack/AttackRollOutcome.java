@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 public enum AttackRollOutcome {
 	FUMBLE,

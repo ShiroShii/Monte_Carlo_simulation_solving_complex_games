@@ -1,7 +1,7 @@
 package com.diplomski.common.simulation;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.battle.IBattleProvider;
@@ -21,15 +21,17 @@ public class SimulationProvider implements ISimulationProvider {
 			IBoard board,
 			int simulationCount,
 			int roundCountLimit) {
-		List<Battle> battles = new ArrayList<>();
 
-		// parallelize?
-		for (int i = 0; i < simulationCount; i++) {
-			battles.add(battleProvider.getBattle(initialCharacterState, roundCountLimit, board));
-		}
+		List<Battle> battles = IntStream.range(0, simulationCount)
+				.parallel()
+				.mapToObj(iteration -> battleProvider.getBattle(initialCharacterState, roundCountLimit, board))
+				.toList();
 
-		return Simulation.builder().simulationCount(simulationCount)
-				.roundCountLimit(roundCountLimit).battles(battles).initialCharacterStates(initialCharacterState).build();
+		return Simulation.builder()
+				.simulationCount(simulationCount)
+				.roundCountLimit(roundCountLimit)
+				.battles(battles)
+				.initialCharacterStates(initialCharacterState)
+				.build();
 	}
-
 }

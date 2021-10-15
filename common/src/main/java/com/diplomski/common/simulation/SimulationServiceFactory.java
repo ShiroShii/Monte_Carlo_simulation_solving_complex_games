@@ -1,7 +1,7 @@
 package com.diplomski.common.simulation;
 
-import com.diplomski.common.activity.AttackRollOutcomeProviderFactory;
-import com.diplomski.common.activity.IAttackRollOutcomeProviderFactory;
+import com.diplomski.common.activity.action.attack.AttackRollOutcomeProviderFactory;
+import com.diplomski.common.activity.action.attack.IAttackRollOutcomeProviderFactory;
 import com.diplomski.common.battle.BattleProvider;
 import com.diplomski.common.battle.IBattleProvider;
 import com.diplomski.common.board.BoardStateProvider;

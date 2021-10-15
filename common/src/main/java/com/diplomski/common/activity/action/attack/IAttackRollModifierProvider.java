@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.resource.IResource;

@@ -56,7 +56,7 @@ public class SimulationTranslator {
 								? translate(input.getPlayerBoxPlot().getDamageDealt(), "Damage Dealt")
 								: null)
 						.damageTaken(input.getPlayerBoxPlot().getDamageTaken() != null
-								? translate(input.getPlayerBoxPlot().getDamageDealt(), "Damage Taken")
+								? translate(input.getPlayerBoxPlot().getDamageTaken(), "Damage Taken")
 								: null)
 						.build())
 				.build();

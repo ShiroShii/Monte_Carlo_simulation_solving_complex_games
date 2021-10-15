@@ -1,9 +1,11 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.diplomski.common.activity.AbstractActivityProvider;
+import com.diplomski.common.activity.Activity;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
@@ -36,10 +38,6 @@ public class AttackActionActivityProvider extends AbstractActivityProvider {
 			case CRITICAL_HIT -> damageProvider.getDamage(resource, initiator, target) * 2;
 			default -> 0;
 		};
-		
-		// TODO: Immunity and Resistance
-
-		// TODO: remove thrown item
 
 		BoardState finalBoardState = switch (attackRollOutcome) {
 			case HIT, CRITICAL_HIT -> {

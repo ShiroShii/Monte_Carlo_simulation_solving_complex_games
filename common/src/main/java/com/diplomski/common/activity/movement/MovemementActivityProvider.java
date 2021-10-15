@@ -1,9 +1,11 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.movement;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import com.diplomski.common.activity.AbstractActivityProvider;
+import com.diplomski.common.activity.Activity;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;

@@ -51,7 +51,7 @@ public class TurnProviderTest {
 	private final UUID TARGET_ID = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
 	private final UUID INITIATOR_TILE_ID = UUID.fromString("42d48df1-ccc6-4133-9197-2da414e8a26f");
 	private final UUID TARGET_TILE_ID = UUID.fromString("498c3248-818a-47d8-a692-c7c9069342ab");
-	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_WEAPON_DAMAGE;
+	private final PlayStyle PLAY_STYLE = PlayStyle.MELEE_DAMAGE;
 	private final Party TARGET_PARTY = Party.ENEMY;
 	private PlayerBattleCharacterState initiator;
 	private PlayerBattleCharacterState target;

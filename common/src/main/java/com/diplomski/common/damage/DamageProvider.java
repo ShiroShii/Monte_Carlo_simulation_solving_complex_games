@@ -13,7 +13,6 @@ public class DamageProvider implements IDamageProvider {
 
 	@Override
 	public int getDamage(IResource resource, IBattleCharacterState initiator, IBattleCharacterState target) {
-		//TODO: resistance and vulnerability
 		return resource.getDamageRoll().getRollAddend() + resource.getDamageRoll().getDice().stream().map(x-> diceFactory.getDice(x).getRoll()).reduce(0, Integer::sum);
 	}
 

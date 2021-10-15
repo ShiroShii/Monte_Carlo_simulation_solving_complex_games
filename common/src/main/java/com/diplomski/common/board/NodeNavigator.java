@@ -23,8 +23,20 @@ public class NodeNavigator implements INavigator {
 			return Optional.empty();
 		}
 		return Optional.of(new ArrayList<>(path.stream().sorted((path1, path2) -> {
-			return costOfPath(new ArrayList<>(path1.values())) >= costOfPath(new ArrayList<>(path2.values())) ? 1 : -1;
+			return comparePaths(costOfPath(new ArrayList<>(path1.values())),costOfPath(new ArrayList<>(path2.values())));
 		}).findFirst().get().values()));
+	}
+	
+	private int comparePaths(int path1, int path2) {
+		if (path1 > path2) {
+			return 1;
+		}
+		
+		if (path1 < path2) {
+			return -1;
+		}
+		
+		return 0;
 	}
 
 	private int costOfPath(List<ITile> path) {
@@ -37,7 +49,6 @@ public class NodeNavigator implements INavigator {
 			NodeTile currentTile,
 			NodeTile targetTile,
 			BoardState boardState) {
-		// TODO: path obstruction in getPath
 		List<HashMap<UUID, NodeTile>> completePaths = new ArrayList<>();
 		for (UUID reachableTileId : currentTile.getReachableTiles()) {
 			if (path.containsKey(reachableTileId)) {

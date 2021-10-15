@@ -1,7 +1,6 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 import com.diplomski.common.character.CharacterType;
-import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.dice.IDiceFactory;
 
 import lombok.AllArgsConstructor;
@@ -12,12 +11,9 @@ public class AttackRollOutcomeProviderFactory implements IAttackRollOutcomeProvi
 	private final @NonNull IDiceFactory diceFactory;
 
 	@Override
-	public IAttackRollOutcomeProvider getAttackRollOutcomeProvider(CharacterType characterType, PlayStyle playStyle) {
+	public IAttackRollOutcomeProvider getAttackRollOutcomeProvider(CharacterType characterType) {
 		return switch (characterType) {
-			case PLAYER -> switch (playStyle) {
-					case MELEE_WEAPON_DAMAGE -> new AttackRollOutcomeProvider(new PlayerMeleeAttackRollModifierProvider(), diceFactory);
-					default -> throw new IllegalArgumentException("PlayStyle not implemented.");
-				};
+			case PLAYER -> new AttackRollOutcomeProvider(new PlayerAttackRollModifierProvider(), diceFactory);
 			case MONSTER -> new AttackRollOutcomeProvider(new MonsterAttackRollModifierProvider(), diceFactory);
 		};
 	}

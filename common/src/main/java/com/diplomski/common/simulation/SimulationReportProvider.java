@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import com.diplomski.common.activity.AttackActionActivity;
+import com.diplomski.common.activity.action.attack.AttackActionActivity;
 import com.diplomski.common.battle.Battle;
 import com.diplomski.common.character.PlayerCharacterState;
 
@@ -64,7 +64,8 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 						.playerBoxPlot(PlayerWinStateReport.builder()
 								.health(getPlayerHealthStatReport(getWonBattles(simulation), x.getId()))
 								.damageDealt(getPlayerDamageDealtReport(simulation, x.getId()))
-								.damageTaken(getPlayerDamageTakenReport(simulation, x.getId())).build())
+								.damageTaken(getPlayerDamageTakenReport(simulation, x.getId()))
+								.build())
 						.build())
 				.toList();
 	}
@@ -169,7 +170,13 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.filter(x -> x > 0).sorted().toList();
 
 		if (healthList.size() == 0) {
-			return null;
+			return StatReport.builder()
+					.min(0)
+					.lowerQuantile(0)
+					.median(0)
+					.upperQuantile(0)
+					.max(0)
+					.build();
 		}
 
 		int min = healthList.get(0);
@@ -211,9 +218,7 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 										.filter(y -> y.getId().equals(x.getTargetId())).findFirst().get().getParty()
 										.equals(PLAYER))
 								.filter(playerId != null
-										? x -> simulation.getInitialCharacterStates().stream()
-												.filter(y -> y.getId().equals(x.getTargetId())).findFirst().get()
-												.getId().equals(playerId)
+										? x -> x.getTargetId().equals(playerId)
 										: x -> true)
 								.collect(Collectors
 										.groupingBy(x -> x.getTargetId(), Collectors.summingInt(x -> x.getDamage())))
@@ -227,7 +232,13 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.map(entry -> entry.getValue()).sorted().toList();
 
 		if (damageTakenList.size() == 0) {
-			return null;
+			return StatReport.builder()
+					.min(0)
+					.lowerQuantile(0)
+					.median(0)
+					.upperQuantile(0)
+					.max(0)
+					.build();
 		}
 
 		int min = damageTakenList.get(0);
@@ -267,13 +278,15 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 								.flatMap(turn -> turn.getActivities().stream()
 										.filter(activity -> activity instanceof AttackActionActivity)
 										.map(activity -> (AttackActionActivity) activity)
-										.filter(x -> simulation.getInitialCharacterStates().stream()
-												.filter(y -> y.getId().equals(x.getInitiatorId())).findFirst().get()
-												.getParty().equals(PLAYER))
+										.filter(x -> simulation.getInitialCharacterStates()
+												.stream()
+												.filter(y -> y.getId().equals(x.getInitiatorId()))
+												.findFirst()
+												.get()
+												.getParty()
+												.equals(PLAYER))
 										.filter(playerId != null
-												? x -> simulation.getInitialCharacterStates().stream()
-														.filter(y -> y.getId().equals(x.getInitiatorId())).findFirst()
-														.get().getId().equals(playerId)
+												? x -> x.getInitiatorId().equals(playerId)
 												: x -> true)
 										.collect(Collectors.groupingBy(x -> x.getInitiatorId(), Collectors
 												.summingInt(x -> x.getDamage())))
@@ -287,7 +300,13 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 				.map(entry -> entry.getValue()).sorted().toList();
 
 		if (damageDealtList.size() == 0) {
-			return null;
+			return StatReport.builder()
+					.min(0)
+					.lowerQuantile(0)
+					.median(0)
+					.upperQuantile(0)
+					.max(0)
+					.build();
 		}
 
 		int min = damageDealtList.get(0);

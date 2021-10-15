@@ -9,9 +9,9 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.diplomski.common.activity.AttackRollOutcome;
-import com.diplomski.common.activity.AttackRollOutcomeProvider;
-import com.diplomski.common.activity.IAttackRollModifierProvider;
+import com.diplomski.common.activity.action.attack.AttackRollOutcome;
+import com.diplomski.common.activity.action.attack.AttackRollOutcomeProvider;
+import com.diplomski.common.activity.action.attack.IAttackRollModifierProvider;
 import com.diplomski.common.character.PlayerBattleCharacterState;
 import com.diplomski.common.dice.IDice;
 import com.diplomski.common.dice.IDiceFactory;

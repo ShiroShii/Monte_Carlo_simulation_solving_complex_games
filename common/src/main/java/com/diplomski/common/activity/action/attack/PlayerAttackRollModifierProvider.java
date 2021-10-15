@@ -1,4 +1,4 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.PlayerBattleCharacterState;
@@ -9,7 +9,7 @@ import com.diplomski.common.resource.WeaponProperty;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public class PlayerMeleeAttackRollModifierProvider implements IAttackRollModifierProvider {
+public class PlayerAttackRollModifierProvider implements IAttackRollModifierProvider {
 	@Override
 	public int getAttackRollModifier(IResource resource, IBattleCharacterState initiator) {
 		int modifier = 0;

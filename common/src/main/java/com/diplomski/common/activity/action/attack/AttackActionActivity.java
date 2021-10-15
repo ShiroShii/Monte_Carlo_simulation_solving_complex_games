@@ -1,6 +1,8 @@
-package com.diplomski.common.activity;
+package com.diplomski.common.activity.action.attack;
 
 import java.util.UUID;
+
+import com.diplomski.common.activity.Activity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -11,7 +13,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class MovementActivity extends Activity {
-	private UUID initialTileId;
-	private UUID finalTileId;
+public class AttackActionActivity extends Activity {
+	private UUID targetId;
+	private int damage;
 }

@@ -15,10 +15,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.diplomski.common.activity.Activity;
-import com.diplomski.common.activity.AttackActionActivity;
-import com.diplomski.common.activity.AttackActionActivityProvider;
-import com.diplomski.common.activity.AttackRollOutcome;
-import com.diplomski.common.activity.IAttackRollOutcomeProvider;
+import com.diplomski.common.activity.action.attack.AttackActionActivity;
+import com.diplomski.common.activity.action.attack.AttackActionActivityProvider;
+import com.diplomski.common.activity.action.attack.AttackRollOutcome;
+import com.diplomski.common.activity.action.attack.IAttackRollOutcomeProvider;
 import com.diplomski.common.board.BoardState;
 import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;

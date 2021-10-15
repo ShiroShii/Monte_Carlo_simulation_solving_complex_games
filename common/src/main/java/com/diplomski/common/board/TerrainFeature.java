@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 public enum TerrainFeature {
-	LOW_GRASS(REGULAR_MOVEMENT),
+	GRASS(REGULAR_MOVEMENT),
 	MUD(DIFFICULT_MOVEMENT);
 
 	@Getter

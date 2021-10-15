@@ -1,6 +1,6 @@
 enum Monster {
     GIANT_RAT = "Giant Rat",
-    PANTER = "Panther"
+    PANTHER = "Panther"
 }
 
 export default Monster

@@ -1,7 +1,5 @@
 enum Terrain {
-    LOW_GRASS = "Low Grass",
-    LOW_SHRUB = "Low Shrub",
-    TREE = "Tree",
+    GRASS = "Grass",
     MUD = "Mud"
 }
 
