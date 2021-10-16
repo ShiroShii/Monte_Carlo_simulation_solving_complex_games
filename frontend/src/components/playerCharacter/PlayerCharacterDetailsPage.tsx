@@ -1,6 +1,5 @@
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
-import { useState } from "react";
 import { FormBlock } from "../_common";
 import {
     PlayerCharacterForm,
@@ -13,8 +12,7 @@ type PlayerCharacterDetailsPageProps = {
 }
 
 function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
-    const [loading, setLoading] = useState(true)
-    const playerCharacter = usePlayerCharacter(props.id, setLoading)
+    const playerCharacter = usePlayerCharacter(props.id)
 
     const onSubmit = async (values: PlayerCharacterFormValues) => {
         axios.put(
@@ -26,7 +24,7 @@ function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
     return (
         <FormBlock>
             {
-                loading ? <CircularProgress /> :
+                playerCharacter === undefined ? <CircularProgress /> :
                     <PlayerCharacterForm
                         onSubmit={onSubmit}
                         initialValues={playerCharacter} />

@@ -2,7 +2,7 @@ import { v4 as uuid } from 'uuid';
 import { getMouse, Monster, Path, Tile, Tool } from ".";
 
 const width = 600;
-const height = 600;
+const height = 525;
 
 type BattleSVGProps = {
     paths: Path[]

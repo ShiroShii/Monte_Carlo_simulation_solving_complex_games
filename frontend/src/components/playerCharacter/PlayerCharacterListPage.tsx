@@ -1,4 +1,3 @@
-
 import { LinkButton, ListBlock } from "../_common";
 import { PlayerCharacterList } from "./content";
 

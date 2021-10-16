@@ -1,4 +1,4 @@
-import { Weapon } from "../../../_common";
+import { CharacterClass, CharacterLevel, Weapon } from "../../../_common";
 
 interface IPlayerCharacter {
     id: string
@@ -7,8 +7,8 @@ interface IPlayerCharacter {
     strength: number
     speed: number
     armorClass: number
-    characterLevel: string
-    characterClass: string
+    characterLevel: keyof typeof CharacterLevel
+    characterClass: keyof typeof CharacterClass
     weapons: [keyof typeof Weapon]
 }
 

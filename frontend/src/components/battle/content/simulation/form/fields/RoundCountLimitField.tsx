@@ -5,16 +5,14 @@ function RoundCountLimitField() {
     return (
         <Field name="roundCountLimit">
             {props => (
-                <div>
-                    <TextField
-                        name={props.input.name}
-                        value={props.input.value}
-                        onChange={props.input.onChange}
-                        label="Round Count Limit"
-                        type="number"
-                        required
-                    />
-                </div>
+                <TextField
+                    name={props.input.name}
+                    value={props.input.value}
+                    onChange={props.input.onChange}
+                    label="Round Count Limit"
+                    type="number"
+                    required
+                />
             )}
         </Field>
     )

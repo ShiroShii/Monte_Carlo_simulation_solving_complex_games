@@ -1,18 +1,15 @@
-import { GridRowsProp } from '@material-ui/data-grid';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { IBattle } from '..';
 
 function useBattleList(setLoading: (value: React.SetStateAction<boolean>) => void) {
-    const [battleList, setBattleList] = useState<GridRowsProp>([])
+    const [battleList, setBattleList] = useState<IBattle[]>([])
 
     useEffect(() => {
         axios.get('http://localhost:8080/battle')
             .then((response) => {
                 setBattleList(response.data);
                 setLoading(false)
-                console.log(response);
-            }).catch(response => {
-                console.log(response);
             });
     }, [setLoading]);
 

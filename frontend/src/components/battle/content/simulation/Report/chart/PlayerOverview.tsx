@@ -1,8 +1,8 @@
 import { CircularProgress } from "@material-ui/core"
-import { useState } from "react"
 import styled from 'styled-components'
-import { IPlayerCharacterState } from "../../../manipulation/form"
 import { usePlayerCharacter } from "../../../../../playerCharacter"
+import { CharacterClass, CharacterLevel } from "../../../../../_common"
+import { IPlayerCharacterState } from "../../../manipulation/form"
 
 type PlayerOverviewProps = {
     playerCharacterState: IPlayerCharacterState
@@ -25,11 +25,10 @@ const Table = styled.table`
 `
 
 function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
-    const [loading, setLoading] = useState(true)
-    const playerCharacter = usePlayerCharacter(playerCharacterState.playerCharacterId, setLoading)
+    const playerCharacter = usePlayerCharacter(playerCharacterState.playerCharacterId)
 
     return (
-        <>{loading ? <CircularProgress /> :
+        <>{playerCharacter === undefined ? <CircularProgress /> :
             <Table>
                 <tbody>
                     <tr>
@@ -54,11 +53,15 @@ function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
                     </tr>
                     <tr>
                         <TableHeader>Level:</TableHeader>
-                        <TableData>{playerCharacter?.characterLevel}</TableData>
+                        <TableData>
+                            {CharacterLevel[playerCharacter.characterLevel]}
+                        </TableData>
                     </tr>
                     <tr>
                         <TableHeader>Class:</TableHeader>
-                        <TableData>{playerCharacter?.characterClass}</TableData>
+                        <TableData>
+                            {CharacterClass[playerCharacter.characterClass]}
+                        </TableData>
                     </tr>
                     <tr>
                         <TableHeader>Play Style:</TableHeader>

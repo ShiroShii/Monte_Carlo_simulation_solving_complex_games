@@ -1,58 +1,8 @@
 import { MenuItem, TextField } from '@material-ui/core'
 import { Field } from 'react-final-form'
+import { CharacterClass } from '../../../_common'
 
 function CharacterClassField() {
-    const classes = [
-        {
-            value: 'BARBARIAN',
-            label: 'Barbarian',
-        },
-        {
-            value: 'BARD',
-            label: 'Bard',
-        },
-        {
-            value: 'CLERIC',
-            label: 'Cleric',
-        },
-        {
-            value: 'DRUID',
-            label: 'Druid',
-        },
-        {
-            value: 'FIGHTER',
-            label: 'Fighter',
-        },
-        {
-            value: 'MONK',
-            label: 'Monk',
-        },
-        {
-            value: 'PALADIN',
-            label: 'Paladin',
-        },
-        {
-            value: 'RANGER',
-            label: 'Ranger',
-        },
-        {
-            value: 'ROGUE',
-            label: 'Rogue',
-        },
-        {
-            value: 'SORCERER',
-            label: 'Sorcerer',
-        },
-        {
-            value: 'WARLOCK',
-            label: 'Warlock',
-        },
-        {
-            value: 'WIZARD',
-            label: 'Wizard',
-        },
-    ]
-
     return (
         <Field name="characterClass">
             {props => (
@@ -66,9 +16,9 @@ function CharacterClassField() {
                         required
                         fullWidth
                     >
-                        {classes.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {(Object.keys(CharacterClass) as Array<keyof typeof CharacterClass>).map((option) => (
+                            <MenuItem key={option} value={option}>
+                                {CharacterClass[option]}
                             </MenuItem>
                         ))}
                     </TextField>

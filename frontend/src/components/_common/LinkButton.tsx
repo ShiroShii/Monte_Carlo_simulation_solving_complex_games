@@ -20,7 +20,7 @@ function LinkButton({ to, children }: LinkButtonProps) {
         <Button
             className={useStyles().button}
             component={Link}
-            to="/character/create"
+            to={to}
             variant="contained">
             {children}
         </Button>

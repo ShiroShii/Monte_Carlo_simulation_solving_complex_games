@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const SelectionBlock = styled(InlineBlock)`
-    padding: 20px 25px 20px 25px; 
+    padding: 0px 25px 0px 25px; 
     width: 400px;
     height: 400px;
 `

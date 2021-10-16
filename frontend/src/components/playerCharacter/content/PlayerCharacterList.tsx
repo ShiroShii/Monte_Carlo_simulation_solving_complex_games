@@ -2,23 +2,84 @@ import { Button } from '@material-ui/core'
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { usePlayerCharacterList } from './hook'
+import { CharacterClass, CharacterLevel, Weapon } from '../../_common'
+import { IPlayerCharacter, usePlayerCharacterList } from './hook'
 
 export default function PlayerCharacterList() {
     const [loading, setLoading] = useState(true)
     const playerCharacter = usePlayerCharacterList(setLoading)
     const columns: GridColDef[] = [
-        { field: 'name', headerName: 'Name', width: 200 },
-        { field: 'dexterity', headerName: 'DEX', width: 120 },
-        { field: 'strength', headerName: 'STR', width: 120 },
-        { field: 'speed', headerName: 'SPD', width: 120 },
-        { field: 'armorClass', headerName: 'AC', width: 120 },
-        { field: 'characterLevel', headerName: 'LVL', width: 120 },
-        { field: 'characterClass', headerName: 'Class', width: 120 },
-        { field: 'armorClass', headerName: 'AC', width: 120 },
-        { field: 'weapons', headerName: 'Weapons', width: 200 },
         {
-            field: 'id', headerName: 'Details', width: 120,
+            field: 'name',
+            headerName: 'Name',
+            flex: 2,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'center'
+        },
+        {
+            field: 'dexterity',
+            headerName: 'DEX',
+            flex: 0.5,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'strength',
+            headerName: 'STR',
+            flex: 0.5,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'speed',
+            headerName: 'SPD',
+            flex: 0.5,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'armorClass',
+            headerName: 'AC',
+            flex: 0.5,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'characterLevel',
+            headerName: 'LVL',
+            flex: 0.5,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'characterClass',
+            headerName: 'Class',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'center'
+        },
+        {
+            field: 'weapons',
+            headerName: 'Weapons',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'center'
+        },
+        {
+            field: 'id',
+            headerName: ' ',
+            flex: 0.6,
+            sortable: false,
+            disableColumnMenu: true,
+            align: 'center',
             renderCell: (params: GridCellParams) => {
                 return (
                     <Button
@@ -31,7 +92,30 @@ export default function PlayerCharacterList() {
             },
         },
     ];
+
+    const transformData = (data: IPlayerCharacter[]) => {
+        return data.map(x => {
+            return ({
+                id: x.id,
+                name: x.name,
+                dexterity: x.dexterity,
+                strength: x.strength,
+                speed: x.speed,
+                armorClass: x.armorClass,
+                characterLevel: CharacterLevel[x.characterLevel],
+                characterClass: CharacterClass[x.characterClass],
+                weapons: x.weapons.map(weapon => Weapon[weapon])
+            })
+        }
+        )
+    }
+
     return (
-        <DataGrid autoHeight loading={loading} rows={playerCharacter} columns={columns} />
+        <DataGrid
+            autoHeight
+            loading={loading}
+            rows={transformData(playerCharacter)}
+            columns={columns}
+        />
     );
 }

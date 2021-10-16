@@ -1,9 +1,11 @@
-import { GridRowsProp } from '@material-ui/data-grid';
 import axios from 'axios';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+import { IPlayerCharacter } from '.';
 
-function usePlayerCharacterList(setLoading: (value: React.SetStateAction<boolean>) => void) {
-    const [playerCharacterList, setPlayerCharacterList] = useState<GridRowsProp>([])
+function usePlayerCharacterList(
+    setLoading: (value: React.SetStateAction<boolean>) => void
+) {
+    const [playerCharacterList, setPlayerCharacterList] = useState<IPlayerCharacter[]>([])
 
     useEffect(() => {
         axios.get('http://localhost:8080/player-character')

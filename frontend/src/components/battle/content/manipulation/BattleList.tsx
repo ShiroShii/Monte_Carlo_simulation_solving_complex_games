@@ -1,6 +1,7 @@
 import { DataGrid, GridCellParams, GridColDef } from '@material-ui/data-grid'
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { IBattle } from '.'
+import { LinkButton } from '../../../_common'
 import { useBattleList } from './hook'
 
 function BattleList() {
@@ -11,20 +12,83 @@ function BattleList() {
         {
             field: 'name',
             headerName: 'Name',
-            width: 200
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'center',
+            flex: 2.5
+        },
+        {
+            field: 'playerCount',
+            headerName: 'Player Count',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'monsterCount',
+            headerName: 'Monster Count',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'playerTotalHp',
+            headerName: 'Player Total HP',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
+        },
+        {
+            field: 'monsterTotalHp',
+            headerName: 'Monster Total HP',
+            flex: 1,
+            hideSortIcons: true,
+            headerAlign: 'center',
+            align: 'right'
         },
         {
             field: 'id',
-            headerName: 'Details',
-            width: 150,
+            headerName: ' ',
+            sortable: false,
+            disableColumnMenu: true,
+            flex: 1,
+            align: 'center',
             renderCell: (params: GridCellParams) => {
-                return <Link to={`/battle/${params.id}`}>Details</Link>;
+                return <LinkButton to={`/battle/${params.value}`}>Details</LinkButton>;
             },
         },
     ];
 
+    const transformData = (data: IBattle[]) => {
+        return data.map(x => {
+            const playerCharacterStates = x.tiles.flatMap(x => x.playerCharacterStates)
+            const monsterStates = x.tiles.flatMap(x => x.monsterStates)
+
+            return ({
+                id: x.id,
+                name: x.name,
+                playerCount: playerCharacterStates.length,
+                monsterCount: monsterStates.length,
+                playerTotalHp: playerCharacterStates
+                    .map(x => x.currentHp)
+                    .reduce((sum, current) => sum + current, 0),
+                monsterTotalHp: monsterStates
+                    .map(x => x.currentHp)
+                    .reduce((sum, current) => sum + current, 0)
+            })
+        }
+        )
+    }
+
     return (
-        <DataGrid autoHeight loading={loading} rows={battleList} columns={columns} />
+        <DataGrid
+            autoHeight
+            loading={loading}
+            rows={transformData(battleList)}
+            columns={columns} />
     );
 }
 

@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { CircularProgress } from "@material-ui/core"
+import { MutableRefObject, useEffect, useRef, useState } from "react"
 import { IPlayerCharacterState } from "../manipulation/form"
 import SimulationForm from "./form"
 import { ISimulationResult } from "./interface"
@@ -9,18 +10,41 @@ interface ISimulationComponentProps {
     playerCharacterStates: IPlayerCharacterState[]
 }
 
-function SimulationComponent({ battleId, playerCharacterStates }: ISimulationComponentProps) {
-    const [simulationResult, setSimulationResult] = useState<ISimulationResult | null>()
+function SimulationComponent({
+    battleId,
+    playerCharacterStates
+}: ISimulationComponentProps) {
+    const [simulationResult, setSimulationResult] = useState<ISimulationResult>()
+    const simulationRef = useRef() as MutableRefObject<HTMLDivElement>;;
+    const [loading, setLoading] = useState(false)
+
+    useEffect(() => {
+        if (simulationResult) {
+            simulationRef.current.scrollIntoView({
+                behavior: "smooth",
+            });
+            setLoading(false)
+        }
+    }, [simulationResult]);
 
     return (
         <>
-            <SimulationForm battleId={battleId} setSimulationResult={setSimulationResult} />
+            <SimulationForm
+                battleId={battleId}
+                setLoading={setLoading}
+                setResult={setSimulationResult}
+            />
             {
-                simulationResult &&
-                <SimulationDashboard
-                    simulationResult={simulationResult}
-                    playerCharacterStates={playerCharacterStates}
-                />
+                loading ?
+                    <CircularProgress />
+                    :
+                    simulationResult &&
+                    <div ref={simulationRef}>
+                        <SimulationDashboard
+                            simulationResult={simulationResult}
+                            playerCharacterStates={playerCharacterStates}
+                        />
+                    </div>
             }
         </>
     )

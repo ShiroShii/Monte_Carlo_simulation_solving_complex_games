@@ -1,3 +1,4 @@
+import { Box, Button } from "@material-ui/core";
 import axios from "axios";
 import { Dispatch, SetStateAction } from "react";
 import { Form } from "react-final-form";
@@ -7,10 +8,15 @@ import SimulationCountField from "./fields/SimulationCountField";
 
 type SimulationFormProps = {
     battleId: string
-    setSimulationResult: Dispatch<SetStateAction<ISimulationResult | null | undefined>>
+    setResult: Dispatch<SetStateAction<ISimulationResult | undefined>>
+    setLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-function SimulationForm(props: SimulationFormProps) {
+function SimulationForm({
+    battleId,
+    setResult,
+    setLoading
+}: SimulationFormProps) {
     interface Simulation {
         battleId: string
         simulationCount: number
@@ -18,26 +24,36 @@ function SimulationForm(props: SimulationFormProps) {
     }
 
     const onSubmit = async (values: Simulation) => {
+        setLoading(true)
         axios.post('http://localhost:8080/simulation', values)
             .then((response) => {
-                props.setSimulationResult(response.data)
-                console.log(response);
-            }).catch(response => {
-                console.log(response);
+                setLoading(false)
+                setResult(response.data)
             });
     };
 
     return (
         <Form
             onSubmit={onSubmit}
-            initialValues={props}
+            initialValues={{ battleId: battleId }}
             render={({
                 handleSubmit,
             }) => (
                 <form onSubmit={handleSubmit}>
-                    <SimulationCountField />
-                    <RoundCountLimitField />
-                    <button type="submit">Simulate</button>
+                    <Box mt="10px"
+                        display="flex"
+                        justifyContent="space-between"
+                        pl="525px"
+                        mx="auto"
+                        width="1000px">
+                        <SimulationCountField />
+                        <RoundCountLimitField />
+                        <Button
+                            variant='contained'
+                            type="submit">
+                            Simulate
+                        </Button>
+                    </Box>
                 </form>
             )}
         />
