@@ -1,10 +1,13 @@
 import { CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import { useState } from "react";
-import { BattleForm, BattleFormValues } from "./BattleForm";
-import IBattle from "./IBattle";
-import SimulationComponent from "./simulation";
-import useBattle from './UseBattle';
+import {
+    BattleForm,
+    BattleFormValues,
+    IBattle,
+    SimulationComponent,
+    useBattle
+} from "./content";
 
 type BattleDetailsPageProps = {
     id: string

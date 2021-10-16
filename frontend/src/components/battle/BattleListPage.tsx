@@ -1,6 +1,6 @@
-import { Link } from "react-router-dom"
-import { Button, createStyles, makeStyles, Theme } from "@material-ui/core"
-import BattleList from "../battle/BattleList"
+import { Button, createStyles, makeStyles, Theme } from "@material-ui/core";
+import { Link } from "react-router-dom";
+import { BattleList } from "./content";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

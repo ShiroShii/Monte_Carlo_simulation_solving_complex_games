@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useHistory } from "react-router-dom";
-import { BattleForm, BattleFormValues } from "./BattleForm";
+import { BattleForm, BattleFormValues } from "./content";
 
 function BattleCreationPage() {
     const history = useHistory()
