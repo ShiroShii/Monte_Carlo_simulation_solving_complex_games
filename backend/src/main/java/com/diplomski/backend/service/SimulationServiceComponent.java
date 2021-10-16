@@ -56,7 +56,7 @@ public class SimulationServiceComponent {
 		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getCharacterStates().stream())
 				.forEach(x -> initialCharacterStates.add(PlayerCharacterState.builder()
 						.party(PLAYER)
-						.id(x.getId())
+						.id(x.getPlayerCharacter().getId())
 						.name(x.getPlayerCharacter().getName())
 						.level(x.getPlayerCharacter().getCharacterLevel())
 						.armorClass(x.getPlayerCharacter().getArmorClass())

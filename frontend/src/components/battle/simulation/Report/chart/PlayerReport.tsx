@@ -45,7 +45,7 @@ function PlayerReport({ playerReports, simulationCount, playerCharacterStates }:
                     playerId === undefined ?
                         <DisabledPlayerOveriew />
                         :
-                        <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.id === playerId) as IPlayerCharacterState} />
+                        <PlayerOverview playerCharacterState={playerCharacterStates.find(player => player.playerCharacterId === playerId) as IPlayerCharacterState} />
                 }
             </SelectionBlock>
             {

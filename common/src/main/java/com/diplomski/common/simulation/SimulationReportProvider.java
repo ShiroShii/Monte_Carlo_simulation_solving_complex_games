@@ -55,9 +55,14 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 	}
 
 	private List<PlayerReport> getPlayerReports(Simulation simulation) {
-		return simulation.getInitialCharacterStates().stream().filter(x -> x.getParty().equals(PLAYER))
-				.map(x -> PlayerReport.builder().id(x.getId()).name(((PlayerCharacterState) x).getName())
-						.downCount((int) simulation.getBattles().stream()
+		return simulation.getInitialCharacterStates()
+				.stream()
+				.filter(x -> x.getParty().equals(PLAYER))
+				.map(x -> PlayerReport.builder()
+						.id(x.getId())
+						.name(((PlayerCharacterState) x).getName())
+						.downCount((int) simulation.getBattles()
+								.stream()
 								.filter(y -> y.getFinalBoardState().getCharacterStates().get(x.getId()).getCurrentHp()
 										== 0)
 								.count())

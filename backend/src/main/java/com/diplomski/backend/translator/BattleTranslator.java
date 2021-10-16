@@ -1,57 +1,51 @@
 package com.diplomski.backend.translator;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import com.diplomski.backend.contract.BattleResponse;
-import com.diplomski.backend.contract.MonsterStateResponse;
-import com.diplomski.backend.contract.NodeTileResponse;
-import com.diplomski.backend.contract.PlayerCharacterStateResponse;
+import com.diplomski.backend.contract.MonsterStateContract;
+import com.diplomski.backend.contract.NodeTileContract;
+import com.diplomski.backend.contract.PlayerCharacterStateContract;
 import com.diplomski.backend.dal.BattleDbModel;
 import com.diplomski.backend.dal.MonsterStateDbModel;
 import com.diplomski.backend.dal.NodeTileDbModel;
 import com.diplomski.backend.dal.PlayerCharacterStateDbModel;
 
 public class BattleTranslator {
-	public static PlayerCharacterStateResponse translate(PlayerCharacterStateDbModel input) {
-		return PlayerCharacterStateResponse.builder()
-				.id(input.getId())
+	public static PlayerCharacterStateContract translate(PlayerCharacterStateDbModel input) {
+		return PlayerCharacterStateContract.builder()
 				.playerCharacterId(input.getPlayerCharacter().getId())
 				.currentHp(input.getCurrentHp())
 				.targetingStyle(input.getTargetingStyle())
 				.playStyle(input.getPlayStyle())
-				.tileId(input.getNodeTile().getId())
 				.build();
 	}
 
-	public static MonsterStateResponse translate(MonsterStateDbModel input) {
-		return MonsterStateResponse.builder()
-				.id(input.getId())
+	public static MonsterStateContract translate(MonsterStateDbModel input) {
+		return MonsterStateContract.builder()
 				.monster(input.getMonster())
+				.currentHp(input.getCurrentHp())
 				.targetingStyle(input.getTargetingStyle())
 				.playStyle(input.getPlayStyle())
-				.currentHp(input.getCurrentHp())
-				.tileId(input.getNodeTile().getId())
 				.build();
 	}
 
-	public static NodeTileResponse translate(NodeTileDbModel input) {
-		return NodeTileResponse.builder()
+	public static NodeTileContract translate(NodeTileDbModel input) {
+		return NodeTileContract.builder()
 				.id(input.getId())
+				.x(input.getX())
+				.y(input.getY())
+				.reachableTiles(input.getReachableNodes().stream().map(x -> x.getId()).toList())
 				.terrainFeature(input.getTerrainFeature())
-				.reachableTiles(input.getReachableNodes().stream().map(x -> x.getId()).collect(Collectors.toList()))
+				.playerCharacterStates(input.getCharacterStates().stream().map(x -> translate(x)).toList())
+				.monsterStates(input.getMonsterStates().stream().map(x -> translate(x)).toList())
 				.build();
 	}
 
 	public static BattleResponse translate(BattleDbModel input) {
 		return BattleResponse.builder()
 				.id(input.getId()).name(input.getName())
-				.playerCharacterStates(input.getNodeTiles().stream()
-						.flatMap(x -> x.getCharacterStates().stream())
-						.map(x -> translate(x)).toList())
 				.tiles(input.getNodeTiles().stream().map(x -> translate(x)).toList())
-				.monsterStates(input.getNodeTiles().stream().flatMap(x -> x.getMonsterStates().stream())
-						.map(x -> translate(x)).toList())
 				.build();
 	}
 

@@ -2,8 +2,9 @@ import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import axios from "axios";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from 'styled-components';
-import {usePlayerCharacterList} from "../playerCharacter";
+import { usePlayerCharacterList } from "../playerCharacter";
 import { InlineBlock } from "../_common";
 import BattleCreationSVG from "./BattleCreationSVG";
 import HPField from "./HPField";
@@ -34,6 +35,7 @@ const SelectionBlock = styled(InlineBlock)`
 `
 
 function BattleCreationPage() {
+    const history = useHistory()
     const classes = useStyles()
     const [currentTool, setCurrentTool] = useState<keyof typeof Tool | undefined>()
 
@@ -52,12 +54,12 @@ function BattleCreationPage() {
         const tileArray = Array.from(tiles, ([key, value]) => ({ key, value }))
         const tileData = tileArray.map((tile, index) => {
             return ({
+                id: tile.key,
                 x: tile.value.x,
                 y: tile.value.y,
                 terrainFeature: tile.value.terrain,
                 reachableTiles: paths.filter(path => path.tileIds.includes(tile.key)).map((value, index) => {
-                    const reachableTileId = value.tileIds.find(id => id !== tile.key)
-                    return (tileArray.findIndex(x => x.key === reachableTileId))
+                    return value.tileIds.find(id => id !== tile.key)
                 }),
                 playerCharacterStates: (tile.value.occupier === undefined || Object.keys(Monster).includes(tile.value.occupier.id as Monster)) ?
                     [] :
@@ -86,11 +88,7 @@ function BattleCreationPage() {
 
         axios.post('http://localhost:8080/battle', values)
             .then((response) => {
-                console.log(response);
-                //TODO: redirect to details
-            }).catch(response => {
-                console.log(response);
-                //TODO: toster error
+                history.push(`/battle/${response.data.id}`)
             });
     }
 

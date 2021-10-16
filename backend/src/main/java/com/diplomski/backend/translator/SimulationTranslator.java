@@ -9,26 +9,13 @@ import com.diplomski.backend.contract.CategoryContract;
 import com.diplomski.backend.contract.DownedPlayerContract;
 import com.diplomski.backend.contract.NameValueIntPair;
 import com.diplomski.backend.contract.PlayerBoxPlot;
-import com.diplomski.backend.contract.PlayerCharacterStateResponse;
 import com.diplomski.backend.contract.PlayerReportContract;
 import com.diplomski.backend.contract.SimulationResponse;
-import com.diplomski.backend.dal.PlayerCharacterStateDbModel;
 import com.diplomski.common.simulation.PlayerReport;
 import com.diplomski.common.simulation.SimulationReport;
 import com.diplomski.common.simulation.StatReport;
 
 public class SimulationTranslator {
-	public static PlayerCharacterStateResponse translate(PlayerCharacterStateDbModel input) {
-		return PlayerCharacterStateResponse.builder()
-				.id(input.getId())
-				.playerCharacterId(input.getPlayerCharacter().getId())
-				.currentHp(input.getCurrentHp())
-				.targetingStyle(input.getTargetingStyle())
-				.playStyle(input.getPlayStyle())
-				.tileId(input.getNodeTile().getId())
-				.build();
-	}
-
 	public static List<CategoryContract> translate(StatReport input, String category) {
 		List<CategoryContract> output = new ArrayList<>();
 

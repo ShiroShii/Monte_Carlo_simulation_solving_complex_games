@@ -1,6 +1,7 @@
 package com.diplomski.backend.contract;
 
 import java.util.List;
+import java.util.UUID;
 
 import com.diplomski.common.board.TerrainFeature;
 
@@ -13,15 +14,15 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class NodeTileCreateRequest {
+public class NodeTileContract {
+	private UUID id;
+	
 	private int x;
 	private int y;
 	
-	private List<Integer> reachableTiles;
-	private List<NodeTileCover> tileCover;
-	
+	private List<UUID> reachableTiles;
 	private TerrainFeature terrainFeature;
 	
-	private List<PlayerCharacterStateCreateRequest> playerCharacterStates;
-	private List<MonsterStateCreateRequest> monsterStates;
+	private List<PlayerCharacterStateContract> playerCharacterStates;
+	private List<MonsterStateContract> monsterStates;
 }

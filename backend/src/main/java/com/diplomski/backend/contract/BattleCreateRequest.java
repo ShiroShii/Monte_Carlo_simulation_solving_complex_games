@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BattleCreateRequest {
 	private String name;
-	private List<NodeTileCreateRequest> tiles;
+	private List<NodeTileContract> tiles;
 }

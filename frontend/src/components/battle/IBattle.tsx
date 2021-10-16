@@ -1,12 +1,11 @@
 import IPlayerCharacterState from "./IBattleCharacterState";
 import IMonsterState from "./IMonsterState";
+import ITile from "./ITile";
 
 interface IBattle {
     id: String
     name: String
-    boardId: String
-    playerCharacterStates: IPlayerCharacterState[]
-    monsterStates: IMonsterState[]
+    tiles: ITile[]
 }
 
 export default IBattle

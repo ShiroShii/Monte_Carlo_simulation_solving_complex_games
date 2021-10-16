@@ -1,7 +1,6 @@
 package com.diplomski.backend.contract;
 
-import java.util.UUID;
-
+import com.diplomski.common.character.Monster;
 import com.diplomski.common.character.PlayStyle;
 import com.diplomski.common.targeting.TargetingStyle;
 
@@ -14,10 +13,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class PlayerCharacterStateCreateRequest {
-	private UUID playerCharacterId;
+public class MonsterStateContract {
+	private Monster monster;
 	private int currentHp;
-	private UUID tileId;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
 }

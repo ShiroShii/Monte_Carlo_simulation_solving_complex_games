@@ -1,11 +1,10 @@
+import Monster from "./Monster";
+
     interface IMonsterState {
-        id: String
-        monster: String
+        monster: keyof typeof Monster
         currentHp: Number
-        tileId: String
         playStyle: String
         targetingStyle: String
-        party: String
     }
 
     export default IMonsterState

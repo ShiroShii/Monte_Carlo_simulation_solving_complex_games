@@ -17,6 +17,3 @@ public class Turn {
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
 }
-
-//no turn delays
-//no prepared actions
