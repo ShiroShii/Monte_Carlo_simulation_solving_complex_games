@@ -1,10 +1,12 @@
 import Monster from "./Monster";
+import PlayStyle from "./PlayStyle";
+import TargetingStyle from "./TargetingStyle";
 
     interface IMonsterState {
         monster: keyof typeof Monster
-        currentHp: Number
-        playStyle: String
-        targetingStyle: String
+        currentHp: number
+        playStyle: keyof typeof PlayStyle
+        targetingStyle: keyof typeof TargetingStyle
     }
 
     export default IMonsterState

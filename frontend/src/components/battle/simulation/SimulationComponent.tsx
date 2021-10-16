@@ -5,7 +5,7 @@ import { ISimulationResult } from "./interface"
 import SimulationDashboard from "./Report"
 
 interface ISimulationComponentProps {
-    battleId: String
+    battleId: string
     playerCharacterStates: IPlayerCharacterState[]
 }
 

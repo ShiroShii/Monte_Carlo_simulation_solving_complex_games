@@ -30,26 +30,49 @@ public class BattleService {
 	private PlayerCharacterRepository playerCharacterRepository;
 
 	public BattleDbModel save(BattleCreateRequest request) throws Exception {
-		BattleDbModel battle = BattleDbModel.builder().name(request.getName()).build();
+		BattleDbModel battle = BattleDbModel
+				.builder()
+				.name(request.getName())
+				.build();
 
-		Map<UUID, NodeTileDbModel> tiles = request.getTiles()
+		List<NodeTileDbModel> tiles = getTiles(request.getTiles(), battle);
+
+		battle.setNodeTiles(tiles);
+
+		return battleRepository.save(battle);
+	}
+
+	public BattleDbModel save(UUID id, BattleCreateRequest request) throws Exception {
+		Optional<BattleDbModel> battle = battleRepository.findById(id);
+
+		battle.get().setName(request.getName());
+
+		List<NodeTileDbModel> tiles = getTiles(request.getTiles(), battle.get());
+
+		battle.get().getNodeTiles().clear();
+		battle.get().getNodeTiles().addAll(tiles);
+
+		return battleRepository.save(battle.get());
+	}
+
+	private List<NodeTileDbModel> getTiles(List<NodeTileContract> tiles, BattleDbModel battle) {
+		Map<UUID, NodeTileDbModel> tilesMap = tiles
 				.stream()
 				.collect(Collectors.toMap(x -> x.getId(), x -> getNodeTileDbModel(x, battle)));
 
-		request.getTiles()
+		tiles
 				.stream()
 				.forEach(tileRequest -> {
-					NodeTileDbModel tile = tiles.get(tileRequest.getId());
-					List<NodeTileDbModel> reachableTiles = tiles.entrySet().stream()
+					NodeTileDbModel tile = tilesMap.get(tileRequest.getId());
+					List<NodeTileDbModel> reachableTiles = tilesMap.entrySet()
+							.stream()
 							.filter(x -> tileRequest.getReachableTiles().contains(x.getKey()))
 							.map(x -> x.getValue())
 							.toList();
 					tile.setReachableNodes(reachableTiles);
 				});
 
-		battle.setNodeTiles(new ArrayList<NodeTileDbModel>(tiles.values()));
-
-		return battleRepository.save(battle);
+		return new ArrayList<NodeTileDbModel>(tilesMap.values());
 	}
 
 	private NodeTileDbModel getNodeTileDbModel(NodeTileContract tileRequest, BattleDbModel battle) {

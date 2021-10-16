@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import com.diplomski.backend.contract.BattleCreateRequest;
@@ -22,11 +23,11 @@ import com.diplomski.backend.translator.BattleTranslator;
 public class BattleController {
 	@Autowired
 	private BattleService battleService;
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@PostMapping(path = "/battle")
 	public ResponseEntity<BattleResponse> create(
-			@RequestBody BattleCreateRequest request){
+			@RequestBody BattleCreateRequest request) {
 		BattleResponse response;
 		try {
 			response = BattleTranslator.translate(battleService.save(request));
@@ -36,7 +37,22 @@ public class BattleController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 	}
-	
+
+	@CrossOrigin(origins = "*", allowedHeaders = "*")
+	@PutMapping(path = "/battle/{id}")
+	public ResponseEntity<BattleResponse> update(
+			@PathVariable("id") UUID id,
+			@RequestBody BattleCreateRequest request) {
+		BattleResponse response;
+		try {
+			response = BattleTranslator.translate(battleService.save(id, request));
+			return new ResponseEntity<>(response, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/battle/{id}")
 	public ResponseEntity<BattleResponse> get(
@@ -44,7 +60,7 @@ public class BattleController {
 		BattleResponse response = BattleTranslator.translate(battleService.get(id).get());
 		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
-	
+
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping(path = "/battle")
 	public ResponseEntity<List<BattleResponse>> getAll() {

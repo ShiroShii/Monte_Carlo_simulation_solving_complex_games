@@ -1,25 +1,42 @@
 import { CircularProgress } from "@material-ui/core";
+import axios from "axios";
 import { useState } from "react";
-import BattleDetailsForm from "../battle/BattleDetailsForm";
-import IBattle from "../battle/IBattle";
-import useBattle from '../battle/UseBattle';
+import { BattleForm, BattleFormValues } from "./BattleForm";
+import IBattle from "./IBattle";
 import SimulationComponent from "./simulation";
+import useBattle from './UseBattle';
 
 type BattleDetailsPageProps = {
     id: string
 }
 
-function BattleDetailsPage(props: BattleDetailsPageProps) {
+function BattleDetailsPage({ id }: BattleDetailsPageProps) {
     const [loading, setLoading] = useState(true)
-    const battle = useBattle(props.id, setLoading)
+    const battle = useBattle(id, setLoading)
+
+
+    const onSubmit = async (values: BattleFormValues) => {
+        axios.put(
+            `http://localhost:8080/battle/${id}`,
+            values
+        );
+    };
 
     return (
         <>
+            <h2>Battle Details Page</h2>
             {
+
                 loading ? <CircularProgress /> :
                     <>
-                        <BattleDetailsForm battle={battle as IBattle} />
-                        <SimulationComponent battleId={(battle as IBattle).id} playerCharacterStates={(battle as IBattle).tiles.flatMap(x => x.playerCharacterStates)} />
+                        <BattleForm
+                            onSubmit={onSubmit}
+                            initialValues={battle as IBattle}
+                        />
+                        <SimulationComponent
+                            battleId={(battle as IBattle).id}
+                            playerCharacterStates={(battle as IBattle).tiles.flatMap(x => x.playerCharacterStates)}
+                        />
                     </>
             }
         </>

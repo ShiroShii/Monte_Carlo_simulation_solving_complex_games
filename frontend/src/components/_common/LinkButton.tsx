@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 type LinkButtonProps = {
-    to: String
+    to: string
     children: React.ReactNode
 }
 

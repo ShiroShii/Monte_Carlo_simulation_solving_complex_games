@@ -3,8 +3,8 @@ import IMonsterState from "./IMonsterState";
 import ITile from "./ITile";
 
 interface IBattle {
-    id: String
-    name: String
+    id: string
+    name: string
     tiles: ITile[]
 }
 

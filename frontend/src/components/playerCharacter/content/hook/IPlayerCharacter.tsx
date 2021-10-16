@@ -1,14 +1,14 @@
 import { Weapon } from "../../../_common";
 
 interface IPlayerCharacter {
-    id: String
-    name: String
-    dexterity: Number
-    strength: Number
-    speed: Number
-    armorClass: Number
-    characterLevel: String
-    characterClass: String
+    id: string
+    name: string
+    dexterity: number
+    strength: number
+    speed: number
+    armorClass: number
+    characterLevel: string
+    characterClass: string
     weapons: [keyof typeof Weapon]
 }
 

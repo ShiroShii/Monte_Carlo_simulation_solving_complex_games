@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import IPlayerCharacter from './IPlayerCharacter';
 
-function usePlayerCharacter(id: String, setLoading: (value: React.SetStateAction<boolean>) => void) {
+function usePlayerCharacter(id: string, setLoading: (value: React.SetStateAction<boolean>) => void) {
     const [playerCharacter, setPlayerCharacter] = useState<IPlayerCharacter>()
 
     useEffect(() => {

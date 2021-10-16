@@ -39,6 +39,6 @@ public class BattleDbModel {
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "battle", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "battle", cascade= {CascadeType.ALL}, orphanRemoval = true)
 	private List<NodeTileDbModel> nodeTiles;
 }

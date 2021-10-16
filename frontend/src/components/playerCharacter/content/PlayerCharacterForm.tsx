@@ -21,14 +21,14 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export type PlayerCharacterFormValues = {
-    name: String,
-    dexterity: Number,
-    strength: Number,
-    speed: Number,
-    armorClass: Number,
-    characterLevel: String,
-    characterClass: String,
-    weapons: [String],
+    name: string,
+    dexterity: number,
+    strength: number,
+    speed: number,
+    armorClass: number,
+    characterLevel: string,
+    characterClass: string,
+    weapons: [string],
 }
 
 type PlayerCharacterFormProps = {

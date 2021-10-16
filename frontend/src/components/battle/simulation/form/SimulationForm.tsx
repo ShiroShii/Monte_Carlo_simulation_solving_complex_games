@@ -6,15 +6,15 @@ import RoundCountLimitField from "./fields/RoundCountLimitField";
 import SimulationCountField from "./fields/SimulationCountField";
 
 type SimulationFormProps = {
-    battleId: String
+    battleId: string
     setSimulationResult: Dispatch<SetStateAction<ISimulationResult | null | undefined>>
 }
 
 function SimulationForm(props: SimulationFormProps) {
     interface Simulation {
-        battleId: String
-        simulationCount: Number
-        roundCountLimit: Number
+        battleId: string
+        simulationCount: number
+        roundCountLimit: number
     }
 
     const onSubmit = async (values: Simulation) => {

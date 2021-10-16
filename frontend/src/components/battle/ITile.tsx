@@ -3,11 +3,11 @@ import IMonsterState from "./IMonsterState";
 import Terrain from "./Terrain";
 
 interface ITile {
-    id: String
+    id: string
     x: number
     y: number
     terrainFeature: keyof typeof Terrain
-    reachableTiles: String[]
+    reachableTiles: string[]
     playerCharacterStates: IPlayerCharacterState[]
     monsterStates: IMonsterState[]
 }

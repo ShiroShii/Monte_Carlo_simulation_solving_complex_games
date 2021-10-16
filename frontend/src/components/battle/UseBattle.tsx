@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import IBattle from './IBattle';
 
-function useBattle(id: String, setLoading: (value: React.SetStateAction<boolean>) => void) {
+function useBattle(id: string, setLoading: (value: React.SetStateAction<boolean>) => void) {
     const [battle, setBattle] = useState<IBattle>()
 
     useEffect(() => {

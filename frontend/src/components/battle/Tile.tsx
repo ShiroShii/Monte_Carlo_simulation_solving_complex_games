@@ -5,12 +5,14 @@ import Terrain from "./Terrain"
 class Tile {
     x: number
     y: number
-    occupier: Occupier | undefined
-    terrain: keyof typeof Terrain | undefined
+    occupier?: Occupier
+    terrain?: keyof typeof Terrain
 
-    constructor(x: number, y: number) {
+    constructor(x: number, y: number, occupier?: Occupier, terrain?: keyof typeof Terrain) {
         this.x = x
         this.y = y
+        this.occupier = occupier
+        this.terrain = terrain
     }
 }
 

@@ -56,13 +56,13 @@ public class NodeTileDbModel {
 	@ManyToMany(mappedBy = "reachableNodes")
 	private List<NodeTileDbModel> reachableBy;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BattleId", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "BattleId")
 	private BattleDbModel battle;
 
-	@OneToMany(mappedBy = "nodeTile", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy = "nodeTile", cascade = CascadeType.ALL)
 	private List<PlayerCharacterStateDbModel> characterStates;
-	
-	@OneToMany(mappedBy = "nodeTile", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "nodeTile", cascade = CascadeType.ALL)
 	private List<MonsterStateDbModel> monsterStates;
 }
