@@ -43,22 +43,22 @@ public class BoardStateProviderTest {
 	private Party character1Party = Party.PLAYER;
 	private Party character2Party = Party.PLAYER;
 	private Party character3Party = Party.ENEMY;
-	private int character1dexterity = -1;
-	private int character2dexterity = 0;
-	private int character3dexterity = 1;
+	private int character1dexterity = 13;
+	private int character2dexterity = 14;
+	private int character3dexterity = 15;
+	private int character1Strength = 11;
+	private int character2Strength = 16;
+	private int character3Strength = 21;
 	private int character1InitiativeRoll = 15;
 	private int character2InitiativeRoll = 10;
 	private int character3InitiativeRoll = 20;
-	private int character1CurrentHp = 5;
-	private int character2CurrentHp = 6;
-	private int character3CurrentHp = 7;
-	private int character1ExhaustionLevel = 0;
-	private int character2ExhaustionLevel = 1;
-	private int character3ExhaustionLevel = 2;
-	private int character1MaxHp = 10;
-	private int character2MaxHp = 11;
-	private int character3MaxHp = 12;
-
+	private int character1CurrentHp = 6;
+	private int character2CurrentHp = 7;
+	private int character3CurrentHp = 8;
+	private int character1speed = 25;
+	private int character2speed = 30;
+	private int character3speed = 35;
+	
 	private PlayerBattleCharacterState character1;
 	private PlayerBattleCharacterState character2;
 	private PlayerBattleCharacterState character3;
@@ -79,29 +79,62 @@ public class BoardStateProviderTest {
 
 	@Before
 	public void setup() {
-		character1InitialState = PlayerCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
-				.maxHp(character1MaxHp).dexterity(character1dexterity).exhaustionLevel(character1ExhaustionLevel)
-				.party(character1Party).build();
+		character1InitialState = PlayerCharacterState.builder()
+				.id(character1Id)
+				.currentHp(character1CurrentHp)
+				.dexterity(character1dexterity)
+				.strength(character1Strength)
+				.speed(character1speed)
+				.party(character1Party)
+				.build();
 
-		character2InitialState = PlayerCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
-				.maxHp(character2MaxHp).dexterity(character2dexterity).exhaustionLevel(character2ExhaustionLevel)
-				.party(character2Party).build();
+		character2InitialState = PlayerCharacterState.builder()
+				.id(character2Id)
+				.currentHp(character2CurrentHp)
+				.dexterity(character2dexterity)
+				.strength(character2Strength)
+				.speed(character2speed)
+				.party(character2Party)
+				.build();
 
-		character3InitialState = PlayerCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
-				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
-				.party(character3Party).build();
+		character3InitialState = PlayerCharacterState.builder()
+				.id(character3Id)
+				.currentHp(character3CurrentHp)
+				.dexterity(character3dexterity)
+				.strength(character3Strength)
+				.speed(character3speed)
+				.party(character3Party)
+				.build();
 
-		character1 = PlayerBattleCharacterState.builder().id(character1Id).currentHp(character1CurrentHp)
-				.maxHp(character1MaxHp).dexterity(character1dexterity).exhaustionLevel(character1ExhaustionLevel)
-				.party(character1Party).turnProvider(character1TurnProviderMock).build();
+		character1 = PlayerBattleCharacterState.builder()
+				.id(character1Id)
+				.currentHp(character1CurrentHp)
+				.dexterity(character1dexterity)
+				.strength(character1Strength)
+				.speed(character1speed)
+				.party(character1Party)
+				.turnProvider(character1TurnProviderMock)
+				.build();
 
-		character2 = PlayerBattleCharacterState.builder().id(character2Id).currentHp(character2CurrentHp)
-				.maxHp(character2MaxHp).dexterity(character2dexterity).exhaustionLevel(character2ExhaustionLevel)
-				.party(character2Party).turnProvider(character2TurnProviderMock).build();
+		character2 = PlayerBattleCharacterState.builder()
+				.id(character2Id)
+				.currentHp(character2CurrentHp)
+				.dexterity(character2dexterity)
+				.strength(character2Strength)
+				.speed(character2speed)
+				.party(character2Party)
+				.turnProvider(character2TurnProviderMock)
+				.build();
 
-		character3 = PlayerBattleCharacterState.builder().id(character3Id).currentHp(character3CurrentHp)
-				.maxHp(character3MaxHp).dexterity(character3dexterity).exhaustionLevel(character3ExhaustionLevel)
-				.party(character3Party).turnProvider(character3TurnProviderMock).build();
+		character3 = PlayerBattleCharacterState.builder()
+				.id(character3Id)
+				.currentHp(character3CurrentHp)
+				.dexterity(character3dexterity)
+				.strength(character3Strength)
+				.speed(character3speed)
+				.party(character3Party)
+				.turnProvider(character3TurnProviderMock)
+				.build();
 
 		initialCharacterStateList = Arrays
 				.asList(character1InitialState, character2InitialState, character3InitialState);
@@ -111,7 +144,11 @@ public class BoardStateProviderTest {
 		expectedCharacterStateList.put(character1Id, character1);
 		expectedCharacterStateList.put(character2Id, character2);
 
-		expectedBoardState = BoardState.builder().board(boardMock).characterStates(expectedCharacterStateList).build();
+		expectedBoardState = BoardState
+				.builder()
+				.board(boardMock)
+				.characterStates(expectedCharacterStateList)
+				.build();
 
 		when(diceMock.getRoll()).thenReturn(character1InitiativeRoll).thenReturn(character2InitiativeRoll)
 				.thenReturn(character3InitiativeRoll);
