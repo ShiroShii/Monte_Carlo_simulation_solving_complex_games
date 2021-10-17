@@ -12,7 +12,7 @@ export default function PlayerCharacterList() {
         {
             field: 'name',
             headerName: 'Name',
-            flex: 2,
+            flex: 1.3,
             hideSortIcons: true,
             headerAlign: 'center',
             align: 'center'
@@ -60,7 +60,7 @@ export default function PlayerCharacterList() {
         {
             field: 'characterClass',
             headerName: 'Class',
-            flex: 1,
+            flex: 0.6,
             hideSortIcons: true,
             headerAlign: 'center',
             align: 'center'

@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 const ListBlock = styled.div`
-    width: 1250px;
+    width: 1000px;
     margin: 10px auto 150px;
 `
 

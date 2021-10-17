@@ -15,7 +15,7 @@ function BattleList() {
             hideSortIcons: true,
             headerAlign: 'center',
             align: 'center',
-            flex: 2.5
+            flex: 1.4
         },
         {
             field: 'playerCount',
@@ -54,7 +54,7 @@ function BattleList() {
             headerName: ' ',
             sortable: false,
             disableColumnMenu: true,
-            flex: 1,
+            flex: 0.7,
             align: 'center',
             renderCell: (params: GridCellParams) => {
                 return <LinkButton to={`/battle/${params.value}`}>Details</LinkButton>;
