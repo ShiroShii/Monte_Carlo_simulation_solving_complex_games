@@ -4,6 +4,7 @@ enum Weapon {
     GREATAXE = "Greataxe",
     LONGBOW = "Longbow",
     LONGSWORD = "Longsword",
+    SHORTBOW = "Shortbow",
     WARHAMMER = "Warhammer"
 }
 

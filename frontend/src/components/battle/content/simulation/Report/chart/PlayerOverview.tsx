@@ -1,8 +1,12 @@
 import { CircularProgress } from "@material-ui/core"
 import styled from 'styled-components'
 import { usePlayerCharacter } from "../../../../../playerCharacter"
-import { CharacterClass, CharacterLevel } from "../../../../../_common"
-import { IPlayerCharacterState } from "../../../manipulation/form"
+import { CharacterClass, CharacterLevel, Weapon } from "../../../../../_common"
+import {
+    IPlayerCharacterState,
+    PlayStyle,
+    TargetingStyle
+} from "../../../manipulation/form"
 
 type PlayerOverviewProps = {
     playerCharacterState: IPlayerCharacterState
@@ -21,7 +25,7 @@ const TableData = styled.td`
 `
 
 const Table = styled.table`
-    margin: 60px 5px 5px 5px;
+    margin: 25px 5px 5px 5px;
 `
 
 function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
@@ -65,11 +69,24 @@ function PlayerOverview({ playerCharacterState }: PlayerOverviewProps) {
                     </tr>
                     <tr>
                         <TableHeader>Play Style:</TableHeader>
-                        <TableData>{playerCharacterState.playStyle}</TableData>
+                        <TableData>
+                            {PlayStyle[playerCharacterState.playStyle]}
+                        </TableData>
                     </tr>
                     <tr>
                         <TableHeader>Targeting Style:</TableHeader>
-                        <TableData>{playerCharacterState.targetingStyle}</TableData>
+                        <TableData>
+                            {TargetingStyle[playerCharacterState.targetingStyle]}
+                        </TableData>
+                    </tr>
+                    <tr>
+                        <TableHeader>Weapons:</TableHeader>
+                        <TableData>
+                            {playerCharacter
+                                .weapons
+                                .map(weapon => Weapon[weapon])
+                                .join(", ")}
+                        </TableData>
                     </tr>
                 </tbody>
             </Table>

@@ -3,7 +3,9 @@ package com.diplomski.backend.dal;
 import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -35,7 +37,9 @@ public class PlayerCharacterDbModel {
 	@Id
 	@Type(type = "uuid-char")
 	@GeneratedValue(generator = "UUID")
-	@GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+	@GenericGenerator(
+			name = "UUID",
+			strategy = "org.hibernate.id.UUIDGenerator")
 	@Column(name = "id", updatable = false, nullable = false)
 	private UUID id;
 
@@ -59,10 +63,12 @@ public class PlayerCharacterDbModel {
 	private CharacterClass characterClass;
 
 	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
+	@Column(name = "Weapon", nullable = false)
 	@ElementCollection(targetClass = Weapon.class)
+	@CollectionTable(
+			name = "PlayerCharacterWeapons",
+			joinColumns = @JoinColumn(name = "PlayerCharacterId"))
 	private List<Weapon> weapons;
-
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
 	private CharacterLevel characterLevel;

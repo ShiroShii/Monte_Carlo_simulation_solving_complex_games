@@ -17,22 +17,16 @@ public class PlayerCharacterState implements ICharacterState {
 	private UUID id;
 	private String name;
 	private Party party;
-	private int maxHp;
 	private int currentHp;
 	private int dexterity;
 	private int strength;
-	private int constitution;
-	private int intellect;
-	private int wisdom;
 	private int armorClass;
-	private int exhaustionLevel;
 	private CharacterLevel level;
 	private CharacterClass characterClass;
 	private List<IResource> resources;
 	private UUID tileId;
 	private PlayStyle playStyle;
 	private TargetingStyle targetingStyle;
-
 	private int speed;
 
 	public void takeDamage(int damage) {
@@ -40,7 +34,9 @@ public class PlayerCharacterState implements ICharacterState {
 		currentHp = currentHp < 0 ? 0 : currentHp;
 	}
 
-	public abstract static class PlayerCharacterStateBuilder<C extends PlayerCharacterState, B extends PlayerCharacterState.PlayerCharacterStateBuilder<C, B>> {
+	public abstract static class PlayerCharacterStateBuilder<
+			C extends PlayerCharacterState,
+			B extends PlayerCharacterState.PlayerCharacterStateBuilder<C, B>> {
 		protected B $fillValuesFromParent(PlayerCharacterState instance) {
 			$fillValuesFromInstanceIntoBuilder(instance, this);
 			return self();

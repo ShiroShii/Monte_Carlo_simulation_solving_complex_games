@@ -23,6 +23,7 @@ function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
 
     return (
         <FormBlock>
+            <h2>Player Character Details Page</h2>
             {
                 playerCharacter === undefined ? <CircularProgress /> :
                     <PlayerCharacterForm

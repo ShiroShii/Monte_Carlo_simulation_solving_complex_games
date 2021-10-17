@@ -104,7 +104,7 @@ export default function PlayerCharacterList() {
                 armorClass: x.armorClass,
                 characterLevel: CharacterLevel[x.characterLevel],
                 characterClass: CharacterClass[x.characterClass],
-                weapons: x.weapons.map(weapon => Weapon[weapon])
+                weapons: x.weapons.map(weapon => Weapon[weapon]).join(', ')
             })
         }
         )

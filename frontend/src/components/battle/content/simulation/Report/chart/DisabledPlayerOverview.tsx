@@ -16,51 +16,55 @@ const TableData = styled.td`
 `
 
 const Table = styled.table`
-    margin: 60px 5px 5px 5px;
+    margin: 25px 5px 5px 5px;
 `
 
 function DisabledPlayerOveriew() {
     return (
         <Table>
-        <tbody>
-            <tr>
-                <TableHeader>Initial HP:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Strength:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Dexterity:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Armor Class:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Speed:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Level:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Class:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Play Style:</TableHeader>
-                <TableData/>
-            </tr>
-            <tr>
-                <TableHeader>Targeting Style:</TableHeader>
-                <TableData/>
-            </tr>
-        </tbody>
-    </Table>
+            <tbody>
+                <tr>
+                    <TableHeader>Initial HP:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Strength:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Dexterity:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Armor Class:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Speed:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Level:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Class:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Play Style:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Targeting Style:</TableHeader>
+                    <TableData />
+                </tr>
+                <tr>
+                    <TableHeader>Weapons:</TableHeader>
+                    <TableData />
+                </tr>
+            </tbody>
+        </Table>
     )
 }
 
