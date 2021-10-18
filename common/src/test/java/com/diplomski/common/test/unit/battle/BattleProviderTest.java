@@ -35,7 +35,7 @@ public class BattleProviderTest {
 	private IRoundProvider roundProviderMock = mock(IRoundProvider.class);
 
 	private IBoard boardMock = mock(IBoard.class);
-	
+
 	private final int ROUND_COUNT_LIMIT = 5;
 	private UUID character1Id = UUID.fromString("8b521099-18fd-4810-953d-bc4dde0eae14");
 	private UUID character2Id = UUID.fromString("3e5aee3a-41e6-402c-a42d-6da8adc7cac9");
@@ -84,76 +84,132 @@ public class BattleProviderTest {
 
 	@Before
 	public void setup() {
-		boardState1character1 = PlayerBattleCharacterState.builder().id(character1Id)
-				.currentHp(boardState1character1CurrentHp).party(character1Party).build();
+		boardState1character1 = PlayerBattleCharacterState.builder()
+				.id(character1Id)
+				.currentHp(boardState1character1CurrentHp)
+				.party(character1Party)
+				.build();
 
-		boardState1character2 = PlayerBattleCharacterState.builder().id(character2Id)
-				.currentHp(boardState1character2CurrentHp).party(character2Party).build();
+		boardState1character2 = PlayerBattleCharacterState.builder()
+				.id(character2Id)
+				.currentHp(boardState1character2CurrentHp)
+				.party(character2Party)
+				.build();
 
-		boardState1character3 = PlayerBattleCharacterState.builder().id(character3Id)
-				.currentHp(boardState1character3CurrentHp).party(character3Party).build();
+		boardState1character3 = PlayerBattleCharacterState.builder()
+				.id(character3Id)
+				.currentHp(boardState1character3CurrentHp)
+				.party(character3Party)
+				.build();
 
-		initialCharacterStates = Arrays.asList(boardState1character1, boardState1character2, boardState1character3);
+		initialCharacterStates = Arrays.asList(
+				boardState1character1,
+				boardState1character2,
+				boardState1character3);
 
 		boardState1CharacterStates = new LinkedHashMap<>();
 		boardState1CharacterStates.put(character1Id, boardState1character1);
 		boardState1CharacterStates.put(character2Id, boardState1character2);
 		boardState1CharacterStates.put(character3Id, boardState1character3);
 
-		boardState1 = BoardState.builder().characterStates(boardState1CharacterStates).build();
+		boardState1 = BoardState.builder()
+				.characterStates(boardState1CharacterStates)
+				.build();
 
-		boardState2character1 = PlayerBattleCharacterState.builder().id(character1Id)
-				.currentHp(boardState2character1CurrentHp).party(character1Party).build();
+		boardState2character1 = PlayerBattleCharacterState.builder()
+				.id(character1Id)
+				.currentHp(boardState2character1CurrentHp)
+				.party(character1Party)
+				.build();
 
-		boardState2character2 = PlayerBattleCharacterState.builder().id(character2Id)
-				.currentHp(boardState2character2CurrentHp).party(character2Party).build();
+		boardState2character2 = PlayerBattleCharacterState.builder()
+				.id(character2Id)
+				.currentHp(boardState2character2CurrentHp)
+				.party(character2Party)
+				.build();
 
-		boardState2character3 = PlayerBattleCharacterState.builder().id(character3Id)
-				.currentHp(boardState2character3CurrentHp).party(character3Party).build();
+		boardState2character3 = PlayerBattleCharacterState.builder()
+				.id(character3Id)
+				.currentHp(boardState2character3CurrentHp)
+				.party(character3Party)
+				.build();
 
 		boardState2CharacterStates = new LinkedHashMap<>();
 		boardState2CharacterStates.put(character1Id, boardState2character1);
 		boardState2CharacterStates.put(character2Id, boardState2character2);
 		boardState2CharacterStates.put(character3Id, boardState2character3);
 
-		boardState2 = BoardState.builder().characterStates(boardState2CharacterStates).build();
+		boardState2 = BoardState.builder()
+				.characterStates(boardState2CharacterStates)
+				.build();
 
-		boardState3character1 = PlayerBattleCharacterState.builder().id(character1Id)
-				.currentHp(boardState3character1CurrentHp).party(character1Party).build();
+		boardState3character1 = PlayerBattleCharacterState.builder()
+				.id(character1Id)
+				.currentHp(boardState3character1CurrentHp)
+				.party(character1Party)
+				.build();
 
-		boardState3character2 = PlayerBattleCharacterState.builder().id(character2Id)
-				.currentHp(boardState3character2CurrentHp).party(character2Party).build();
+		boardState3character2 = PlayerBattleCharacterState.builder()
+				.id(character2Id)
+				.currentHp(boardState3character2CurrentHp)
+				.party(character2Party)
+				.build();
 
-		boardState3character3 = PlayerBattleCharacterState.builder().id(character3Id)
-				.currentHp(boardState3character3CurrentHp).party(character3Party).build();
+		boardState3character3 = PlayerBattleCharacterState.builder()
+				.id(character3Id)
+				.currentHp(boardState3character3CurrentHp)
+				.party(character3Party)
+				.build();
 
 		boardState3CharacterStates = new LinkedHashMap<>();
 		boardState3CharacterStates.put(character1Id, boardState3character1);
 		boardState3CharacterStates.put(character2Id, boardState3character2);
 		boardState3CharacterStates.put(character3Id, boardState3character3);
 
-		boardState3 = BoardState.builder().characterStates(boardState3CharacterStates).build();
+		boardState3 = BoardState.builder()
+				.characterStates(boardState3CharacterStates)
+				.build();
 
-		round1 = Round.builder().initialBoardState(boardState1).finalBoardState(boardState2).build();
-		round2 = Round.builder().initialBoardState(boardState2).finalBoardState(boardState3).build();
+		round1 = Round.builder()
+				.initialBoardState(boardState1)
+				.finalBoardState(boardState2)
+				.build();
+
+		round2 = Round.builder()
+				.initialBoardState(boardState2)
+				.finalBoardState(boardState3)
+				.build();
 
 		rounds = Arrays.asList(round1, round2);
 
-		expectedBattle = Battle.builder().initialBoardState(boardState1).finalBoardState(boardState3).rounds(rounds)
-				.winningParty(Optional.of(Party.PLAYER)).isBattleComplete(true).build();
+		expectedBattle = Battle.builder()
+				.initialBoardState(boardState1)
+				.finalBoardState(boardState3)
+				.rounds(rounds)
+				.winningParty(Optional.of(Party.PLAYER))
+				.isBattleComplete(true)
+				.build();
 
-		when(boardStateProviderMock.getInitialBoardState(any(), any())).thenReturn(boardState1);
-		when(roundProviderMock.getRound(any())).thenReturn(round1).thenReturn(round2);
+		when(boardStateProviderMock.getInitialBoardState(any(), any()))
+				.thenReturn(boardState1);
+		
+		when(roundProviderMock.getRound(any()))
+				.thenReturn(round1)
+				.thenReturn(round2);
 
 		unitUnderTest = new BattleProvider(boardStateProviderMock, roundProviderMock);
 	}
 
 	@Test
 	public void testGetBattle() {
-		Battle result = unitUnderTest.getBattle(initialCharacterStates, ROUND_COUNT_LIMIT, boardMock);
+		Battle result = unitUnderTest.getBattle(
+				initialCharacterStates,
+				ROUND_COUNT_LIMIT,
+				boardMock);
 
 		assertEquals(expectedBattle, result);
-		verify(boardStateProviderMock, times(1)).getInitialBoardState(eq(initialCharacterStates), eq(boardMock));
+		verify(boardStateProviderMock, times(1))
+				.getInitialBoardState(eq(initialCharacterStates), eq(boardMock));
 		verify(roundProviderMock, times(2)).getRound(any());
 		verify(roundProviderMock, times(1)).getRound(eq(boardState1));
 		verify(roundProviderMock, times(1)).getRound(eq(boardState2));

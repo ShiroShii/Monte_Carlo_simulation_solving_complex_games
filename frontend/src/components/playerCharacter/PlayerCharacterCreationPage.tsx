@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { FormBlock } from "../_common";
 import { PlayerCharacterForm, PlayerCharacterFormValues } from "./content";
 
-function PlayerCharacterCreationPage() {
+export default function PlayerCharacterCreationPage() {
     const history = useHistory()
 
     const onSubmit = async (values: PlayerCharacterFormValues) => {
@@ -20,5 +20,3 @@ function PlayerCharacterCreationPage() {
         </FormBlock>
     );
 }
-
-export default PlayerCharacterCreationPage

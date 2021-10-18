@@ -18,9 +18,14 @@ public class SimulationService implements ISimulationService {
 			IBoard board,
 			int simulationCount,
 			int roundCountLimit) {
-		Simulation simulation = simulationProvider
-				.getSimulation(initialCharacterState, board, simulationCount, roundCountLimit);
-		SimulationReport simulationReport = simulationReportProvider.getSimulationReport(simulation);
+		Simulation simulation = simulationProvider.getSimulation(
+				initialCharacterState,
+				board,
+				simulationCount,
+				roundCountLimit);
+
+		SimulationReport simulationReport =
+				simulationReportProvider.getSimulationReport(simulation);
 
 		return simulationReport;
 	}

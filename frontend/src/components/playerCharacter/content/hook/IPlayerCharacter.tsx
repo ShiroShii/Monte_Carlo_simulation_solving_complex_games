@@ -1,6 +1,6 @@
 import { CharacterClass, CharacterLevel, Weapon } from "../../../_common";
 
-interface IPlayerCharacter {
+export default interface IPlayerCharacter {
     id: string
     name: string
     dexterity: number
@@ -9,7 +9,5 @@ interface IPlayerCharacter {
     armorClass: number
     characterLevel: keyof typeof CharacterLevel
     characterClass: keyof typeof CharacterClass
-    weapons: [keyof typeof Weapon]
+    weapons: (keyof typeof Weapon)[]
 }
-
-export default IPlayerCharacter

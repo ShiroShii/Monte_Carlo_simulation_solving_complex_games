@@ -1,7 +1,7 @@
 import { LinkButton, ListBlock } from "../_common";
 import { PlayerCharacterList } from "./content";
 
-function PlayerCharacterListPage() {
+export default function PlayerCharacterListPage() {
     return (
         <ListBlock>
             <h2>Character List Page</h2 >
@@ -12,5 +12,3 @@ function PlayerCharacterListPage() {
         </ListBlock >
     );
 }
-
-export default PlayerCharacterListPage

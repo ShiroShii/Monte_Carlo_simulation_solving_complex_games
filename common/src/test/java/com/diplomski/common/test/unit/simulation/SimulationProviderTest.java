@@ -48,20 +48,33 @@ public class SimulationProviderTest {
 
 		characterStates = new ArrayList<>();
 
-		expectedSimulation = Simulation.builder().simulationCount(EXPECTED_BATTLE_COUNT)
-				.roundCountLimit(ROUND_COUNT_LIMIT).battles(battles).initialCharacterStates(characterStates).build();
+		expectedSimulation = Simulation
+				.builder()
+				.simulationCount(EXPECTED_BATTLE_COUNT)
+				.roundCountLimit(ROUND_COUNT_LIMIT)
+				.battles(battles)
+				.initialCharacterStates(characterStates)
+				.build();
 
-		when(battleProviderMock.getBattle(eq(characterStates), anyInt(), any())).thenReturn(battle1).thenReturn(battle2)
+		when(battleProviderMock.getBattle(eq(characterStates), anyInt(), any()))
+				.thenReturn(battle1)
+				.thenReturn(battle2)
 				.thenReturn(battle3);
+		
 		unitUnderTest = new SimulationProvider(battleProviderMock);
 	}
 
 	@Test
 	public void getSimulation() {
-		Simulation result = unitUnderTest
-				.getSimulation(characterStates, board, EXPECTED_BATTLE_COUNT, ROUND_COUNT_LIMIT);
+		Simulation result = unitUnderTest.getSimulation(
+				characterStates,
+				board,
+				EXPECTED_BATTLE_COUNT,
+				ROUND_COUNT_LIMIT);
+		
 		assertEquals(expectedSimulation, result);
-		verify(battleProviderMock, times(3)).getBattle(eq(characterStates), anyInt(), any());
+		
+		verify(battleProviderMock, times(3))
+				.getBattle(eq(characterStates), eq(ROUND_COUNT_LIMIT), eq(board));
 	}
-
 }

@@ -16,13 +16,18 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class BattleProvider implements IBattleProvider {
-
 	private final IBoardStateProvider boardStateProvider;
 	private final IRoundProvider roundProvider;
 
 	@Override
-	public Battle getBattle(List<ICharacterState> initialCharacterStates, int roundCountLimit, IBoard board) {
-		BoardState initialBoardState = boardStateProvider.getInitialBoardState(initialCharacterStates, board);
+	public Battle getBattle(
+			List<ICharacterState> initialCharacterStates,
+			int roundCountLimit,
+			IBoard board) {
+		BoardState initialBoardState =
+				boardStateProvider.getInitialBoardState(
+						initialCharacterStates,
+						board);
 		BoardState roundInitialBoardState = initialBoardState.toBuilder().build();
 		List<Round> rounds = new ArrayList<>();
 		do {
@@ -32,7 +37,8 @@ public class BattleProvider implements IBattleProvider {
 			roundInitialBoardState = round.getFinalBoardState().toBuilder().build();
 
 			roundInitialBoardState.resetSpeed();
-		} while (!roundInitialBoardState.isBattleComplete() && roundCountLimit > rounds.size());
+		} while (!roundInitialBoardState.isBattleComplete()
+				&& roundCountLimit > rounds.size());
 
 		BoardState finalBoardState = rounds.isEmpty() ? initialBoardState
 				: rounds.get(rounds.size() - 1).getFinalBoardState();
@@ -45,7 +51,12 @@ public class BattleProvider implements IBattleProvider {
 			winningParty = Optional.of(Party.ENEMY);
 		}
 
-		return Battle.builder().initialBoardState(initialBoardState).rounds(rounds).finalBoardState(finalBoardState)
-				.winningParty(winningParty).isBattleComplete(winningParty.isPresent()).build();
+		return Battle.builder()
+				.initialBoardState(initialBoardState)
+				.rounds(rounds)
+				.finalBoardState(finalBoardState)
+				.winningParty(winningParty)
+				.isBattleComplete(winningParty.isPresent())
+				.build();
 	}
 }

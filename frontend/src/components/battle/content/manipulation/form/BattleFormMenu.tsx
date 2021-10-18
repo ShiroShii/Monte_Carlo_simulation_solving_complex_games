@@ -1,6 +1,5 @@
 import { Button, CircularProgress, TextField } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { useState } from "react";
 import styled from 'styled-components';
 import {
     Tile,
@@ -59,13 +58,12 @@ function BattleFormMenu(
     }: BattleFormMenuProps
 ) {
     const classes = useStyles()
-    const [loading, setLoading] = useState(true)
-    const playerList = usePlayerCharacterList(setLoading)
+    const playerList = usePlayerCharacterList()
 
     return (
         <SelectionBlock>
             {
-                loading ? <CircularProgress /> :
+                !playerList ? <CircularProgress /> :
                     <>
                         <ToolButton tool="ADD_NODE" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />
                         <ToolButton tool="ADD_PATH" currentTool={currentTool} setCurrentTool={setCurrentTool} setSelectedTile={setSelectedTile} />

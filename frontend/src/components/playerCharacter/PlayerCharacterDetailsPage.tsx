@@ -11,8 +11,10 @@ type PlayerCharacterDetailsPageProps = {
     id: string;
 }
 
-function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
-    const playerCharacter = usePlayerCharacter(props.id)
+export default function PlayerCharacterDetailsPage(
+    { id }: PlayerCharacterDetailsPageProps
+) {
+    const playerCharacter = usePlayerCharacter(id)
 
     const onSubmit = async (values: PlayerCharacterFormValues) => {
         axios.put(
@@ -28,9 +30,9 @@ function PlayerCharacterDetailsPage(props: PlayerCharacterDetailsPageProps) {
                 playerCharacter === undefined ? <CircularProgress /> :
                     <PlayerCharacterForm
                         onSubmit={onSubmit}
-                        initialValues={playerCharacter} />
+                        initialValues={playerCharacter}
+                    />
             }
         </FormBlock>
     );
 }
-export default PlayerCharacterDetailsPage

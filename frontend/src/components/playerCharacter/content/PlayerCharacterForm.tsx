@@ -1,15 +1,12 @@
-import arrayMutators from 'final-form-arrays'
 import { Button, createStyles, makeStyles, Theme } from "@material-ui/core"
+import arrayMutators from 'final-form-arrays'
 import { Form } from "react-final-form"
-import { NameField } from '../../_common'
+import { CharacterClass, CharacterLevel, NameField, Weapon } from '../../_common'
 import {
     ArmorClassField,
     CharacterClassField,
     CharacterLevelField,
-    DexterityField,
-    StrengthField,
-    SpeedField,
-    WeaponField
+    DexterityField, SpeedField, StrengthField, WeaponField
 } from "./field"
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -26,9 +23,9 @@ export type PlayerCharacterFormValues = {
     strength: number,
     speed: number,
     armorClass: number,
-    characterLevel: string,
-    characterClass: string,
-    weapons: [string],
+    characterLevel: keyof typeof CharacterLevel,
+    characterClass: keyof typeof CharacterClass,
+    weapons: (keyof typeof Weapon)[],
 }
 
 type PlayerCharacterFormProps = {

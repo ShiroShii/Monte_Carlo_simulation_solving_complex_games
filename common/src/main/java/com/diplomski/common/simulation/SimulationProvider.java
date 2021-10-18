@@ -24,7 +24,11 @@ public class SimulationProvider implements ISimulationProvider {
 
 		List<Battle> battles = IntStream.range(0, simulationCount)
 				.parallel()
-				.mapToObj(iteration -> battleProvider.getBattle(initialCharacterState, roundCountLimit, board))
+				.mapToObj(
+						iteration -> battleProvider.getBattle(
+								initialCharacterState,
+								roundCountLimit,
+								board))
 				.toList();
 
 		return Simulation.builder()

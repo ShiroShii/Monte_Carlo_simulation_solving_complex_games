@@ -1,7 +1,7 @@
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-function NavigationBar() {
+export default function NavigationBar() {
     return (
         <Navbar bg="dark" variant="dark">
             <Nav className="mr-auto">
@@ -11,5 +11,3 @@ function NavigationBar() {
         </Navbar >
     );
 }
-
-export default NavigationBar
