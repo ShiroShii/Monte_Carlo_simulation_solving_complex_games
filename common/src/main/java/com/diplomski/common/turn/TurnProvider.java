@@ -13,7 +13,6 @@ import com.diplomski.common.board.ITile;
 import com.diplomski.common.character.IBattleCharacterState;
 import com.diplomski.common.character.Party;
 import com.diplomski.common.character.PlayStyle;
-import com.diplomski.common.resource.CombatStyle;
 import com.diplomski.common.resource.IResource;
 import com.diplomski.common.targeting.ITargetProvider;
 
@@ -38,13 +37,7 @@ public class TurnProvider implements ITurnProvider {
 		List<Activity> activities = new ArrayList<>();
 		IBattleCharacterState initiator = initialBoardState.getCharacterStates().get(initiatorId);
 
-		Optional<IResource> resourceOption = switch (playStyle) {
-			case MELEE_DAMAGE -> initiator.getResources().stream()
-					.filter(x -> x.getCombatStyle().equals(CombatStyle.MELEE)).findAny();
-			case RANGED_DAMAGE -> initiator.getResources().stream()
-					.filter(x -> x.getCombatStyle().equals(CombatStyle.RANGED)).findAny();
-			default -> throw new IllegalArgumentException("PlayStyle not implemented");
-		};
+		Optional<IResource> resourceOption = IResource.getResource(initiator.getResources(), playStyle);
 
 		if (resourceOption.isPresent()) {
 			IResource resource = resourceOption.get();

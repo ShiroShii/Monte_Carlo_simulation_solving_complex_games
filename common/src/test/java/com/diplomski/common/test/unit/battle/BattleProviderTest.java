@@ -187,12 +187,11 @@ public class BattleProviderTest {
 				.finalBoardState(boardState3)
 				.rounds(rounds)
 				.winningParty(Optional.of(Party.PLAYER))
-				.isBattleComplete(true)
 				.build();
 
 		when(boardStateProviderMock.getInitialBoardState(any(), any()))
 				.thenReturn(boardState1);
-		
+
 		when(roundProviderMock.getRound(any()))
 				.thenReturn(round1)
 				.thenReturn(round2);
@@ -208,8 +207,10 @@ public class BattleProviderTest {
 				boardMock);
 
 		assertEquals(expectedBattle, result);
+
 		verify(boardStateProviderMock, times(1))
 				.getInitialBoardState(eq(initialCharacterStates), eq(boardMock));
+
 		verify(roundProviderMock, times(2)).getRound(any());
 		verify(roundProviderMock, times(1)).getRound(eq(boardState1));
 		verify(roundProviderMock, times(1)).getRound(eq(boardState2));

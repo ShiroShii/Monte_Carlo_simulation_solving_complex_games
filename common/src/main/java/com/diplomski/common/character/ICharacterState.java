@@ -20,4 +20,8 @@ public interface ICharacterState {
 	TargetingStyle getTargetingStyle();
 
 	PlayStyle getPlayStyle();
+
+	public static int getModifier(int score) {
+		return (int) Math.floor((score - 10) / 2.0d);
+	}
 }

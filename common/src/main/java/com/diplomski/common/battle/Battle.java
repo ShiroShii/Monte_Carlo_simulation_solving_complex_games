@@ -16,6 +16,9 @@ public class Battle {
 	private List<Round> rounds;
 	private BoardState initialBoardState;
 	private BoardState finalBoardState;
-	private boolean isBattleComplete;
 	private Optional<Party> winningParty;
+
+	public boolean isBattleComplete() {
+		return winningParty.isPresent();
+	}
 }

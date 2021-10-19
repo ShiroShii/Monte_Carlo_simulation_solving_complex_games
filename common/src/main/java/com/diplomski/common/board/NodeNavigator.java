@@ -1,11 +1,13 @@
 package com.diplomski.common.board;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class NodeNavigator implements INavigator {
 	@Override
@@ -14,49 +16,55 @@ public class NodeNavigator implements INavigator {
 	}
 
 	@Override
-	public Optional<List<ITile>> getCheapestUnobstructedPath(UUID initialTileId, UUID targetTileId, BoardState boardState) {
-		NodeTile initialTile = ((NodeBoard)boardState.getBoard()).getTiles().get(initialTileId);
-		NodeTile targetTile = ((NodeBoard)boardState.getBoard()).getTiles().get(targetTileId);
-		List<HashMap<UUID, NodeTile>> path = getPath(new HashMap<>(), initialTile, targetTile, boardState);
+	public Optional<List<ITile>> getCheapestUnobstructedPath(
+			UUID initialTileId,
+			UUID targetTileId,
+			BoardState boardState) {
+		NodeTile initialTile = ((NodeBoard) boardState.getBoard()).getTiles().get(initialTileId);
+		NodeTile targetTile = ((NodeBoard) boardState.getBoard()).getTiles().get(targetTileId);
+		List<HashMap<UUID, ITile>> path = getPaths(new HashMap<>(), initialTile, targetTile, boardState);
 
 		if (path.isEmpty()) {
 			return Optional.empty();
 		}
-		return Optional.of(new ArrayList<>(path.stream().sorted((path1, path2) -> {
-			return comparePaths(costOfPath(new ArrayList<>(path1.values())),costOfPath(new ArrayList<>(path2.values())));
-		}).findFirst().get().values()));
-	}
-	
-	private int comparePaths(int path1, int path2) {
-		if (path1 > path2) {
-			return 1;
-		}
-		
-		if (path1 < path2) {
-			return -1;
-		}
-		
-		return 0;
+		List<ITile> cheapestPath = path.stream()
+				.sorted(
+						(path1, path2) -> costOfPath(path1)
+								.compareTo(costOfPath(path2)))
+				.findFirst()
+				.get()
+				.values()
+				.stream()
+				.map(tile -> (ITile) tile)
+				.collect(Collectors.toCollection(ArrayList::new));
+
+		return Optional.of(cheapestPath);
 	}
 
-	private int costOfPath(List<ITile> path) {
-		return path.stream().map(x -> x.getTerrainType().getMovementDifficulty().getMovementCost())
+	private Integer costOfPath(HashMap<UUID, ITile> path) {
+		return costOfPath(path.values());
+	}
+
+	private Integer costOfPath(Collection<ITile> path) {
+		return path
+				.stream()
+				.map(x -> x.getTerrainType().getMovementDifficulty().getMovementCost())
 				.reduce(0, Integer::sum);
 	}
 
-	private List<HashMap<UUID, NodeTile>> getPath(
-			HashMap<UUID, NodeTile> path,
+	private List<HashMap<UUID, ITile>> getPaths(
+			HashMap<UUID, ITile> path,
 			NodeTile currentTile,
 			NodeTile targetTile,
 			BoardState boardState) {
-		List<HashMap<UUID, NodeTile>> completePaths = new ArrayList<>();
+		List<HashMap<UUID, ITile>> completePaths = new ArrayList<>();
 		for (UUID reachableTileId : currentTile.getReachableTiles()) {
 			if (path.containsKey(reachableTileId)) {
 				// Cycle
 				continue;
 			}
 
-			HashMap<UUID, NodeTile> potentialPath = deepCopy(path);
+			HashMap<UUID, ITile> potentialPath = deepCopy(path);
 			NodeTile reachableTile = ((NodeBoard) boardState.getBoard()).getTiles().get(reachableTileId);
 
 			if (reachableTileId.equals(targetTile.getId())) {
@@ -65,15 +73,15 @@ public class NodeNavigator implements INavigator {
 				continue;
 			}
 			potentialPath.put(reachableTileId, reachableTile);
-			completePaths.addAll(getPath(potentialPath, reachableTile, targetTile, boardState));
+			completePaths.addAll(getPaths(potentialPath, reachableTile, targetTile, boardState));
 		}
 
 		return completePaths;
 	}
 
-	private HashMap<UUID, NodeTile> deepCopy(HashMap<UUID, NodeTile> original) {
-		HashMap<UUID, NodeTile> copy = new HashMap<>();
-		for (Map.Entry<UUID, NodeTile> entry : original.entrySet()) {
+	private HashMap<UUID, ITile> deepCopy(HashMap<UUID, ITile> original) {
+		HashMap<UUID, ITile> copy = new HashMap<>();
+		for (Map.Entry<UUID, ITile> entry : original.entrySet()) {
 			copy.put(entry.getKey(), entry.getValue());
 		}
 		return copy;

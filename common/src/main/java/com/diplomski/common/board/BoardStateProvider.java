@@ -2,14 +2,18 @@ package com.diplomski.common.board;
 
 import static com.diplomski.common.character.CharacterType.MONSTER;
 import static com.diplomski.common.character.CharacterType.PLAYER;
+import static com.diplomski.common.character.ICharacterState.getModifier;
 import static com.diplomski.common.dice.DiceType.D20;
 
-import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.UUID;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import com.diplomski.common.character.CharacterType;
 import com.diplomski.common.character.IBattleCharacterState;
@@ -29,44 +33,71 @@ import lombok.AllArgsConstructor;
 public class BoardStateProvider implements IBoardStateProvider {
 	private final ITurnProviderFactory turnProviderFactory;
 	private final IDiceFactory diceFactory;
+	private final static Collector<
+			Entry<IBattleCharacterState, Integer>,
+			?,
+			LinkedHashMap<UUID, IBattleCharacterState>> initiativeCollector =
+					Collectors.toMap(
+							x -> x.getKey().getId(),
+							x -> x.getKey(),
+							(v1, v2) -> {
+								throw new AssertionError();
+							},
+							LinkedHashMap::new);
 
 	@Override
-	public BoardState getInitialBoardState(List<ICharacterState> characters, IBoard board) {
-		List<Entry<IBattleCharacterState, Integer>> initiatives = new ArrayList<>();
+	public BoardState getInitialBoardState(
+			List<ICharacterState> characters,
+			IBoard board) {
+		LinkedHashMap<UUID, IBattleCharacterState> initiatives =
+				characters.stream()
+						.map(getInitiative(diceFactory.getDice(D20)))
+						.sorted(reverseSort())
+						.collect(initiativeCollector);
 
-		IDice dice = diceFactory.getDice(D20);
-		for (ICharacterState initialCharacterState : characters) {
-			int initiative = (dice.getRoll() + (int) Math.floor((initialCharacterState.getDexterity() - 10) / 2.0d));
-			CharacterType characterType = initialCharacterState instanceof PlayerCharacterState ? PLAYER : MONSTER;
+		return BoardState.builder()
+				.board(board)
+				.characterStates(initiatives)
+				.build();
+	}
 
-			ITurnProvider turnProvider = turnProviderFactory
-					.getTurnProvider(initialCharacterState.getId(), initialCharacterState
-							.getParty(), initialCharacterState
-									.getPlayStyle(), initialCharacterState.getTargetingStyle(), characterType);
+	private Comparator<Entry<IBattleCharacterState, Integer>> reverseSort() {
+		return (c1, c2) -> -c1.getValue().compareTo(c2.getValue());
+	}
 
-			IBattleCharacterState characterState = switch (characterType) {
-				case PLAYER -> PlayerBattleCharacterState
-						.getBattleState((PlayerCharacterState) initialCharacterState, turnProvider);
-				case MONSTER -> MonsterBattleCharacterState
-						.getBattleState((MonsterCharacterState) initialCharacterState, turnProvider);
-			};
+	private Function<
+			ICharacterState,
+			Entry<IBattleCharacterState, Integer>> getInitiative(IDice dice) {
+		return character -> getInitiative(dice, character);
+	}
 
-			characterState.setTurnProvider(turnProvider);
+	private Entry<IBattleCharacterState, Integer> getInitiative(
+			IDice dice,
+			ICharacterState character) {
+		int initiative = dice.getRoll() + getModifier(character.getDexterity());
 
-			initiatives.add(Map.entry(characterState, initiative));
-		}
+		CharacterType characterType =
+				character instanceof PlayerCharacterState ?
+						PLAYER :
+						MONSTER;
 
-		initiatives.sort(Entry.<IBattleCharacterState, Integer>comparingByValue().reversed());
+		ITurnProvider turnProvider = turnProviderFactory.getTurnProvider(
+				character.getId(),
+				character.getParty(),
+				character.getPlayStyle(),
+				character.getTargetingStyle(),
+				characterType);
 
-		LinkedHashMap<UUID, IBattleCharacterState> sortedCharacterStates = new LinkedHashMap<>();
+		IBattleCharacterState characterState = switch (characterType) {
+			case PLAYER -> PlayerBattleCharacterState.getBattleState(
+					(PlayerCharacterState) character,
+					turnProvider);
+			case MONSTER -> MonsterBattleCharacterState.getBattleState(
+					(MonsterCharacterState) character,
+					turnProvider);
+		};
 
-		for (Entry<IBattleCharacterState, Integer> initiative : initiatives) {
-			IBattleCharacterState characterState = initiative.getKey();
-			sortedCharacterStates.put(characterState.getId(), characterState);
-		}
-
-		BoardState boardState = BoardState.builder().board(board).characterStates(sortedCharacterStates).build();
-
-		return boardState;
+		characterState.setTurnProvider(turnProvider);
+		return Map.entry(characterState, initiative);
 	}
 }
