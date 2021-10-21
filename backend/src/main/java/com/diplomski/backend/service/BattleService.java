@@ -29,20 +29,21 @@ public class BattleService {
 	private BattleRepository battleRepository;
 	private PlayerCharacterRepository playerCharacterRepository;
 
-	public BattleDbModel save(BattleCreateRequest request) throws Exception {
-		BattleDbModel battle = BattleDbModel
-				.builder()
+	public BattleDbModel save(BattleCreateRequest request) {
+		BattleDbModel battle = BattleDbModel.builder()
 				.name(request.getName())
 				.build();
 
-		List<NodeTileDbModel> tiles = getTiles(request.getTiles(), battle);
+		List<NodeTileDbModel> tiles = getTiles(
+				request.getTiles(),
+				battle);
 
 		battle.setNodeTiles(tiles);
 
 		return battleRepository.save(battle);
 	}
 
-	public BattleDbModel save(UUID id, BattleCreateRequest request) throws Exception {
+	public BattleDbModel save(UUID id, BattleCreateRequest request) {
 		Optional<BattleDbModel> battle = battleRepository.findById(id);
 
 		battle.get().setName(request.getName());
@@ -54,21 +55,31 @@ public class BattleService {
 
 		return battleRepository.save(battle.get());
 	}
+	
+	public Optional<BattleDbModel> get(UUID id) {
+		return battleRepository.findById(id);
+	}
+
+	public List<BattleDbModel> getAll() {
+		return battleRepository.findAll();
+	}
 
 	private List<NodeTileDbModel> getTiles(List<NodeTileContract> tiles, BattleDbModel battle) {
-		Map<UUID, NodeTileDbModel> tilesMap = tiles
-				.stream()
-				.collect(Collectors.toMap(x -> x.getId(), x -> getNodeTileDbModel(x, battle)));
+		Map<UUID, NodeTileDbModel> tilesMap =
+				tiles
+						.stream()
+						.collect(Collectors.toMap(x -> x.getId(), x -> getNodeTileDbModel(x, battle)));
 
 		tiles
 				.stream()
 				.forEach(tileRequest -> {
 					NodeTileDbModel tile = tilesMap.get(tileRequest.getId());
-					List<NodeTileDbModel> reachableTiles = tilesMap.entrySet()
-							.stream()
-							.filter(x -> tileRequest.getReachableTiles().contains(x.getKey()))
-							.map(x -> x.getValue())
-							.toList();
+					List<NodeTileDbModel> reachableTiles =
+							tilesMap.entrySet()
+									.stream()
+									.filter(x -> tileRequest.getReachableTiles().contains(x.getKey()))
+									.map(x -> x.getValue())
+									.toList();
 					tile.setReachableNodes(reachableTiles);
 				});
 
@@ -76,25 +87,28 @@ public class BattleService {
 	}
 
 	private NodeTileDbModel getNodeTileDbModel(NodeTileContract tileRequest, BattleDbModel battle) {
-		NodeTileDbModel tile = NodeTileDbModel.builder()
-				.battle(battle)
-				.terrainFeature(tileRequest.getTerrainFeature())
-				.x(tileRequest.getX())
-				.y(tileRequest.getY())
-				.build();
+		NodeTileDbModel tile =
+				NodeTileDbModel.builder()
+						.battle(battle)
+						.terrainFeature(tileRequest.getTerrainFeature())
+						.x(tileRequest.getX())
+						.y(tileRequest.getY())
+						.build();
 
 		List<PlayerCharacterStateDbModel> playerCharacterStates = new ArrayList<>();
 		for (PlayerCharacterStateContract playerRequest : tileRequest.getPlayerCharacterStates()) {
-			Optional<PlayerCharacterDbModel> playerCharacter = playerCharacterRepository
-					.findById(playerRequest.getPlayerCharacterId());
+			Optional<PlayerCharacterDbModel> playerCharacter =
+					playerCharacterRepository
+							.findById(playerRequest.getPlayerCharacterId());
 
-			PlayerCharacterStateDbModel characterState = PlayerCharacterStateDbModel.builder()
-					.currentHp(playerRequest.getCurrentHp())
-					.nodeTile(tile)
-					.targetingStyle(playerRequest.getTargetingStyle())
-					.playStyle(playerRequest.getPlayStyle())
-					.playerCharacter(playerCharacter.get())
-					.build();
+			PlayerCharacterStateDbModel characterState =
+					PlayerCharacterStateDbModel.builder()
+							.currentHp(playerRequest.getCurrentHp())
+							.nodeTile(tile)
+							.targetingStyle(playerRequest.getTargetingStyle())
+							.playStyle(playerRequest.getPlayStyle())
+							.playerCharacter(playerCharacter.get())
+							.build();
 
 			playerCharacterStates.add(characterState);
 		}
@@ -102,27 +116,20 @@ public class BattleService {
 
 		List<MonsterStateDbModel> monsterStates = new ArrayList<>();
 		for (MonsterStateContract monsterRequest : tileRequest.getMonsterStates()) {
-			MonsterStateDbModel monsterState = MonsterStateDbModel.builder()
-					.currentHp(monsterRequest.getCurrentHp())
-					.nodeTile(tile)
-					.targetingStyle(monsterRequest.getTargetingStyle())
-					.playStyle(monsterRequest.getPlayStyle())
-					.monster(monsterRequest.getMonster())
-					.build();
+			MonsterStateDbModel monsterState =
+					MonsterStateDbModel.builder()
+							.currentHp(monsterRequest.getCurrentHp())
+							.nodeTile(tile)
+							.targetingStyle(monsterRequest.getTargetingStyle())
+							.playStyle(monsterRequest.getPlayStyle())
+							.monster(monsterRequest.getMonster())
+							.build();
 
 			monsterStates.add(monsterState);
 		}
 		tile.setMonsterStates(monsterStates);
 
 		return tile;
-	}
-
-	public Optional<BattleDbModel> get(UUID id) {
-		return battleRepository.findById(id);
-	}
-
-	public List<BattleDbModel> getAll() {
-		return battleRepository.findAll();
 	}
 
 	public void delete(UUID id) {

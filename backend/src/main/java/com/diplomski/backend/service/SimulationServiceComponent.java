@@ -35,18 +35,20 @@ public class SimulationServiceComponent {
 		this.battleRepository = battleRepository;
 	}
 
-	public SimulationReport getSimulation(UUID battleId, int simulationCount, int roundCountLimit) throws Exception {
+	public SimulationReport getSimulation(UUID battleId, int simulationCount, int roundCountLimit) {
 		Optional<BattleDbModel> battleDbModel = battleRepository.findById(battleId);
-		if (battleDbModel.isEmpty()) {
-			throw new Exception("Battle not found");
-		}
+
 		HashMap<UUID, NodeTile> nodeTiles = new HashMap<>();
 
 		battleDbModel.get().getNodeTiles().stream()
-				.map(x -> NodeTile.builder().id(x.getId()).terrainType(x.getTerrainFeature())
-						.reachableTiles(x.getReachableNodes().stream().map(y -> y.getId())
-								.collect(Collectors.toCollection(HashSet::new)))
-						.build())
+				.map(
+						x -> NodeTile.builder().id(x.getId()).terrainType(x.getTerrainFeature())
+								.reachableTiles(
+										x.getReachableNodes().stream().map(y -> y.getId())
+												.collect(Collectors.toCollection(HashSet::new))
+								)
+								.build()
+				)
 				.forEach(x -> nodeTiles.put(x.getId(), x));
 
 		NodeBoard nodeBoard = NodeBoard.builder().tiles(nodeTiles).build();
@@ -54,32 +56,43 @@ public class SimulationServiceComponent {
 		List<ICharacterState> initialCharacterStates = new ArrayList<>();
 
 		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getCharacterStates().stream())
-				.forEach(x -> initialCharacterStates.add(PlayerCharacterState.builder()
-						.party(PLAYER)
-						.id(x.getPlayerCharacter().getId())
-						.name(x.getPlayerCharacter().getName())
-						.level(x.getPlayerCharacter().getCharacterLevel())
-						.armorClass(x.getPlayerCharacter().getArmorClass())
-						.dexterity(x.getPlayerCharacter().getDexterity())
-						.resources(x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y).toList())
-						.characterClass(x.getPlayerCharacter().getCharacterClass())
-						.currentHp(x.getCurrentHp())
-						.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
-						.strength(x.getPlayerCharacter().getStrength())
-						.tileId(x.getNodeTile().getId())
-						.speed(x.getPlayerCharacter().getSpeed())
-						.build()));
+				.forEach(
+						x -> initialCharacterStates.add(
+								PlayerCharacterState.builder()
+										.party(PLAYER)
+										.id(x.getPlayerCharacter().getId())
+										.name(x.getPlayerCharacter().getName())
+										.level(x.getPlayerCharacter().getCharacterLevel())
+										.armorClass(x.getPlayerCharacter().getArmorClass())
+										.dexterity(x.getPlayerCharacter().getDexterity())
+										.resources(
+												x.getPlayerCharacter().getWeapons().stream().map(y -> (IResource) y)
+														.toList()
+										)
+										.characterClass(x.getPlayerCharacter().getCharacterClass())
+										.currentHp(x.getCurrentHp())
+										.playStyle(x.getPlayStyle()).targetingStyle(x.getTargetingStyle())
+										.strength(x.getPlayerCharacter().getStrength())
+										.tileId(x.getNodeTile().getId())
+										.speed(x.getPlayerCharacter().getSpeed())
+										.build()
+						)
+				);
 
 		battleDbModel.get().getNodeTiles().stream().flatMap(x -> x.getMonsterStates().stream())
-				.forEach(x -> initialCharacterStates.add(MonsterCharacterState.builder()
-						.targetingStyle(x.getTargetingStyle())
-						.playStyle(x.getPlayStyle())
-						.tileId(x.getNodeTile().getId())
-						.currentHp(x.getCurrentHp())
-						.party(ENEMY)
-						.monster(x.getMonster())
-						.id(x.getId())
-						.build()));
+				.forEach(
+						x -> initialCharacterStates.add(
+								MonsterCharacterState.builder()
+										.targetingStyle(x.getTargetingStyle())
+										.playStyle(x.getPlayStyle())
+										.tileId(x.getNodeTile().getId())
+										.currentHp(x.getCurrentHp())
+										.party(ENEMY)
+										.monster(x.getMonster())
+										.id(x.getId())
+										.build()
+						)
+				);
 
 		return simulationService.getSimulation(initialCharacterStates, nodeBoard, simulationCount, roundCountLimit);
 	}

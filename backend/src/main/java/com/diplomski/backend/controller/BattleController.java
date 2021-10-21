@@ -29,13 +29,8 @@ public class BattleController {
 	public ResponseEntity<BattleResponse> create(
 			@RequestBody BattleCreateRequest request) {
 		BattleResponse response;
-		try {
-			response = BattleTranslator.translate(battleService.save(request));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		response = BattleTranslator.translate(battleService.save(request));
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -44,13 +39,8 @@ public class BattleController {
 			@PathVariable("id") UUID id,
 			@RequestBody BattleCreateRequest request) {
 		BattleResponse response;
-		try {
-			response = BattleTranslator.translate(battleService.save(id, request));
-			return new ResponseEntity<>(response, HttpStatus.OK);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		}
+		response = BattleTranslator.translate(battleService.save(id, request));
+		return new ResponseEntity<>(response, HttpStatus.OK);
 	}
 
 	@CrossOrigin(origins = "*", allowedHeaders = "*")

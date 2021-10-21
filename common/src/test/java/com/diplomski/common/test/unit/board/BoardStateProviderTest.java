@@ -58,7 +58,7 @@ public class BoardStateProviderTest {
 	private int character1speed = 25;
 	private int character2speed = 30;
 	private int character3speed = 35;
-	
+
 	private PlayerBattleCharacterState character1;
 	private PlayerBattleCharacterState character2;
 	private PlayerBattleCharacterState character3;
@@ -167,14 +167,17 @@ public class BoardStateProviderTest {
 
 	@Test
 	public void getInitialBoardState() {
-		BoardState result = unitUnderTest.getInitialBoardState(initialCharacterStateList, boardMock);
+		BoardState result = unitUnderTest.getInitialBoardState(
+				initialCharacterStateList,
+				boardMock);
 
 		verify(diceMock, times(3)).getRoll();
 		assertEquals(expectedBoardState, result);
 
-		// Verify order
-		Iterator<UUID> expectedIterator = expectedBoardState.getCharacterStates().keySet().iterator();
-		Iterator<UUID> resultIterator = result.getCharacterStates().keySet().iterator();
+		Iterator<UUID> expectedIterator = expectedBoardState
+				.getCharacterStates().keySet().iterator();
+		Iterator<UUID> resultIterator = result
+				.getCharacterStates().keySet().iterator();
 
 		while (expectedIterator.hasNext() && resultIterator.hasNext()) {
 			assertEquals(expectedIterator.next(), resultIterator.next());

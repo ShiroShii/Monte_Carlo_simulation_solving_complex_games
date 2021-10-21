@@ -8,9 +8,10 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.diplomski.backend.dal.PlayerCharacterDbModel;
 
-public interface PlayerCharacterRepository extends CrudRepository<PlayerCharacterDbModel, Integer> {
+public interface PlayerCharacterRepository
+		extends CrudRepository<PlayerCharacterDbModel, Integer> {
 	public Optional<PlayerCharacterDbModel> findById(UUID id);
-	public void deleteById(UUID id);
-    @Override
-    List<PlayerCharacterDbModel> findAll();
+
+	@Override
+	List<PlayerCharacterDbModel> findAll();
 }

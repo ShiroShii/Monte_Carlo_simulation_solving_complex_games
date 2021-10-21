@@ -20,16 +20,39 @@ import com.diplomski.common.turn.TurnProviderFactory;
 public class SimulationServiceFactory {
 	public static ISimulationService getSimulationService() {
 		IDiceFactory diceFactory = new DiceFactory();
-		IDamageProvider damageProvider = new DamageProvider(diceFactory);
-		IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory = new AttackRollOutcomeProviderFactory(diceFactory);
 		INavigator navigator = new NodeNavigator();
-		ITurnProviderFactory turnProviderFactory = new TurnProviderFactory(attackRollOutcomeProviderFactory, damageProvider, navigator);
-		IBoardStateProvider boardStateProvider = new BoardStateProvider(turnProviderFactory, diceFactory);
 		IRoundProvider roundProvider = new RoundProvider();
-		IBattleProvider battleProvider = new BattleProvider(boardStateProvider, roundProvider);
-		ISimulationProvider simulationProvider = new SimulationProvider(battleProvider);
-		ISimulationReportProvider simulationReportProvider = new SimulationReportProvider();
-		ISimulationService simulationService = new SimulationService(simulationProvider, simulationReportProvider);
+		ISimulationReportProvider simulationReportProvider = 
+				new SimulationReportProvider();
+		
+		IDamageProvider damageProvider = new DamageProvider(diceFactory);
+		
+		IAttackRollOutcomeProviderFactory attackRollOutcomeProviderFactory =
+				new AttackRollOutcomeProviderFactory(diceFactory);
+		
+		ITurnProviderFactory turnProviderFactory = new
+				TurnProviderFactory(
+				attackRollOutcomeProviderFactory,
+				damageProvider, 
+				navigator
+		);
+		
+		IBoardStateProvider boardStateProvider = new BoardStateProvider(
+				turnProviderFactory,
+				diceFactory
+		);
+		
+		IBattleProvider battleProvider = new BattleProvider(
+				boardStateProvider,
+				roundProvider
+		);
+		
+		ISimulationProvider simulationProvider = 
+				new SimulationProvider(battleProvider);
+		ISimulationService simulationService = new SimulationService(
+				simulationProvider,
+				simulationReportProvider
+		);
 
 		return simulationService;
 	}

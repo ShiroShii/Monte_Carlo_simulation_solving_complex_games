@@ -74,7 +74,9 @@ public class SimulationProviderTest {
 		
 		assertEquals(expectedSimulation, result);
 		
-		verify(battleProviderMock, times(3))
-				.getBattle(eq(characterStates), eq(ROUND_COUNT_LIMIT), eq(board));
+		verify(battleProviderMock, times(3)).getBattle(
+				eq(characterStates), 
+				eq(ROUND_COUNT_LIMIT), 
+				eq(board));
 	}
 }

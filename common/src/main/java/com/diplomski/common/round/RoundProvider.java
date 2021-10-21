@@ -2,6 +2,7 @@ package com.diplomski.common.round;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import com.diplomski.common.board.BoardState;
@@ -16,25 +17,35 @@ public class RoundProvider implements IRoundProvider {
 	public Round getRound(BoardState initialBoardState) {
 		BoardState currentBoardState = initialBoardState;
 		List<Turn> turns = new ArrayList<>();
+		Set<UUID> characterIds = initialBoardState
+				.getCharacterStates()
+				.keySet();
 
-		for (UUID characterId : initialBoardState.getCharacterStates().keySet()) {
+		for (UUID characterId : characterIds) {
 			if (currentBoardState.isBattleComplete()) {
 				break;
 			}
 
-			IBattleCharacterState characterState = currentBoardState.getCharacterStates().get(characterId);
+			IBattleCharacterState characterState = currentBoardState
+					.getCharacterStates()
+					.get(characterId);
 
 			if (characterState.getCurrentHp() == 0) {
 				continue;
 			}
 
-			Turn turn = characterState.getTurnProvider().getTurn(currentBoardState);
+			Turn turn = characterState
+					.getTurnProvider()
+					.getTurn(currentBoardState);
 
 			turns.add(turn);
 			currentBoardState = turn.getFinalBoardState();
 		}
 
-		return Round.builder().initialBoardState(initialBoardState).finalBoardState(currentBoardState).turns(turns)
+		return Round.builder()
+				.initialBoardState(initialBoardState)
+				.finalBoardState(currentBoardState)
+				.turns(turns)
 				.build();
 	}
 }

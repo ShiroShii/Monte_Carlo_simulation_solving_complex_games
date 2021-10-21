@@ -26,19 +26,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BattleDbModel {
-    @Id
-    @Type(type="uuid-char")
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-        name = "UUID",
-        strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @Column(name = "id", updatable = false, nullable = false)
-    private UUID id;
+	@Id
+	@Type(type = "uuid-char")
+	@GeneratedValue(generator = "UUID")
+	@GenericGenerator(
+			name = "UUID",
+			strategy = "org.hibernate.id.UUIDGenerator")
+	@Column(name = "id", updatable = false, nullable = false)
+	private UUID id;
 
 	@Column(nullable = false)
 	private String name;
 
-	@OneToMany(mappedBy = "battle", cascade= {CascadeType.ALL}, orphanRemoval = true)
+	@OneToMany(mappedBy = "battle",
+			cascade = { CascadeType.ALL },
+			orphanRemoval = true)
 	private List<NodeTileDbModel> nodeTiles;
 }

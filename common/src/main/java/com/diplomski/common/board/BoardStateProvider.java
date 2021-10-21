@@ -36,7 +36,7 @@ public class BoardStateProvider implements IBoardStateProvider {
 	private final static Collector<
 			Entry<IBattleCharacterState, Integer>,
 			?,
-			LinkedHashMap<UUID, IBattleCharacterState>> initiativeCollector =
+			LinkedHashMap<UUID, IBattleCharacterState>> linkedHashMapCollector =
 					Collectors.toMap(
 							x -> x.getKey().getId(),
 							x -> x.getKey(),
@@ -44,6 +44,9 @@ public class BoardStateProvider implements IBoardStateProvider {
 								throw new AssertionError();
 							},
 							LinkedHashMap::new);
+	
+	private static final Comparator<Entry<IBattleCharacterState, Integer>> reverseSortComparator =
+			(c1, c2) -> -c1.getValue().compareTo(c2.getValue());
 
 	@Override
 	public BoardState getInitialBoardState(
@@ -52,17 +55,13 @@ public class BoardStateProvider implements IBoardStateProvider {
 		LinkedHashMap<UUID, IBattleCharacterState> initiatives =
 				characters.stream()
 						.map(getInitiative(diceFactory.getDice(D20)))
-						.sorted(reverseSort())
-						.collect(initiativeCollector);
+						.sorted(reverseSortComparator)
+						.collect(linkedHashMapCollector);
 
 		return BoardState.builder()
 				.board(board)
 				.characterStates(initiatives)
 				.build();
-	}
-
-	private Comparator<Entry<IBattleCharacterState, Integer>> reverseSort() {
-		return (c1, c2) -> -c1.getValue().compareTo(c2.getValue());
 	}
 
 	private Function<

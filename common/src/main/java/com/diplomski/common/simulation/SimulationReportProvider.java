@@ -19,14 +19,19 @@ public class SimulationReportProvider implements ISimulationReportProvider {
 	@Override
 	public SimulationReport getSimulationReport(Simulation simulation) {
 		int initialPlayerCount = (int) simulation.getInitialCharacterStates().stream()
-				.filter(x -> x.getParty().equals(PLAYER)).count();
+				.filter(x -> x.getParty().equals(PLAYER))
+				.count();
 
 		int winCount = (int) simulation.getBattles().stream()
-				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(PLAYER))
+				.filter(x -> x.isBattleComplete())
+				.filter(x -> x.getWinningParty().get().equals(PLAYER))
 				.count();
+		
 		int lossCount = (int) simulation.getBattles().stream()
-				.filter(x -> x.isBattleComplete() && x.getWinningParty().get().equals(ENEMY))
+				.filter(x -> x.isBattleComplete())
+				.filter(x -> x.getWinningParty().get().equals(ENEMY))
 				.count();
+		
 		int drawCount = (int) simulation.getBattles().stream()
 				.filter(x -> !x.isBattleComplete())
 				.count();
